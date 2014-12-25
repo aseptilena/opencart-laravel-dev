@@ -89,19 +89,6 @@ require_once(modification(DIR_SYSTEM . 'engine/loader.php'));
 require_once(modification(DIR_SYSTEM . 'engine/model.php'));
 require_once(modification(DIR_SYSTEM . 'engine/registry.php'));
 
-// Eloquent model
-require_once($_SERVER['DOCUMENT_ROOT'] . '/system/illuminate/vendor/autoload.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/system/illuminate/eloquent/Encapsulator.php');
-require_once($_SERVER['DOCUMENT_ROOT'] . '/system/illuminate/eloquent/EncapsulatedEloquentBase.php');
-$eloquent = DIR_SYSTEM.'illuminate/eloquent/models/';
-foreach (glob($eloquent.'*.php') as $filename) require_once $filename;
-
-
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/catalog/eloquent/Encapsulator.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/catalog/eloquent/EncapsulatedEloquentBase.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/catalog/eloquent/Customer.php');
-// require_once($_SERVER['DOCUMENT_ROOT'] . '/catalog/eloquent/Address.php');
-
 // Helper
 require_once(DIR_SYSTEM . 'helper/json.php');
 require_once(DIR_SYSTEM . 'helper/utf8.php');

@@ -18,19 +18,21 @@ class Encapsulator
 
 	static public function init()
 	{
+		$capsule = null;
+
 		if (is_null(self::$conn))
 		{
 			$capsule = new Capsule;
 
 			$capsule->addConnection([
 				'driver'    => 'mysql',
-				'host'      => 'localhost',
-				'database'  => 'opencart_2011',
-				'username'  => 'root',
-				'password'  => 'root',
+				'host'      => DB_HOSTNAME,
+				'database'  => DB_DATABASE,
+				'username'  => DB_USERNAME,
+				'password'  => DB_PASSWORD,
 				'charset'   => 'utf8',
 				'collation' => 'utf8_unicode_ci',
-				'prefix'    => 'oc_',
+				'prefix'    => DB_PREFIX,
 			]);
 
 			$capsule->setEventDispatcher(new Dispatcher(new Container));
@@ -39,5 +41,6 @@ class Encapsulator
 
 			$capsule->bootEloquent();
 		}
+		return $capsule;
 	}
 }
