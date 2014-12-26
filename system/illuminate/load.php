@@ -1,8 +1,12 @@
 <?php
 
-// Eloquent model
 require_once(DIR_SYSTEM.'illuminate/vendor/autoload.php');
-require_once(DIR_SYSTEM.'illuminate/eloquent/Encapsulator.php');
-require_once(DIR_SYSTEM.'illuminate/eloquent/EncapsulatedEloquentBase.php');
-$eloquent = DIR_SYSTEM.'illuminate/eloquent/models/';
-foreach (glob($eloquent.'*.php') as $filename) require_once $filename;
+
+// foreach (glob(DIR_SYSTEM.'illuminate/core/'.'*.php') as $filename) require_once $filename;
+
+require_once(DIR_SYSTEM.'illuminate/core/Encapsulator.php');
+require_once(DIR_SYSTEM.'illuminate/core/EncapsulatedEloquentBase.php');
+require_once(DIR_SYSTEM.'illuminate/core/AbstractValidator.php');
+
+foreach (glob(DIR_SYSTEM.'illuminate/models/'.'*.php') as $filename) require_once $filename;
+foreach (glob(DIR_SYSTEM.'illuminate/validators/'.'*.php') as $filename) require_once $filename;

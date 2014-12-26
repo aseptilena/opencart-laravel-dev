@@ -264,6 +264,170 @@
         ]
     },
     {
+        "name": "symfony/translation",
+        "version": "v2.3.23",
+        "version_normalized": "2.3.23.0",
+        "target-dir": "Symfony/Component/Translation",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Translation.git",
+            "reference": "dc812ef0f006093b32442a77ff5b46107f5cb121"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Translation/zipball/dc812ef0f006093b32442a77ff5b46107f5cb121",
+            "reference": "dc812ef0f006093b32442a77ff5b46107f5cb121",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "symfony/config": "~2.0",
+            "symfony/intl": "~2.3",
+            "symfony/yaml": "~2.2"
+        },
+        "suggest": {
+            "symfony/config": "",
+            "symfony/yaml": ""
+        },
+        "time": "2014-11-30 13:33:44",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Translation\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Symfony Translation Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "symfony/http-foundation",
+        "version": "v2.3.23",
+        "version_normalized": "2.3.23.0",
+        "target-dir": "Symfony/Component/HttpFoundation",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/HttpFoundation.git",
+            "reference": "94935ec4f9ad28d554e82c6e1fa11615a031108d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/HttpFoundation/zipball/94935ec4f9ad28d554e82c6e1fa11615a031108d",
+            "reference": "94935ec4f9ad28d554e82c6e1fa11615a031108d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "time": "2014-12-02 19:42:47",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.3-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\HttpFoundation\\": ""
+            },
+            "classmap": [
+                "Symfony/Component/HttpFoundation/Resources/stubs"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Symfony Community",
+                "homepage": "http://symfony.com/contributors"
+            },
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            }
+        ],
+        "description": "Symfony HttpFoundation Component",
+        "homepage": "http://symfony.com"
+    },
+    {
+        "name": "illuminate/validation",
+        "version": "v4.0.10",
+        "version_normalized": "4.0.10.0",
+        "target-dir": "Illuminate/Validation",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/validation.git",
+            "reference": "16bc23fac4fe8f4e6f8e23b6b66d684ee88bdfd7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/validation/zipball/16bc23fac4fe8f4e6f8e23b6b66d684ee88bdfd7",
+            "reference": "16bc23fac4fe8f4e6f8e23b6b66d684ee88bdfd7",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/container": "4.0.x",
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0",
+            "symfony/http-foundation": "2.3.*",
+            "symfony/translation": "2.3.*"
+        },
+        "require-dev": {
+            "illuminate/database": "4.0.x",
+            "mockery/mockery": "0.7.2",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2013-10-20 18:36:57",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\Validation": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com",
+                "homepage": "https://github.com/taylorotwell",
+                "role": "Creator of Laravel"
+            }
+        ]
+    },
+    {
         "name": "illuminate/cache",
         "version": "v4.0.10",
         "version_normalized": "4.0.10.0",
