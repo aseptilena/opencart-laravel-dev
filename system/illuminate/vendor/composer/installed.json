@@ -428,59 +428,6 @@
         ]
     },
     {
-        "name": "illuminate/cache",
-        "version": "v4.0.10",
-        "version_normalized": "4.0.10.0",
-        "target-dir": "Illuminate/Cache",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/illuminate/cache.git",
-            "reference": "c7568be5b3fb0ebaa2311776bd1ee52b759a704c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/illuminate/cache/zipball/c7568be5b3fb0ebaa2311776bd1ee52b759a704c",
-            "reference": "c7568be5b3fb0ebaa2311776bd1ee52b759a704c",
-            "shasum": ""
-        },
-        "require": {
-            "illuminate/support": "4.0.x",
-            "php": ">=5.3.0"
-        },
-        "require-dev": {
-            "illuminate/database": "4.0.x",
-            "illuminate/encryption": "4.0.x",
-            "illuminate/filesystem": "4.0.x",
-            "illuminate/redis": "4.0.x",
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2013-10-20 18:27:13",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Illuminate\\Cache": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com",
-                "homepage": "https://github.com/taylorotwell",
-                "role": "Creator of Laravel"
-            }
-        ]
-    },
-    {
         "name": "symfony/finder",
         "version": "v2.3.23",
         "version_normalized": "2.3.23.0",
@@ -564,6 +511,111 @@
         "autoload": {
             "psr-0": {
                 "Illuminate\\Filesystem": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com",
+                "homepage": "https://github.com/taylorotwell",
+                "role": "Creator of Laravel"
+            }
+        ]
+    },
+    {
+        "name": "illuminate/translation",
+        "version": "v4.0.10",
+        "version_normalized": "4.0.10.0",
+        "target-dir": "Illuminate/Translation",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/translation.git",
+            "reference": "ae245392571053a8320b90874b8559f141322951"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/translation/zipball/ae245392571053a8320b90874b8559f141322951",
+            "reference": "ae245392571053a8320b90874b8559f141322951",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/filesystem": "4.0.x",
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0",
+            "symfony/translation": "2.3.*"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.7.2",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2013-11-02 18:10:10",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\Translation": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com",
+                "homepage": "https://github.com/taylorotwell",
+                "role": "Creator of Laravel"
+            }
+        ]
+    },
+    {
+        "name": "illuminate/cache",
+        "version": "v4.0.10",
+        "version_normalized": "4.0.10.0",
+        "target-dir": "Illuminate/Cache",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/cache.git",
+            "reference": "c7568be5b3fb0ebaa2311776bd1ee52b759a704c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/cache/zipball/c7568be5b3fb0ebaa2311776bd1ee52b759a704c",
+            "reference": "c7568be5b3fb0ebaa2311776bd1ee52b759a704c",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0"
+        },
+        "require-dev": {
+            "illuminate/database": "4.0.x",
+            "illuminate/encryption": "4.0.x",
+            "illuminate/filesystem": "4.0.x",
+            "illuminate/redis": "4.0.x",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2013-10-20 18:27:13",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\Cache": ""
             }
         },
         "notification-url": "https://packagist.org/downloads/",

@@ -10,6 +10,7 @@ return array(
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
     'Illuminate\\Validation' => array($vendorDir . '/illuminate/validation'),
+    'Illuminate\\Translation' => array($vendorDir . '/illuminate/translation'),
     'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Filesystem' => array($vendorDir . '/illuminate/filesystem'),
     'Illuminate\\Events' => array($vendorDir . '/illuminate/events'),

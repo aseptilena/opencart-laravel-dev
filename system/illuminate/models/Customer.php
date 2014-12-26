@@ -18,18 +18,12 @@ class Customer extends EncapsulatedEloquentBase
 		return $this->belongsTo('App\Eloquent\Address');
 	}
 
-	public static function register($params)
+	public function setPassword($password)
 	{
-		$customer = Customer::create($params);
 		$salt = substr(md5(uniqid(rand(), true)), 0, 9);
-		$customer->status = 1;
-		$customer->salt = $salt;
-		$customer->password = sha1($salt.sha1($salt.sha1($params['password'])));
-		$customer->save();
-
-		$customer->addAddress($params, true);
-
-		return $customer;
+		$this->status = 1;
+		$this->salt = $salt;
+		$this->password = sha1($salt.sha1($salt.sha1($password)));
 	}
 
 	public function addAddress($params, $default = false)

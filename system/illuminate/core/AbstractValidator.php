@@ -2,7 +2,7 @@
 
 use Illuminate\Validation\Factory;
 use Symfony\Component\Translation\Translator;
-use App\Validation\ValidableInterface;
+use App\Validation\ValidatorManager;
 
 abstract class AbstractValidator {
 
@@ -12,14 +12,20 @@ abstract class AbstractValidator {
 
 	protected $rules = array();
 
-	protected $errorMessages = array();
+	protected $lang = array();
 
 	protected $errors = array();
 
-	public function with(array $data, array $errorMessages)
+	protected $messages = array();
+
+	protected $responses = array();
+
+	public function with(array $data, array $lang, array $custom = null)
 	{
 		$this->data = $data;
-		$this->errorMessages = $errorMessages;
+		if ($custom)
+			$lang = array_merge($lang, $custom);
+		$this->lang = $lang;
 		return $this;
 	}
 
@@ -28,11 +34,45 @@ abstract class AbstractValidator {
 		return $this->errors;
 	}
 
+	public function getResponse()
+	{
+
+		if (empty($this->errors))
+			return array();
+
+		$responses = array();
+
+		foreach ($this->errors->getMessages() as $key => $value) {
+			$responses[$this->responses[$key]] = $value[0];
+		}
+		return $responses;
+	}
+
 	public function passes()
 	{
-		$translator = new Translator('en');
-		$factory = new Factory($translator);
-		$validator = $factory->make($this->data, $this->rules, $this->errorMessages);
+
+		$manager = new ValidatorManager('en', __DIR__.'/lang');
+
+		$manager->setConnection([
+			'driver'    => 'mysql',
+			'host'      => DB_HOSTNAME,
+			'database'  => DB_DATABASE,
+			'username'  => DB_USERNAME,
+			'password'  => DB_PASSWORD,
+			'charset'   => 'utf8',
+			'collation' => 'utf8_unicode_ci',
+			'prefix'    => DB_PREFIX,
+		]);
+
+		// $translator = new Translator('en');
+		$factory = $manager->getValidator();
+
+		$messages = array();
+		foreach ($this->messages as $key => $value) {
+			$messages[$key] = $this->lang[$value];
+		}
+
+		$validator = $factory->make($this->data, $this->rules, $messages);
 
 		if($validator->fails())
 		{
