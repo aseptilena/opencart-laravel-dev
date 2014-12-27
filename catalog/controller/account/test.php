@@ -1,10 +1,10 @@
 <?php
 
-require_once(DIR_SYSTEM.'illuminate/load.php');
+require_once(DIR_SYSTEM.'laravel/load.php');
 
 use App\Service\RegisterService;
 
-class ControllerAccountProfit extends Controller
+class ControllerAccountTest extends Controller
 {
 	private $data = array();
 
@@ -69,7 +69,7 @@ class ControllerAccountProfit extends Controller
 			$this->data['error_'.$value] = isset($this->error[$value]) ? $this->error[$value] : '';
 
 
-		$this->data['action'] = $this->url->link('account/profit', '', 'SSL');
+		$this->data['action'] = $this->url->link('account/test', '', 'SSL');
 
 		$this->data['customer_groups'] = array();
 
