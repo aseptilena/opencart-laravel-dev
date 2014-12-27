@@ -61,14 +61,15 @@ class Member extends EncapsulatedEloquentBase
 
 		return $childs[$this->{$this->parentKey}];
 	}
-	
+
 	public function parent()
 	{
-
+		return Member::find($this->{$this->parentKey});
 	}
 	public function ancestors()
 	{
-
+		$rows = Member::where(self::LEFT, '<', $this->{self::LEFT})->where(self::RIGHT, '>', $this->{self::LEFT})->orderBy(self::LEFT, 'asc')->get();
+		return $rows;
 	}
 	public function root()
 	{
