@@ -6,7 +6,7 @@ use App\Service\RegisterService;
 
 class ControllerAccountProfit extends Controller
 {
-	public $data = array();
+	private $data = array();
 
 	public function index() {
 
@@ -39,7 +39,6 @@ class ControllerAccountProfit extends Controller
 			$this->response->setOutput($this->load->view('default/template/account/register.tpl', $this->data));
 		}
 	}
-
 
 	public function assginLangErrorPost()
 	{

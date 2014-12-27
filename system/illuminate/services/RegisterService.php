@@ -28,6 +28,14 @@ class RegisterService
 	public function validate() {
 
 		$validator = new RegisterValidator();
+		
+		$opencart = $this->opencart;
+
+		$this->params['password_confirmation'] = $this->params['confirm'];
+		if ($opencart->config->get('config_account_id')) {
+			$this->params['config_account_id'] = $opencart->config->get('config_account_id');
+			$this->params['config_store_id'] = $opencart->config->get('config_store_id');
+		}
 
 		$validator->with($this->params, $this->error_messages)->passes();
 		$this->errors = $validator->getResponse();

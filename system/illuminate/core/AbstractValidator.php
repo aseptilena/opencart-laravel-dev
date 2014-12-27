@@ -20,6 +20,10 @@ abstract class AbstractValidator {
 
 	protected $responses = array();
 
+	protected function beforeExecute()
+	{
+	}
+
 	public function with(array $data, array $lang, array $custom = null)
 	{
 		$this->data = $data;
@@ -67,9 +71,18 @@ abstract class AbstractValidator {
 		// $translator = new Translator('en');
 		$factory = $manager->getValidator();
 
+		$this->beforeExecute();
+
 		$messages = array();
 		foreach ($this->messages as $key => $value) {
-			$messages[$key] = $this->lang[$value];
+			if (is_array($value)) {
+				$lang_value = $value[0];
+				unset($value[0]);
+				$messages[$key] = vsprintf($this->lang[$lang_value], $value);
+			}
+			else {
+				$messages[$key] = $this->lang[$value];
+			}
 		}
 
 		$validator = $factory->make($this->data, $this->rules, $messages);
