@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class Language extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class Language extends Model
 {
 	protected $table = 'language';
 	protected $primaryKey = 'language_id';

@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class Country extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class Country extends Model
 {
 	protected $table = 'country';
 	protected $primaryKey = 'country_id';

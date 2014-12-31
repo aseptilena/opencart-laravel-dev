@@ -37,12 +37,32 @@ class Member extends EncapsulatedEloquentBase
 			$child->{self::RIGHT} = $start + 2;
 			$child->{$this->parentKey} = $this->{$this->primaryKey};
 			$child->save();
-
 		});
 	}
 	public function removeChild()
 	{
+		Capsule::transaction(function()
+		{
+			$left_value = $this->{self::LEFT};
+			$right_value = $this->{self::RIGHT};
 
+			$this->{self::LEFT} = null;
+			$this->{self::RIGHT} = null;
+			$this->{$this->parentKey} = null;
+			$this->save();
+
+			$real_table = Capsule::getTablePrefix().$this->table;
+			$left = self::LEFT;
+			$right = self::RIGHT;
+
+			Capsule::statement("UPDATE $real_table SET $left=$left-2 WHERE $left>$left_value;");
+			Capsule::statement("UPDATE $real_table SET $right=$right-2 WHERE $right>$right_value;");
+
+		});
+	}
+	public function isLeaf()
+	{
+		return $this->{self::LEFT} == $this->{self::RIGHT};
 	}
 	public function children()
 	{

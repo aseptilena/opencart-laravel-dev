@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class Information extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class Information extends Model
 {
 	protected $table = 'information';
 	protected $primaryKey = 'information_id';

@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class CustomerGroup extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class CustomerGroup extends Model
 {
 	protected $table = 'customer_group';
 	protected $primaryKey = 'customer_group_id';

@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class CustomerActivity extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class CustomerActivity extends Model
 {
 	protected $table = 'customer_activity';
 	protected $primaryKey = 'activity_id';

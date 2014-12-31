@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class Customer extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class Customer extends Model
 {
 	protected $table = 'customer';
 	protected $primaryKey = 'customer_id';
@@ -16,6 +18,10 @@ class Customer extends EncapsulatedEloquentBase
 	public function address()
 	{
 		return $this->belongsTo('App\Eloquent\Address');
+	}
+	public function ntree()
+	{
+		return $this->hasOne('App\Eloquent\Ntree');
 	}
 
 	public function setPassword($password)

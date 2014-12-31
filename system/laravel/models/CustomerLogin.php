@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class CustomerLogin extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class CustomerLogin extends Model
 {
 	protected $table = 'customer_login';
 	protected $primaryKey = 'customer_login_id';

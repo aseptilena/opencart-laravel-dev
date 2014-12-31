@@ -1,6 +1,8 @@
 <?php namespace App\Eloquent;
 
-class Address extends EncapsulatedEloquentBase
+use Illuminate\Database\Eloquent\Model;
+
+class Address extends Model
 {
 	protected $table = 'address';
 	protected $primaryKey = 'address_id';

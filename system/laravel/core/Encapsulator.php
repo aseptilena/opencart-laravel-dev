@@ -18,8 +18,6 @@ class Encapsulator
 
 	static public function init()
 	{
-		$capsule = null;
-
 		if (is_null(self::$conn))
 		{
 			$capsule = new Capsule;
@@ -41,6 +39,5 @@ class Encapsulator
 
 			$capsule->bootEloquent();
 		}
-		return $capsule;
 	}
 }
