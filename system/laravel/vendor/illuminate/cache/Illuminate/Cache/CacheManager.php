@@ -1,5 +1,6 @@
 <?php namespace Illuminate\Cache;
 
+use Closure;
 use Illuminate\Support\Manager;
 
 class CacheManager extends Manager {
@@ -48,6 +49,16 @@ class CacheManager extends Manager {
 		$memcached = $this->app['memcached.connector']->connect($servers);
 
 		return $this->repository(new MemcachedStore($memcached, $this->getPrefix()));
+	}
+
+	/**
+	 * Create an instance of the Null cache driver.
+	 *
+	 * @return \Illuminate\Cache\NullStore
+	 */
+	protected function createNullDriver()
+	{
+		return $this->repository(new NullStore);
 	}
 
 	/**
@@ -126,6 +137,17 @@ class CacheManager extends Manager {
 	}
 
 	/**
+	 * Set the cache "prefix" value.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function setPrefix($name)
+	{
+		$this->app['config']['cache.prefix'] = $name;
+	}
+
+	/**
 	 * Create a new cache repository with the given implementation.
 	 *
 	 * @param  \Illuminate\Cache\StoreInterface  $store
@@ -141,9 +163,20 @@ class CacheManager extends Manager {
 	 *
 	 * @return string
 	 */
-	protected function getDefaultDriver()
+	public function getDefaultDriver()
 	{
 		return $this->app['config']['cache.driver'];
+	}
+
+	/**
+	 * Set the default cache driver name.
+	 *
+	 * @param  string  $name
+	 * @return void
+	 */
+	public function setDefaultDriver($name)
+	{
+		$this->app['config']['cache.driver'] = $name;
 	}
 
 }

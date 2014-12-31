@@ -9,6 +9,7 @@ return array(
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
     'Symfony\\Component\\HttpFoundation\\' => array($vendorDir . '/symfony/http-foundation'),
     'Symfony\\Component\\Finder\\' => array($vendorDir . '/symfony/finder'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Illuminate\\Validation' => array($vendorDir . '/illuminate/validation'),
     'Illuminate\\Translation' => array($vendorDir . '/illuminate/translation'),
     'Illuminate\\Support' => array($vendorDir . '/illuminate/support'),
@@ -16,6 +17,8 @@ return array(
     'Illuminate\\Events' => array($vendorDir . '/illuminate/events'),
     'Illuminate\\Database' => array($vendorDir . '/illuminate/database'),
     'Illuminate\\Container' => array($vendorDir . '/illuminate/container'),
+    'Illuminate\\Console' => array($vendorDir . '/illuminate/console'),
     'Illuminate\\Cache' => array($vendorDir . '/illuminate/cache'),
     'Carbon' => array($vendorDir . '/nesbot/carbon/src'),
+    'Baum' => array($vendorDir . '/baum/baum/src'),
 );

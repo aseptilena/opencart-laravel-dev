@@ -6,13 +6,6 @@ use Illuminate\Database\Schema\Blueprint;
 class SqlServerGrammar extends Grammar {
 
 	/**
-	 * The keyword identifier wrapper format.
-	 *
-	 * @var string
-	 */
-	protected $wrapper = '"%s"';
-
-	/**
 	 * The possible column modifiers.
 	 *
 	 * @var array
@@ -34,6 +27,19 @@ class SqlServerGrammar extends Grammar {
 	public function compileTableExists()
 	{
 		return "select * from sysobjects where type = 'U' and name = ?";
+	}
+
+	/**
+	 * Compile the query to determine the list of columns.
+	 *
+	 * @param  string  $table
+	 * @return string
+	 */
+	public function compileColumnExists($table)
+	{
+		return "select col.name from sys.columns as col
+                join sys.objects as obj on col.object_id = obj.object_id
+                where obj.type = 'U' and obj.name = '$table'";
 	}
 
 	/**
@@ -151,8 +157,6 @@ class SqlServerGrammar extends Grammar {
 	 */
 	public function compileDropPrimary(Blueprint $blueprint, Fluent $command)
 	{
-		$table = $blueprint->getTable();
-
 		$table = $this->wrapTable($blueprint);
 
 		return "alter table {$table} drop constraint {$command->index}";
@@ -212,6 +216,17 @@ class SqlServerGrammar extends Grammar {
 		$from = $this->wrapTable($blueprint);
 
 		return "sp_rename {$from}, ".$this->wrapTable($command->to);
+	}
+
+	/**
+	 * Create the column definition for a char type.
+	 *
+	 * @param  \Illuminate\Support\Fluent  $column
+	 * @return string
+	 */
+	protected function typeChar(Fluent $column)
+	{
+		return "nchar({$column->length})";
 	}
 
 	/**
@@ -354,11 +369,11 @@ class SqlServerGrammar extends Grammar {
 	 */
 	protected function typeBoolean(Fluent $column)
 	{
-		return 'tinyint';
+		return 'bit';
 	}
 
 	/**
-	 * Create the column definition for a enum type.
+	 * Create the column definition for an enum type.
 	 *
 	 * @param  \Illuminate\Support\Fluent  $column
 	 * @return string
@@ -459,7 +474,7 @@ class SqlServerGrammar extends Grammar {
 	 */
 	protected function modifyIncrement(Blueprint $blueprint, Fluent $column)
 	{
-		if (in_array($column->type, $this->serials) and $column->autoIncrement)
+		if (in_array($column->type, $this->serials) && $column->autoIncrement)
 		{
 			return ' identity primary key';
 		}
