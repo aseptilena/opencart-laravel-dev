@@ -5,7 +5,8 @@ require_once(DIR_SYSTEM.'laravel/load.php');
 use App\Eloquent\Customer;
 use App\Eloquent\Ntree;
 use App\Eloquent\Btree;
-use App\Eloquent\Encapsulator;
+
+use App\View\ViewManager;
 
 class ControllerAccountTree extends Controller
 {
@@ -14,8 +15,6 @@ class ControllerAccountTree extends Controller
 		$this->document->setTitle($this->language->get('PV'));
 		$this->document->addScript('catalog/view/javascript/jquery/jstree/jstree.min.js');
 		$this->document->addStyle('catalog/view/javascript/jquery/jstree/themes/default/style.min.css');
-
-		Encapsulator::init();
 
 // 		$customer = Customer::find(68);
 // 		$customer->passNtreeBonus(100);
@@ -85,7 +84,8 @@ class ControllerAccountTree extends Controller
 	public function treeHelper($descendants) {
 		$content = '<ul>';
 		foreach ($descendants as $descendant) {
-			$content .= '<li class="jstree-open" data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$descendant->customer->customer_id.'&nbsp;<span class="pv-customer">'.$descendant->customer->firstname.'&nbsp;'.$descendant->customer->lastname.'&nbsp;</span><span class="pv-personal">個人PV:'.$descendant->customer->pv.'&nbsp;</span><span class="pv-grouply">個人組織:'.$descendant->customer->total_pv.'</span>';
+			$r = ViewManager::loadBlade('not-sure-what-this-does', 'tree.blade.php', array('descendant' => $descendant ));
+			$content .= $r->render();
 			if ($descendant->children->count() > 0) {
 				$content .= $this->treeHelper($descendant->children);
 			}
@@ -94,4 +94,5 @@ class ControllerAccountTree extends Controller
 		$content .= '</ul>';
 		return $content;
 	}
+
 }

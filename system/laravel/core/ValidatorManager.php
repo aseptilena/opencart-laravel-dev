@@ -1,6 +1,4 @@
-<?php
-
-namespace App\Validation;
+<?php namespace App\Validation;
 
 use Illuminate\Validation\Factory;
 use Illuminate\Validation\DatabasePresenceVerifier;

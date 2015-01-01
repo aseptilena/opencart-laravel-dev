@@ -540,6 +540,53 @@
         ]
     },
     {
+        "name": "illuminate/view",
+        "version": "v4.2.16",
+        "version_normalized": "4.2.16.0",
+        "target-dir": "Illuminate/View",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/view.git",
+            "reference": "f3c9da29ff8e554a9bd74895b13a5ed4bed0d93a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/view/zipball/f3c9da29ff8e554a9bd74895b13a5ed4bed0d93a",
+            "reference": "f3c9da29ff8e554a9bd74895b13a5ed4bed0d93a",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/container": "4.2.*",
+            "illuminate/events": "4.2.*",
+            "illuminate/filesystem": "4.2.*",
+            "illuminate/support": "4.2.*",
+            "php": ">=5.4.0"
+        },
+        "time": "2014-12-19 14:34:11",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Illuminate\\View": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ]
+    },
+    {
         "name": "illuminate/database",
         "version": "v4.2.16",
         "version_normalized": "4.2.16.0",

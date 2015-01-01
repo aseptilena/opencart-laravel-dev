@@ -48,4 +48,70 @@ $('#tree').load('index.php?route=sale/tree&token=<?php echo $token; ?>&customer_
       </add>
     </operation>
   </file>
+  <file path="admin/view/template/catalog/product_form.tpl">
+    <operation>
+      <search><![CDATA[<li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>]]></search>
+      <add position="after">
+        <![CDATA[<li><a href="#tab-bonus" data-toggle="tab">紅利回饋</a></li>]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[<div class="tab-pane" id="tab-design">]]></search>
+      <add position="before">
+        <![CDATA[
+<div class="tab-pane" id="tab-bonus">
+</div>
+        ]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[$('input[name=\'manufacturer\']').autocomplete({]]></search>
+      <add position="before">
+        <![CDATA[
+$('#tab-bonus').load('index.php?route=catalog/product_bonus&token=<?php echo $token; ?>&product_id=<?php echo $this->request->get['product_id']; ?>');
+        ]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[<input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />]]></search>
+      <add position="after" offset="2">
+        <![CDATA[
+<div class="form-group">
+  <label class="col-sm-2 control-label" for="input-price">回饋金額</label>
+  <div class="col-sm-10">
+    <input type="text" name="bonus" value="<?php echo $bonus; ?>" placeholder="回饋金額" id="input-bonus" class="form-control" />
+  </div>
+</div>
+        ]]>
+      </add>
+    </operation>
+  </file>
+  <file path="admin/controller/catalog/product.php">
+    <operation>
+      <search><![CDATA[if (isset($this->request->post['price'])) {]]></search>
+      <add position="before">
+        <![CDATA[
+$this->load->model('catalog/hook');
+$product_object = $this->model_catalog_hook->productInfo($this->request->get['product_id']);
+
+if (isset($this->request->post['bonus'])) {
+  $data['bonus'] = $this->request->post['bonus'];
+} elseif (!empty($product_info)) {
+  $data['bonus'] = $product_object->bonus;
+} else {
+  $data['bonus'] = '';
+}
+        ]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
+      <add position="after">
+        <![CDATA[
+$this->load->model('catalog/hook');
+$this->model_catalog_hook->productSave($this->request->get, $this->request->post);
+        ]]>
+      </add>
+    </operation>
+  </file>
 </modification>
