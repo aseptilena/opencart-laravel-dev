@@ -1,4 +1,15 @@
 <?php echo $header; ?>
+<style type="text/css">
+.pv-customer {
+color: blue;
+}
+.pv-personal {
+color: red;
+}
+.pv-grouply {
+color: green;
+}
+</style>
 <script type="text/javascript">
 $(function() {
   $('#ntree').jstree();
