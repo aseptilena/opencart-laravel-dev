@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+  <name>SELF Modification</name>
+  <code>default</code>
+  <version>1.0</version>
+  <author>Howard Yang</author>
+  <link>http://www.opencart.com</link>
+  <file path="admin/view/template/sale/customer_form.tpl">
+    <operation>
+      <search><![CDATA[<li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>]]></search>
+      <add position="after">
+        <![CDATA[<li><a href="#tab-tree" data-toggle="tab">人脈圖</a></li>]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[<div class="tab-pane" id="tab-ip">]]></search>
+      <add position="before">
+        <![CDATA[
+<div class="tab-pane" id="tab-tree">
+  <div id="tree">
+  </div>
+</div>
+        ]]>
+      </add>
+    </operation>
+    <operation>
+      <search><![CDATA[$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');]]></search>
+      <add position="after">
+        <![CDATA[
+$('#tree').load('index.php?route=sale/tree&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
+        ]]>
+      </add>
+    </operation>
+  </file>
+  <file path="catalog/controller/account/account.php">
+    <operation>
+      <search><![CDATA[$data['wishlist'] = $this->url->link('account/wishlist');]]></search>
+      <add position="after">
+        <![CDATA[$data['tree'] = $this->url->link('account/tree');]]>
+      </add>
+    </operation>
+  </file>
+  <file path="catalog/view/theme/*/template/account/account.tpl">
+    <operation>
+      <search><![CDATA[<li><a href="<?php echo $wishlist; ?>"><?php echo $text_wishlist; ?></a></li>]]></search>
+      <add position="after">
+        <![CDATA[<li><a href="<?php echo $tree; ?>">PV</a></li>]]>
+      </add>
+    </operation>
+  </file>
+</modification>
