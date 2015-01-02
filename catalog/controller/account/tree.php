@@ -7,6 +7,7 @@ use App\Eloquent\Ntree;
 use App\Eloquent\Btree;
 
 use App\View\ViewManager;
+use App\Service\BtreeService;
 
 class ControllerAccountTree extends Controller
 {
@@ -21,6 +22,22 @@ class ControllerAccountTree extends Controller
 // return;
 		// $customer = Customer::find($this->customer->getId());
 		$customer = Customer::find(2);
+		// $customer->consume(100);
+
+		$now_month = new DateTime('NOW');
+		$now_month->modify('first day of this month');
+
+		// $customer->grantNtreeBonus($now_month, true);
+		$customer->grantBtreeBonus($now_month);
+
+
+/*
+		$service = new BtreeService($customer);
+		$service->bulidBtree();
+		$service->doBtree();*/
+
+		echo 'ewr';
+		return;
 		// $root = Btree::create(['name' => 'Root category']);
 		// $root = Btree::find(1);
 		// $root->customer()->associate($customer);

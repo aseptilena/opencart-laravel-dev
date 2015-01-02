@@ -52,7 +52,7 @@ class SetValidator {
     $connection = $this->node->getConnection();
     $grammar    = $connection->getQueryGrammar();
 
-    $tableName      = $this->node->getTable();
+    $tableName      = $connection->getTablePrefix() . $this->node->getTable();
     $primaryKeyName = $this->node->getKeyName();
     $parentColumn   = $this->node->getQualifiedParentColumnName();
 

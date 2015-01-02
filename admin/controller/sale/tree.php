@@ -4,7 +4,9 @@ require_once(DIR_SYSTEM.'laravel/load.php');
 
 use App\Eloquent\Customer;
 use App\Eloquent\Ntree;
-use App\Eloquent\Encapsulator;
+use App\Eloquent\CalculateTree;
+
+use App\View\ViewManager;
 
 class ControllerSaleTree extends Controller {
 	public function index() {
@@ -21,7 +23,6 @@ class ControllerSaleTree extends Controller {
 			$data['error_warning'] = '';
 		}
 
-		Encapsulator::init();
 		$customer = Customer::find($this->request->get['customer_id']);
 
 		$ntree_descendants = $customer->ntree->descendantsAndSelf()->with('customer')->get()->toHierarchy();
@@ -42,7 +43,8 @@ class ControllerSaleTree extends Controller {
 	public function treeHelper($descendants) {
 		$content = '<ul>';
 		foreach ($descendants as $descendant) {
-			$content .= '<li class="jstree-open" data-jstree=\'{"icon":"glyphicon glyphicon-leaf"}\'>'.$descendant->customer->customer_id.'&nbsp;'.$descendant->customer->firstname.'&nbsp;'.$descendant->customer->lastname.'&nbsp;個人PV:'.$descendant->customer->pv.'&nbsp;個人組織:'.$descendant->customer->total_pv;
+			$r = ViewManager::loadBlade('not-sure-what-this-does', 'tree.blade.php', array('descendant' => $descendant ));
+			$content .= $r->render();
 			if ($descendant->children->count() > 0) {
 				$content .= $this->treeHelper($descendant->children);
 			}

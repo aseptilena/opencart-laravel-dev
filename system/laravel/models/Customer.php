@@ -1,6 +1,7 @@
 <?php namespace App\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Customer extends Model
 {
@@ -27,6 +28,10 @@ class Customer extends Model
 	{
 		return $this->hasOne('App\Eloquent\Btree');
 	}
+	public function calculate_tree()
+	{
+		return $this->hasOne('App\Eloquent\CalculateTree');
+	}
 
 	public function addBtreeChild($customer)
 	{
@@ -41,12 +46,12 @@ class Customer extends Model
 
 	public function findBtreePosition($descendants) {
 		foreach ($descendants as $descendant) {
-			if ($descendant->children->count() < 1) {
+			if ($descendant->children->count() == 0) {
 				return $descendant;
 			}
 		}
 		foreach ($descendants as $descendant) {
-			if ($descendant->children->count() < 2) {
+			if ($descendant->children->count() == 1) {
 				return $descendant;
 			}
 		}
@@ -62,6 +67,132 @@ class Customer extends Model
 	public function pv_histories()
 	{
 		return $this->hasMany('App\Eloquent\PvHistory');
+	}
+
+	public function profit_records()
+	{
+		return $this->hasMany('App\Eloquent\ProfitRecord');
+	}
+
+	public function profit_histories()
+	{
+		return $this->hasMany('App\Eloquent\ProfitHistory');
+	}
+	public function bonus_histories()
+	{
+		return $this->hasMany('App\Eloquent\BonusHistory');
+	}
+
+	public function current_profit_record()
+	{
+		$now_month = new \DateTime('NOW');
+		$now_month->modify('first day of this month');
+		return $this->profit_record_of_date($now_month);
+	}
+
+	public function profit_record_of_date($date)
+	{
+		$record = $this->profit_records()->date($date)->get();
+		if (!$record->isEmpty())
+			return $record[0];
+		return $this->profit_records()->create(array('date' => $date->format('Y-m-01')));
+	}
+
+	public function consume($amount)
+	{
+		$this->profit_histories()->create(array(
+			'amount' => $amount,
+			));
+		$this->current_profit_record()->increment('consumption', $amount);
+	}
+
+	public function grantNtreeBonus($date, $store = false)
+	{
+		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
+		$total_bonus = 0;
+		foreach ($descendants as $descendant) {
+			list($gain, $consumption) = $this->calculateNtreeBonus($descendant, $date);
+			$bonus = $gain / 100 * $consumption;
+			if ($store) {
+				$this->bonus_histories()->create(array(
+					'source_id' => $descendant->customer->customer_id,
+					'bonus' => $bonus,
+					'rate' => $gain,
+					'amount' => $consumption,
+					'date' => $date,
+					'type' => BonusHistory::NTREE_CONSUMPTION
+				));
+			}
+			$total_bonus += $bonus;
+		}
+		if ($store) {
+			$record = $this->profit_record_of_date($date);
+			$record->bonus = $total_bonus;
+			$record->save();
+		}
+		return $total_bonus;
+	}
+
+	public function calculateNtreeBonus($descendant, $date)
+	{
+		$tree_id = $this->ntree->id;
+
+		$ancestors = $descendant->ancestorsAndSelf()->with('customer')->get()->reverse();
+		$used_bouns = 0;
+		foreach ($ancestors as $ancestor) {
+			if ($ancestor->id == $tree_id) {
+				$gain = $ancestor->customer->bonus_rate - $used_bouns;
+				return array($gain, $descendant->customer->profit_record_of_date($date)->consumption);
+			}
+			if ($ancestor->customer->bonus_rate > $used_bouns) {
+				$used_bouns = $ancestor->customer->bonus_rate;
+			}
+		}
+	}
+
+
+	public function grantBtreeBonus($date, $store = false)
+	{
+		$descendants = $this->btree->descendantsAndSelf()->with('customer')->get();
+		$total_bonus = 0;
+		foreach ($descendants as $descendant) {
+			list($gain, $consumption) = $this->calculateNtreeBonus($descendant, $date);
+			$bonus = $gain / 100 * $consumption;
+			if ($store) {
+				$this->bonus_histories()->create(array(
+					'source_id' => $descendant->customer->customer_id,
+					'bonus' => $bonus,
+					'rate' => $gain,
+					'amount' => $consumption,
+					'date' => $date,
+					'type' => BonusHistory::NTREE_CONSUMPTION
+				));
+			}
+			$total_bonus += $bonus;
+		}
+		if ($store) {
+			$record = $this->profit_record_of_date($date);
+			$record->bonus = $total_bonus;
+			$record->save();
+		}
+		return $total_bonus;
+	}
+
+	public function calculateBtreeBonus($descendant, $date)
+	{
+		$tree_id = $this->ntree->id;
+
+		$ancestors = $descendant->ancestorsAndSelf()->with('customer')->get()->reverse();
+		$used_bouns = 0;
+		foreach ($ancestors as $ancestor) {
+			if ($ancestor->id == $tree_id) {
+				$gain = $ancestor->customer->bonus_rate - $used_bouns;
+				return array($gain, $descendant->customer->profit_record_of_date($date)->consumption);
+			}
+			if ($ancestor->customer->bonus_rate > $used_bouns) {
+				$used_bouns = $ancestor->customer->bonus_rate;
+			}
+		}
 	}
 
 	public function passNtreeBonus($money)

@@ -1,5 +1,16 @@
 <script type="text/javascript" src="view/javascript/jquery/jstree/jstree.min.js"></script>
 <link type="text/css" href="view/javascript/jquery/jstree/themes/default/style.min.css" rel="stylesheet" media="screen">
+<style type="text/css">
+.pv-customer {
+color: blue;
+}
+.pv-personal {
+color: red;
+}
+.pv-grouply {
+color: green;
+}
+</style>
 <script type="text/javascript">
 $(function() {
   $('#ntree').jstree();
