@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Capsule\Manager as DB;
+use App\Service\BtreeService;
 
 class Customer extends Model
 {
@@ -28,7 +29,7 @@ class Customer extends Model
 	{
 		return $this->hasOne('App\Eloquent\Btree');
 	}
-	public function calculate_tree()
+	public function calculateTree()
 	{
 		return $this->hasOne('App\Eloquent\CalculateTree');
 	}
@@ -98,6 +99,82 @@ class Customer extends Model
 		return $this->profit_records()->create(array('date' => $date->format('Y-m-01')));
 	}
 
+	public function joining_month($format)
+	{
+		if ($format == 'string_only_month') {
+			return substr($this->date_added, 0, 7);
+		}
+		else if ($format == 'string_all_time') {
+			return substr($this->date_added, 0, 7).'-01 00:00:00';
+		}
+		else if ($format == 'datetime') {
+			return DateTime::createFromFormat('Y-m-d H:i:s', substr($this->date_added, 0, 7).'-01 00:00:00');
+		}
+
+	}
+
+	public function profit_record_summary($from, $to)
+	{
+		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $from.'-01 00:00:00');
+		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $to.'-01 00:00:00');
+
+		$result = $this->profit_records()->whereRaw("(date BETWEEN '".$from->format('Y-m-d H:i:s')."' AND '".$to->format('Y-m-d H:i:s')."')")->get(array(
+				DB::raw('SUM(consumption)'),
+				DB::raw('SUM(ntree_bonus)'),
+				DB::raw('SUM(btree_bonus)')
+			));
+		return $result[0];
+	}
+
+	public function bonus_histories_between($from, $to)
+	{
+		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $from.'-01 00:00:00');
+		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $to.'-01 00:00:00');
+
+		return $this->bonus_histories()->whereRaw("(date BETWEEN '".$from->format('Y-m-d H:i:s')."' AND '".$to->format('Y-m-d H:i:s')."')")->get();
+	}
+
+	public function profit_histories_between($from, $to)
+	{
+		return $this->profit_histories()->betweenTime($from, $to)->get();
+	}
+
+	public function accumulated_consumption()
+	{
+		return $this->profit_records()->where('used_btree', '=', 0)->sum('consumption');
+	}
+
+	public function own_months()
+	{
+		$to = new \DateTime('NOW');
+		$to->modify('first day of this month');
+		$from = \DateTime::createFromFormat('Y-m-d', substr($this->date_added, 0, 10));
+		$from->modify('first day of this month');
+		$dates = array();
+		while ($from <= $to) {
+			$dates[] = clone $from;
+			$from->modify('+1 month');
+		}
+		return array_reverse($dates);
+	}
+
+	public function own_months_options()
+	{
+		$dates = $this->own_months();
+		$options = array();
+		$options[] = [
+			'text' => '全部時間',
+			'value' => 'all'
+		];
+		foreach ($dates as $date) {
+			$options[] = [
+				'text' => $date->format('Y').'年'.$date->format('m').'月',
+				'value' => $date->format('Y-m')
+			];
+		}
+		return $options;
+	}
+
 	public function consume($amount)
 	{
 		$this->profit_histories()->create(array(
@@ -110,27 +187,34 @@ class Customer extends Model
 	{
 		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
 		$total_bonus = 0;
+
+		$collect_history = array();
 		foreach ($descendants as $descendant) {
 			list($gain, $consumption) = $this->calculateNtreeBonus($descendant, $date);
 			$bonus = $gain / 100 * $consumption;
+			$info = [
+				'source_id' => $descendant->customer->customer_id,
+				'bonus' => $bonus,
+				'rate' => $gain,
+				'amount' => $consumption,
+				'date' => $date,
+				'type' => BonusHistory::NTREE_CONSUMPTION
+			];
 			if ($store) {
-				$this->bonus_histories()->create(array(
-					'source_id' => $descendant->customer->customer_id,
-					'bonus' => $bonus,
-					'rate' => $gain,
-					'amount' => $consumption,
-					'date' => $date,
-					'type' => BonusHistory::NTREE_CONSUMPTION
-				));
+				$this->bonus_histories()->create($info);
 			}
+			$collect_history[] = $info;
 			$total_bonus += $bonus;
 		}
 		if ($store) {
 			$record = $this->profit_record_of_date($date);
-			$record->bonus = $total_bonus;
+			$record->ntree_bonus = $total_bonus;
 			$record->save();
 		}
-		return $total_bonus;
+		return [
+			'total_bonus' => $total_bonus,
+			'histories' => $collect_history,
+		];
 	}
 
 	public function calculateNtreeBonus($descendant, $date)
@@ -153,46 +237,50 @@ class Customer extends Model
 
 	public function grantBtreeBonus($date, $store = false)
 	{
-		$descendants = $this->btree->descendantsAndSelf()->with('customer')->get();
+		if ($this->accumulated_consumption() < 1000) {
+			return;
+		}
+
+		if ($store) {
+			$service = new BtreeService($this);
+			$service->bulidBtree();
+			$service->doBtree();
+		}
+
+		$this->btree_depth = 3;
+
+		$tree = $store ? $this->calculateTree : $this->btree;
+		$descendants = $tree->descendantsAndSelf()->limitDepth(2)->with('customer')->get();
 		$total_bonus = 0;
+
+		$collect_history = array();
 		foreach ($descendants as $descendant) {
-			list($gain, $consumption) = $this->calculateNtreeBonus($descendant, $date);
+			$consumption = $descendant->customer->accumulated_consumption();
+			$gain = 2;
 			$bonus = $gain / 100 * $consumption;
+			$info = [
+				'source_id' => $descendant->customer->customer_id,
+				'bonus' => $bonus,
+				'rate' => $gain,
+				'amount' => $consumption,
+				'date' => $date,
+				'type' => BonusHistory::BTREE_CONSUMPTION
+			];
 			if ($store) {
-				$this->bonus_histories()->create(array(
-					'source_id' => $descendant->customer->customer_id,
-					'bonus' => $bonus,
-					'rate' => $gain,
-					'amount' => $consumption,
-					'date' => $date,
-					'type' => BonusHistory::NTREE_CONSUMPTION
-				));
+				$this->bonus_histories()->create($info);
 			}
+			$collect_history[] = $info;
 			$total_bonus += $bonus;
 		}
 		if ($store) {
 			$record = $this->profit_record_of_date($date);
-			$record->bonus = $total_bonus;
+			$record->btree_bonus = $total_bonus;
 			$record->save();
 		}
-		return $total_bonus;
-	}
-
-	public function calculateBtreeBonus($descendant, $date)
-	{
-		$tree_id = $this->ntree->id;
-
-		$ancestors = $descendant->ancestorsAndSelf()->with('customer')->get()->reverse();
-		$used_bouns = 0;
-		foreach ($ancestors as $ancestor) {
-			if ($ancestor->id == $tree_id) {
-				$gain = $ancestor->customer->bonus_rate - $used_bouns;
-				return array($gain, $descendant->customer->profit_record_of_date($date)->consumption);
-			}
-			if ($ancestor->customer->bonus_rate > $used_bouns) {
-				$used_bouns = $ancestor->customer->bonus_rate;
-			}
-		}
+		return [
+			'total_bonus' => $total_bonus,
+			'histories' => $collect_history,
+		];
 	}
 
 	public function passNtreeBonus($money)

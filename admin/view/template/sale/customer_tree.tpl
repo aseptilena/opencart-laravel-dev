@@ -12,49 +12,33 @@ color: green;
 }
 </style>
 <script type="text/javascript">
-$(function() {
-  $('#ntree').jstree();
-  $('#btree').jstree();
-})
+  function filter_profit_date(ele) {
+    var value = ele.options[ele.selectedIndex].value;
+    $('#filter_loading').show();
+    $('#tree-content').load('<?php echo $url_get_content; ?>&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>&date_from='+value+'&date_to='+value+'&active_tab='+$("#tree-tabs>div.tab-pane.active").attr('id'), function() {
+      $('#filter_loading').hide();
+    });
+  }
 </script>
-<?php if ($error_warning) { ?>
-<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
+<div class="alert alert-info" id="filter_loading" style="display:none;"><i class="fa fa-clock-o"></i> Loading....
   <button type="button" class="close" data-dismiss="alert">&times;</button>
 </div>
-<?php } ?>
-<?php if ($success) { ?>
-<div class="alert alert-success"><i class="fa fa-check-circle"></i> <?php echo $success; ?>
-  <button type="button" class="close" data-dismiss="alert">&times;</button>
-</div>
-<?php } ?>
 <div>
-  <h1>Profit History</h1>
-  <div id="profit" class="table-responsive">
-    <table class="table table-bordered table-hover">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>明細</th>
-          <th>獎金</th>
-        </tr>
-      </thead>
-      <tbody>
-      <?php foreach ($profit_histories as $history) { ?>
-      <tr>
-        <td class="text-left"><?php echo $history->id; ?></td>
-        <td class="text-right"><?php echo $history->total; ?> X <?php echo $history->rate; ?>%</td>
-        <td class="text-right"><?php echo $history->profit; ?></td>
-      </tr>
-      <?php } ?>
-      </tbody>
-    </table>
+  <div id="tree-filter" class="well">
+    <div class="row" style="margin-left: 0px;margin-right: 0px;">
+      <div class="col-sm-3">
+        <div class="form-group">
+          <label class="control-label" for="input-profit-date">月份</label>
+          <select name="filter_profit_date_id" id="input-profit-date" class="form-control" onChange="filter_profit_date(this);">
+            <?php foreach ($profit_dates as $key => $profit_date) { ?>
+            <option value="<?php echo $profit_date['value']; ?>"<?php if ($key == 1) { ?> selected="selected"<?php } ?>><?php echo $profit_date['text']; ?></option>
+            <?php } ?>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
-  <h1>N Tree</h1>
-  <div id="ntree" class="form-group">
-    <?php echo $ntree; ?>
-  </div>
-  <h1>B Tree</h1>
-  <div id="btree" class="form-group">
-    <?php echo $btree; ?>
+  <div id="tree-content">
+    <?php echo $tree_content; ?>
   </div>
 </div>

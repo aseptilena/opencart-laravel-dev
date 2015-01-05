@@ -22,19 +22,20 @@ class ControllerAccountTree extends Controller
 // return;
 		// $customer = Customer::find($this->customer->getId());
 		$customer = Customer::find(2);
+		print_r($customer->profit_record_summary('2014-12', '2016-01'));
+		return;
 		// $customer->consume(100);
 
 		$now_month = new DateTime('NOW');
 		$now_month->modify('first day of this month');
 
 		// $customer->grantNtreeBonus($now_month, true);
-		$customer->grantBtreeBonus($now_month);
+		// $customer->grantBtreeBonus($now_month, true);
 
 
-/*
-		$service = new BtreeService($customer);
-		$service->bulidBtree();
-		$service->doBtree();*/
+		// $service = new BtreeService($customer);
+		// $service->bulidBtree();
+		// $service->doBtree();
 
 		echo 'ewr';
 		return;

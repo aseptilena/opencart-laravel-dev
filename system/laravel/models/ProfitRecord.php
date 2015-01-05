@@ -4,7 +4,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProfitRecord extends Model
 {
-	protected $fillable = array('date', 'consumption', 'bonus', 'total');
+	protected $fillable = array('date', 'consumption', 'ntree_bonus', 'btree_bonus', 'total');
 
 	public function scopeCurrent($query)
 	{

@@ -40,18 +40,11 @@ class BtreeService
 		$descendants = $root->descendantsAndSelf()->with('customer')->get();
 		$this->iterateBtree($descendants);
 	}
-	
-	public function grantBtreeBonus()
-	{
-		$root = CalculateTree::root();
-		$descendants = $root->descendantsAndSelf()->with('customer')->get();
-		$this->iterateBtree($descendants);
-	}
 
 	public function iterateBtree($descendants) {
 		$flag = false;
 		foreach ($descendants as $descendant) {
-			if ($descendant->customer->current_profit_record()->consumption < 1000) {
+			if ($descendant->customer->accumulated_consumption() < 1000) {
 				$flag = true;
 				$this->position = 0;
 				$k = $descendant->descendantsAndSelf()->with('customer')->get()->toHierarchy();
