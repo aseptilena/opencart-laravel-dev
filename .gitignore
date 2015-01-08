@@ -41,7 +41,7 @@
 /vqmod/logs/*.log
 # /vqmod/xml/*.xml
 
+/system/laravel/storage/*
+
 .DS_Store
 !.keep
-
-/system/laravel/storage/*
