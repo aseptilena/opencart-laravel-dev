@@ -9,7 +9,7 @@
     <operation>
       <search><![CDATA[<li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>]]></search>
       <add position="after">
-        <![CDATA[<li><a href="#tab-tree" data-toggle="tab">人脈圖</a></li>]]>
+        <![CDATA[<li><a href="#tab-tree" data-toggle="tab">小資男女</a></li>]]>
       </add>
     </operation>
     <operation>

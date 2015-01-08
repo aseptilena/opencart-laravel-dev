@@ -37,6 +37,10 @@ class Customer extends Model
 	{
 		return $this->belongsTo('App\Eloquent\Level');
 	}
+	public function deposits()
+	{
+		return $this->hasMany('App\Eloquent\Deposit');
+	}
 
 	public function addBtreeChild($customer)
 	{
@@ -107,6 +111,15 @@ class Customer extends Model
 		}
 		$this->ready_levels = implode(',', $collects);
 	}
+	public function getReadyLevels()
+	{
+		$ready_levels = explode(',', $this->ready_levels);
+		$collects = array();
+		foreach ($ready_levels as $level) {
+			$collects[] = Level::find($level);
+		}
+		return $collects;
+	}
 
 	public function current_profit_record()
 	{
@@ -135,38 +148,40 @@ class Customer extends Model
 			return DateTime::createFromFormat('Y-m-d H:i:s', substr($this->date_added, 0, 7).'-01 00:00:00');
 		}
 	}
-	public function total_team_consumption()
+
+	public function team_consumption($period = false, $flush = false)
 	{
-		$now = new \DateTime('NOW');
-		$now->modify('first day of this month');
-		$date_to = $now->format('Y-m');
-		$date_from = $this->joining_month('string_only_month');
-		return $this->team_consumption_between($date_from, $date_to);
-	}
-	public function team_consumption_between($date_from, $date_to, $flush = false)
-	{
+		if (is_array($period)) {
+			$start = $period['start'];
+			$end = $period['end'];
+		}
+		else {
+			$start = $this->joining_month('string_only_month');
+			$now = new \DateTime('NOW');
+			$now->modify('first day of this month');
+			$end = $now->format('Y-m');
+		}
 		static $cache = array();
-		$cache_key = (int)$this->customer_id.'_'.$date_from.'_'.$date_to;
+		$cache_key = (int)$this->customer_id.'_'.$start.'_'.$end;
 		if (isset($cache[$cache_key]) && !$flush)
 			return $cache[$cache_key];
-		echo "team_consumption_between: $cache_key <br>";
 
-		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
+		$descendants = $this->ntreeDescendantsAndSelfWithCustomer();
 		$sum = 0;
 		foreach ($descendants as $descendant) {
-			$sum += $descendant->customer->profit_record_summary($date_from, $date_to)['SUM(consumption)'];
+			$sum += $descendant->customer->profit_record_summary(array('start'=>$start, 'end'=>$end), $flush)->consumption;
 		}
 
 		$cache[$cache_key] = $sum;
 		return $cache[$cache_key];
 	}
+
 	public function ntreeDescendantsAndSelfWithCustomer($flush = false)
 	{
 		static $cache = array();
 		$cache_key = (int)$this->customer_id;
 		if (isset($cache[$cache_key]) && !$flush)
 			return $cache[$cache_key];
-		echo "ntreeDescendantsAndSelfWithCustomer: $cache_key <br>";
 
 		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
 
@@ -179,7 +194,6 @@ class Customer extends Model
 		$cache_key = (int)$this->customer_id;
 		if (isset($cache[$cache_key]) && !$flush)
 			return $cache[$cache_key];
-		// echo "btreeDescendantsAndSelfWithCustomer: $cache_key <br>";
 
 		$descendants = $this->btree->descendantsAndSelf()->with('customer')->get();
 
@@ -187,24 +201,41 @@ class Customer extends Model
 		return $cache[$cache_key];
 	}
 
-	public function profit_record_summary($from, $to, $flush = false)
+	public function profit_record_summary($period = false, $flush = false)
 	{
+		if (is_array($period)) {
+			$start = $period['start'];
+			$end = $period['end'];
+		}
+		else {
+			$now = new \DateTime('NOW');
+			$now->modify('first day of this month');
+			$end = $now->format('Y-m');
+			$start = $this->joining_month('string_only_month');
+		}
 		static $cache = array();
-		$cache_key = (int)$this->customer_id.'_'.$from.'_'.$to;
+		$cache_key = (int)$this->customer_id.'_'.$start.'_'.$end;
 		if (isset($cache[$cache_key]) && !$flush)
 			return $cache[$cache_key];
-		// echo "profit_record_summary: $cache_key <br>";
 
-		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $from.'-01 00:00:00');
-		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $to.'-01 00:00:00');
+		$start_datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $start.'-01 00:00:00');
+		$end_datetime = \DateTime::createFromFormat('Y-m-d H:i:s', $end.'-01 00:00:00');
 
-		$result = $this->profit_records()->whereRaw("(date BETWEEN '".$from->format('Y-m-d H:i:s')."' AND '".$to->format('Y-m-d H:i:s')."')")->get(array(
+		$result = $this->profit_records()->whereRaw("(date BETWEEN '".$start_datetime->format('Y-m-d H:i:s')."' AND '".$end_datetime->format('Y-m-d H:i:s')."')")->get(array(
 				DB::raw('SUM(consumption)'),
 				DB::raw('SUM(ntree_bonus)'),
 				DB::raw('SUM(btree_bonus)')
 			));
+		$result = $result[0];
+		$trans = [
+			'consumption' => $result['SUM(consumption)'],
+			'ntree_bonus' => $result['SUM(ntree_bonus)'],
+			'btree_bonus' => $result['SUM(btree_bonus)'],
+			'bonus' => ($result['SUM(ntree_bonus)'] + $result['SUM(btree_bonus)']),
+		];
+		$trans = (object)$trans;
 
-		$cache[$cache_key] = $result[0];
+		$cache[$cache_key] = $trans;
 		return $cache[$cache_key];
 	}
 

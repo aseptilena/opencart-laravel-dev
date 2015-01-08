@@ -1,0 +1,1 @@
+<li class="jstree-open" data-jstree='{"icon":"glyphicon glyphicon-leaf"}'>{{ $customer->customer_id }}&nbsp;<span class="pv-customer">{{ $customer->firstname }}&nbsp;{{ $customer->lastname }}&nbsp;</span><span class="pv-personal">個人PV:{{ number_format($customer->consumption) }}&nbsp;</span><span class="pv-grouply">個人組織:{{ number_format($customer->team_consumption) }}</span>

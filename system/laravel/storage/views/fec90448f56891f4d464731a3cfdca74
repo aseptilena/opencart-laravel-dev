@@ -1,1 +1,0 @@
-<li class="jstree-open" data-jstree='{"icon":"glyphicon glyphicon-leaf"}'><?php echo $customer->customer_id; ?>&nbsp;<span class="pv-customer"><?php echo $customer->firstname; ?>&nbsp;<?php echo $customer->lastname; ?>&nbsp;</span><span class="pv-personal">個人PV:<?php echo $customer->consumption; ?>&nbsp;</span><span class="pv-grouply">個人組織:<?php echo $customer->sum; ?></span>

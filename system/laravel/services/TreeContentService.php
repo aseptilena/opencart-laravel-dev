@@ -10,75 +10,63 @@ class TreeContentService
 
 	protected $filter;
 
-	public function __construct($customer, $filter)
+	protected $tree;
+
+	public function __construct($customer, $filter, $tree)
 	{
 		$this->customer = $customer;
 		$this->filter = $filter;
+		$this->tree = $tree;
 	}
 
 	public function getContent()
 	{
 		$data = array();
-		$date_to = $this->filter['date_to'];
-		$date_from = $this->filter['date_from'];
+		$period = array(
+			'start' => $this->filter['date_to'],
+			'end' => $this->filter['date_from'],
+			);
 
-		$ntree_descendants = $this->customer->ntree->descendantsAndSelf()->with('customer')->get();
-		foreach ($ntree_descendants as &$descendant) {
-			$descendant->customer->consumption = $descendant->customer->profit_record_summary($date_from, $date_to)['SUM(consumption)'];
+		if ($this->tree == 'ntree') {
+			$descendants = $this->customer->ntreeDescendantsAndSelfWithCustomer();
+		}
+		else if ($this->tree == 'btree') {
+			$descendants = $this->customer->btreeDescendantsAndSelfWithCustomer();
+		}
+
+		foreach ($descendants as &$descendant) {
+			$descendant->customer->consumption = $descendant->customer->profit_record_summary($period)->consumption;
+			if ($this->tree == 'ntree') {
+				$descendant->customer->team_consumption = $descendant->customer->team_consumption($period);
+			}
 		}
 		reset($descendant);
-		foreach ($ntree_descendants as &$descendant) {
-			$descendant->customer->sum = $this->calculateTotal($descendant, $ntree_descendants);
+
+		$hierarchy = $descendants->toHierarchy();
+
+		if ($this->tree == 'ntree') {
+			$view = 'customer/ntree.blade.php';
 		}
-		reset($descendant);
-		$ntree_hierarchy = $ntree_descendants->toHierarchy();
-
-		$ntree_content = $this->treeHelper($ntree_hierarchy, $date_from, $date_to);
-		$data['ntree'] = $ntree_content;
-
-		$btree_descendants = $this->customer->btree->descendantsAndSelf()->with('customer')->get();
-		foreach ($btree_descendants as &$descendant) {
-			$descendant->customer->consumption = $descendant->customer->profit_record_summary($date_from, $date_to)['SUM(consumption)'];
+		else if ($this->tree == 'btree') {
+			$view = 'customer/btree.blade.php';
 		}
-		reset($descendant);
-		foreach ($btree_descendants as &$descendant) {
-			$descendant->customer->sum = $this->calculateTotal($descendant, $btree_descendants);
-		}
-		reset($descendant);
-		$btree_hierarchy = $btree_descendants->toHierarchy();
 
-		$btree_content = $this->treeHelper($btree_hierarchy, $date_from, $date_to);
-		$data['btree'] = $btree_content;
-
-		return $data;
+		return $this->treeHelper($hierarchy, $view);
 	}
 
-	protected function treeHelper($descendants, $date_from, $date_to)
+	protected function treeHelper($descendants, $view)
 	{
 		$content = '<ul>';
 		foreach ($descendants as $descendant) {
 			$data['customer'] = $descendant->customer;
-			$data['date_from'] = $date_from;
-			$data['date_to'] = $date_to;
-			$r = ViewManager::loadBlade('not-sure', 'tree.blade.php', $data);
+			$r = ViewManager::loadBlade('not-sure', $view, $data);
 			$content .= $r->render();
 			if ($descendant->children->count() > 0) {
-				$content .= $this->treeHelper($descendant->children, $date_from, $date_to);
+				$content .= $this->treeHelper($descendant->children, $view);
 			}
 			$content .= '</li>';
 		}
 		$content .= '</ul>';
 		return $content;
-	}
-
-	protected function calculateTotal($node, $descendants)
-	{
-		$sum = 0;
-		foreach ($descendants as $descendant) {
-			if ($node->lft <= $descendant->lft && $descendant->lft <= $node->rgt) {
-				$sum += $descendant->customer->consumption;
-			}
-		}
-		return $sum;
 	}
 }

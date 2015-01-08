@@ -4,9 +4,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
+	public function getCondition()
+	{
+		return unserialize($this->condition);
+	}
 	public function pass($customer)
 	{
-		$condition = unserialize($this->condition);
+		$condition = $this->getCondition();
 		$ready_levels = explode(',', $customer->ready_levels);
 		if (count($ready_levels) > 0) {
 			$ready_levels = array_map('intval', $ready_levels);
@@ -14,7 +18,7 @@ class Level extends Model
 				$now = new \DateTime('NOW');
 				$now->modify('first day of this month');
 				$last_month = $now->format('Y-m');
-				$consumption = $customer->team_consumption_between($last_month, $last_month);
+				$consumption = $customer->team_consumption(array('start'=>$last_month, 'end'=>$last_month));
 				if ($consumption >= $condition['next']) {
 					return 'pass';
 				}
@@ -22,7 +26,7 @@ class Level extends Model
 		}
 
 		if (isset($condition['barrier'])) {
-			$total = $customer->total_team_consumption();
+			$total = $customer->team_consumption();
 			if ($total < $condition['barrier']) {
 				return 'fail';
 			}
@@ -62,6 +66,46 @@ class Level extends Model
 		foreach ($all_level as $level) {
 			if ($level->id == $level_id) {
 				return $level->position;
+			}
+		}
+	}
+	public function conditionDescription()
+	{
+		$condition = $this->getCondition();
+		$description = array();
+		if (isset($condition['barrier'])) {
+			$description[] = '個人及介紹會員消費滿'.$condition['barrier'].'元。';
+		}
+		if (isset($condition['downline']) && isset($condition['level'])) {
+			$level = Level::find($condition['level']);
+			$string = '擁有'.$condition['downline'].'線'.$level->title;
+
+			if (isset($condition['next'])) {
+				$next = $condition['next'];
+				$next /= 10000;
+				$string .= '，且隔月業績'.$next.'萬PV';
+			}
+			$string .= '。';
+			$description[] = $string;
+		}
+		if (count($description) == 1) {
+			return $description[0];
+		}
+		else {
+			return implode('<br>', $description);
+		}
+	}
+	public function achieveDescription($customer)
+	{
+		$condition = $this->getCondition();
+		if (isset($condition['next'])) {
+			$team_consumption = $customer->team_consumption();
+			$next = $condition['next'];
+			if ($team_consumption >= $next) {
+				return '本月個人及介紹會員消費金額為'.number_format($team_consumption).'，目標已達成。';
+			}
+			else {
+				return '本月個人及介紹會員消費金額為'.number_format($team_consumption).'，還差'.number_format($next - $team_consumption).'。';
 			}
 		}
 	}

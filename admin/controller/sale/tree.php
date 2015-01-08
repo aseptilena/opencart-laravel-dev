@@ -3,6 +3,7 @@
 require_once(DIR_SYSTEM.'laravel/load.php');
 
 use App\Eloquent\Customer;
+use App\Eloquent\Deposit;
 use App\Eloquent\Ntree;
 use App\Eloquent\CalculateTree;
 use App\Service\TreeContentService;
@@ -10,6 +11,8 @@ use App\Service\TreeContentService;
 use App\View\ViewManager;
 
 class ControllerSaleTree extends Controller {
+	public $customer;
+
 	public function index() {
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->user->hasPermission('modify', 'sale/customer')) {
@@ -32,86 +35,143 @@ class ControllerSaleTree extends Controller {
 		$filter['date_to'] = $date_to;
 		$filter['date_from'] = $date_to;
 
-		$customer = Customer::find($this->request->get['customer_id']);
-
-		$data['profit_dates'] = $customer->own_months_options();
-		$data['url_get_content'] = $this->url->link('sale/tree/ajaxContent');
-		$data['token'] = $this->session->data['token'];
-		$data['customer_id'] = $this->request->get['customer_id'];
-
-		$filter['active_tab'] = 'tab-profit-history';
+		$this->customer = Customer::find($this->request->get['customer_id']);
 
 		$data['tree_content'] = $this->getContent($filter);
 
 		$this->response->setOutput($this->load->view('sale/customer_tree.tpl', $data));
 	}
 
-	public function ajaxContent($filter) {
-		$customer = Customer::find($this->request->get['customer_id']);
+	public function ajaxProfit($filter) {
+		$this->customer = Customer::find($this->request->get['customer_id']);
+
+		$filter = $this->handleFilter();
+
+		echo $this->profitContent($filter);
+		die();
+	}
+	public function ajaxBonus($filter) {
+		$this->customer = Customer::find($this->request->get['customer_id']);
+
+		$filter = $this->handleFilter();
+
+		echo $this->bonusContent($filter);
+		die();
+	}
+	public function handleFilter() {
+		$filter = array();
 		if ($this->request->get['date_to'] == 'all') {
 			$now = new \DateTime('NOW');
 			$now->modify('first day of this month');
 			$date_to = $now->format('Y-m');
 			$filter['date_to'] = $date_to;
-			$filter['date_from'] = $customer->joining_month('string_only_month');
+			$filter['date_from'] = $this->customer->joining_month('string_only_month');
 		}
 		else {
 			$filter['date_to'] = $this->request->get['date_to'];
 			$filter['date_from'] = $this->request->get['date_from'];
 		}
-		$filter['active_tab'] = $this->request->get['active_tab'];
 
-		echo $this->getContent($filter);
-		die();
+		return $filter;
 	}
 
 	public function getContent($filter) {
 
-		$customer = Customer::find($this->request->get['customer_id']);
-
 		$date_to = $filter['date_to'];
 		$date_from = $filter['date_from'];
 
-		$tree_content = new TreeContentService($customer, $filter);
-		$tree_content = $tree_content->getContent();
+		$data['ntree'] = $this->ntreeContent($filter);
+		$data['btree'] = $this->btreeContent($filter);
 
-		$data['ntree'] = $tree_content['ntree'];
-		$data['btree'] = $tree_content['btree'];
+		$data['info'] = $this->infoContent();
+		$data['profit'] = $this->profitContent($filter);
+		$data['bonus'] = $this->bonusContent($filter);
+		$data['deposit'] = $this->depositContent();
 
-		$bonus_histories = $customer->bonus_histories_between($date_from, $date_to);
+		$data['profit_dates'] = $this->customer->own_months_options();
+		$data['bonus_dates'] = $this->customer->own_months_options();
+
+		$data['profit_url'] = $this->url->link('sale/tree/ajaxProfit');
+		$data['bonus_url'] = $this->url->link('sale/tree/ajaxBonus');
+		$data['deposit_history_url'] = $this->url->link('sale/tree/ajaxDepositHistory');
+		$data['draw_url'] = $this->url->link('sale/tree/ajaxDraw');
+		$data['token'] = $this->session->data['token'];
+		$data['customer_id'] = $this->request->get['customer_id'];
+
+		$data['active_tab'] = 'tab-info';
+
+		$data['tabs'] = array(
+			['name' => 'Info', 'link' => 'tab-info'],
+			['name' => 'Profit History', 'link' => 'tab-profit-history'],
+			['name' => 'Bonus History', 'link' => 'tab-bonuse-history'],
+			['name' => 'N Tree', 'link' => 'tab-ntree'],
+			['name' => 'B Tree', 'link' => 'tab-btree'],
+			['name' => 'Deposit', 'link' => 'tab-deposit'],
+		);
+
+		$r = ViewManager::loadBlade('not-sure', 'customer/content.blade.php', $data);
+		$content = $r->render();
+
+		return $content;
+	}
+
+	public function ntreeContent($filter) {
+		$content = new TreeContentService($this->customer, $filter, 'ntree');
+		return $content->getContent();
+	}
+	public function btreeContent($filter) {
+		$content = new TreeContentService($this->customer, $filter, 'btree');
+		return $content->getContent();
+	}
+	public function infoContent() {
+		$data = array();
+		$data['customer'] = $this->customer;
+		$data['ready_levels'] = $this->customer->getReadyLevels();
+
+		$r = ViewManager::loadBlade('not-sure', 'customer/info.blade.php', $data);
+		return $r->render();
+	}
+	public function profitContent($filter) {
+		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $filter['date_from'].'-01 00:00:00');
+		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $filter['date_to'].'-01 00:00:00');
+		$to->modify('+1 month');
+		$to->modify('-1 second');
+
+		$profit_histories = $this->customer->profit_histories_between($from, $to);
+		$profit_sum = 0;
+		foreach ($profit_histories as $i) {
+			$profit_sum += $i->amount;
+		}
+		$data = array();
+		$data['profit_histories'] = $profit_histories;
+		$data['profit_sum'] = $profit_sum;
+		$r = ViewManager::loadBlade('not-sure', 'customer/profit.blade.php', $data);
+		return $r->render();
+	}
+	public function bonusContent($filter) {
+		$bonus_histories = $this->customer->bonus_histories_between($filter['date_from'], $filter['date_to']);
 		$bonus_sum = 0;
 		foreach ($bonus_histories as $i) {
 			$bonus_sum += $i->bonus;
 		}
 		$data['bonus_histories'] = $bonus_histories;
 		$data['bonus_sum'] = $bonus_sum;
-
-		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $date_from.'-01 00:00:00');
-		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $date_to.'-01 00:00:00');
-		$to->modify('+1 month');
-		$to->modify('-1 second');
-
-		$profit_histories = $customer->profit_histories_between($from, $to);
-		$profit_sum = 0;
-		foreach ($profit_histories as $i) {
-			$profit_sum += $i->amount;
-		}
-		$data['profit_histories'] = $profit_histories;
-		$data['profit_sum'] = $profit_sum;
-
-		$data['active_tab'] = $filter['active_tab'];
-
-		$data['tabs'] = array(
-			['name' => 'Profit History', 'link' => 'tab-profit-history'],
-			['name' => 'Bonus History', 'link' => 'tab-bonuse-history'],
-			['name' => 'N Tree', 'link' => 'tab-ntree'],
-			['name' => 'B Tree', 'link' => 'tab-btree'],
-		);
-
-		$r = ViewManager::loadBlade('not-sure', 'tree_content.blade.php', $data);
-		$content = $r->render();
-
-		return $content;
+		$r = ViewManager::loadBlade('not-sure', 'customer/bonus.blade.php', $data);
+		return $r->render();
 	}
+	public function depositContent() {
+		$data['deposits'] = $this->customer->deposits;
 
+		$r = ViewManager::loadBlade('not-sure', 'customer/deposit.blade.php', $data);
+		return $r->render();
+	}
+	public function ajaxDepositHistory() {
+		$deposit = Deposit::find($this->request->get['deposit_id']);
+		$data['deposit'] = $deposit;
+		$data['statuses'] = Deposit::all_status();
+		$data['deposit_histories'] = $deposit->deposit_histories()->get();
+		$r = ViewManager::loadBlade('not-sure', 'customer/deposit_history.blade.php', $data);
+		echo $r->render();
+		die();
+	}
 }

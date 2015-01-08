@@ -15,4 +15,5 @@ class ProfitRecord extends Model
 	{
 		return $query->whereRaw('MONTH(date) = ? AND YEAR(date) = ?', array($date->format('m'), $date->format('Y')));
 	}
+
 }
