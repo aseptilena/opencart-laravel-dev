@@ -33,6 +33,10 @@ class Customer extends Model
 	{
 		return $this->hasOne('App\Eloquent\CalculateTree');
 	}
+	public function level()
+	{
+		return $this->belongsTo('App\Eloquent\Level');
+	}
 
 	public function addBtreeChild($customer)
 	{
@@ -83,6 +87,26 @@ class Customer extends Model
 	{
 		return $this->hasMany('App\Eloquent\BonusHistory');
 	}
+	public function setPassLevels($levels)
+	{
+		if (count($levels) == 0) {
+			return;
+		}
+		$level = $levels[0];
+		$this->level_id = $level->id;
+		if (!$this->lock_condition) {
+			$this->commission = $level->commission;
+			$this->generation = $level->generation;
+		}
+	}
+	public function setReadyLevels($levels)
+	{
+		$collects = array();
+		foreach ($levels as $level) {
+			$collects[] = $level->id;
+		}
+		$this->ready_levels = implode(',', $collects);
+	}
 
 	public function current_profit_record()
 	{
@@ -110,11 +134,67 @@ class Customer extends Model
 		else if ($format == 'datetime') {
 			return DateTime::createFromFormat('Y-m-d H:i:s', substr($this->date_added, 0, 7).'-01 00:00:00');
 		}
+	}
+	public function total_team_consumption()
+	{
+		$now = new \DateTime('NOW');
+		$now->modify('first day of this month');
+		$date_to = $now->format('Y-m');
+		$date_from = $this->joining_month('string_only_month');
+		return $this->team_consumption_between($date_from, $date_to);
+	}
+	public function team_consumption_between($date_from, $date_to, $flush = false)
+	{
+		static $cache = array();
+		$cache_key = (int)$this->customer_id.'_'.$date_from.'_'.$date_to;
+		if (isset($cache[$cache_key]) && !$flush)
+			return $cache[$cache_key];
+		echo "team_consumption_between: $cache_key <br>";
 
+		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
+		$sum = 0;
+		foreach ($descendants as $descendant) {
+			$sum += $descendant->customer->profit_record_summary($date_from, $date_to)['SUM(consumption)'];
+		}
+
+		$cache[$cache_key] = $sum;
+		return $cache[$cache_key];
+	}
+	public function ntreeDescendantsAndSelfWithCustomer($flush = false)
+	{
+		static $cache = array();
+		$cache_key = (int)$this->customer_id;
+		if (isset($cache[$cache_key]) && !$flush)
+			return $cache[$cache_key];
+		echo "ntreeDescendantsAndSelfWithCustomer: $cache_key <br>";
+
+		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
+
+		$cache[$cache_key] = $descendants;
+		return $cache[$cache_key];
+	}
+	public function btreeDescendantsAndSelfWithCustomer($flush = false)
+	{
+		static $cache = array();
+		$cache_key = (int)$this->customer_id;
+		if (isset($cache[$cache_key]) && !$flush)
+			return $cache[$cache_key];
+		// echo "btreeDescendantsAndSelfWithCustomer: $cache_key <br>";
+
+		$descendants = $this->btree->descendantsAndSelf()->with('customer')->get();
+
+		$cache[$cache_key] = $descendants;
+		return $cache[$cache_key];
 	}
 
-	public function profit_record_summary($from, $to)
+	public function profit_record_summary($from, $to, $flush = false)
 	{
+		static $cache = array();
+		$cache_key = (int)$this->customer_id.'_'.$from.'_'.$to;
+		if (isset($cache[$cache_key]) && !$flush)
+			return $cache[$cache_key];
+		// echo "profit_record_summary: $cache_key <br>";
+
 		$from = \DateTime::createFromFormat('Y-m-d H:i:s', $from.'-01 00:00:00');
 		$to = \DateTime::createFromFormat('Y-m-d H:i:s', $to.'-01 00:00:00');
 
@@ -123,7 +203,9 @@ class Customer extends Model
 				DB::raw('SUM(ntree_bonus)'),
 				DB::raw('SUM(btree_bonus)')
 			));
-		return $result[0];
+
+		$cache[$cache_key] = $result[0];
+		return $cache[$cache_key];
 	}
 
 	public function bonus_histories_between($from, $to)
@@ -225,11 +307,11 @@ class Customer extends Model
 		$used_bouns = 0;
 		foreach ($ancestors as $ancestor) {
 			if ($ancestor->id == $tree_id) {
-				$gain = $ancestor->customer->bonus_rate - $used_bouns;
+				$gain = $ancestor->customer->commission - $used_bouns;
 				return array($gain, $descendant->customer->profit_record_of_date($date)->consumption);
 			}
-			if ($ancestor->customer->bonus_rate > $used_bouns) {
-				$used_bouns = $ancestor->customer->bonus_rate;
+			if ($ancestor->customer->commission > $used_bouns) {
+				$used_bouns = $ancestor->customer->commission;
 			}
 		}
 	}
@@ -283,47 +365,47 @@ class Customer extends Model
 		];
 	}
 
-	public function passNtreeBonus($money)
-	{
-		$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get()->reverse();
-		$used_bouns = 0;
-		foreach ($ancestors as $ancestor) {
-			if ($ancestor->customer->bonus_rate > $used_bouns) {
-				$gain = $ancestor->customer->bonus_rate - $used_bouns;
-				$used_bouns = $ancestor->customer->bonus_rate;
-				$ancestor->customer->addProfit($money, $gain);
-			}
-		}
-	}
+	// public function passNtreeBonus($money)
+	// {
+	// 	$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get()->reverse();
+	// 	$used_bouns = 0;
+	// 	foreach ($ancestors as $ancestor) {
+	// 		if ($ancestor->customer->commission > $used_bouns) {
+	// 			$gain = $ancestor->customer->commission - $used_bouns;
+	// 			$used_bouns = $ancestor->customer->commission;
+	// 			$ancestor->customer->addProfit($money, $gain);
+	// 		}
+	// 	}
+	// }
 
-	public function addProfit($total, $rate)
-	{
-		$profit = $total * $rate / 100.0;
-		$this->pv_histories()->create(array(
-			'profit' => $profit,
-			'total' => $total,
-			'rate' => $rate,
-			));
-		$this->increment('pv', $profit);
+	// public function addProfit($total, $rate)
+	// {
+	// 	$profit = $total * $rate / 100.0;
+	// 	$this->pv_histories()->create(array(
+	// 		'profit' => $profit,
+	// 		'total' => $total,
+	// 		'rate' => $rate,
+	// 		));
+	// 	$this->increment('pv', $profit);
 
-		$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get();
-		foreach ($ancestors as $ancestor) {
-			$ancestor->customer->increment('total_pv', $profit);
-		}
-	}
+	// 	$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get();
+	// 	foreach ($ancestors as $ancestor) {
+	// 		$ancestor->customer->increment('total_pv', $profit);
+	// 	}
+	// }
 
-	public function passBtreeBonus($money)
-	{
-		$ancestors = $this->btree->ancestorsAndSelf()->with('customer')->get()->reverse();
-		$generation_count = 5;
-		foreach ($ancestors as $ancestor) {
-			$ancestor->customer->addProfit($money, 2);
+	// public function passBtreeBonus($money)
+	// {
+	// 	$ancestors = $this->btree->ancestorsAndSelf()->with('customer')->get()->reverse();
+	// 	$generation_count = 5;
+	// 	foreach ($ancestors as $ancestor) {
+	// 		$ancestor->customer->addProfit($money, 2);
 
-			$generation_count--;
-			if ($generation_count == 0)
-				break;
-		}
-	}
+	// 		$generation_count--;
+	// 		if ($generation_count == 0)
+	// 			break;
+	// 	}
+	// }
 
 	public function setPassword($password)
 	{

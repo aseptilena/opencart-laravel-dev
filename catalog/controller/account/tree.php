@@ -5,9 +5,11 @@ require_once(DIR_SYSTEM.'laravel/load.php');
 use App\Eloquent\Customer;
 use App\Eloquent\Ntree;
 use App\Eloquent\Btree;
+use App\Eloquent\Level;
 
 use App\View\ViewManager;
 use App\Service\BtreeService;
+use App\Service\UpgradeService;
 
 class ControllerAccountTree extends Controller
 {
@@ -17,12 +19,10 @@ class ControllerAccountTree extends Controller
 		$this->document->addScript('catalog/view/javascript/jquery/jstree/jstree.min.js');
 		$this->document->addStyle('catalog/view/javascript/jquery/jstree/themes/default/style.min.css');
 
-// 		$customer = Customer::find(68);
-// 		$customer->passNtreeBonus(100);
-// return;
-		// $customer = Customer::find($this->customer->getId());
 		$customer = Customer::find(2);
-		print_r($customer->profit_record_summary('2014-12', '2016-01'));
+		$service = new UpgradeService($customer);
+		$service->upgrade();
+echo 'end';
 		return;
 		// $customer->consume(100);
 
