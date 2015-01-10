@@ -4,13 +4,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Level extends Model
 {
-	public function getCondition()
-	{
-		return unserialize($this->condition);
-	}
+	protected $fillable = array('title', 'commission', 'generation', 'jump', 'barrier', 'downline', 'level_id', 'next');
+
 	public function pass($customer)
 	{
-		$condition = $this->getCondition();
+		if (!$this->jump) {
+			if ($customer->level->position + 1 != $this->position) {
+				return 'fail';
+			}
+		}
 		$ready_levels = explode(',', $customer->ready_levels);
 		if (count($ready_levels) > 0) {
 			$ready_levels = array_map('intval', $ready_levels);
@@ -19,21 +21,21 @@ class Level extends Model
 				$now->modify('first day of this month');
 				$last_month = $now->format('Y-m');
 				$consumption = $customer->team_consumption(array('start'=>$last_month, 'end'=>$last_month));
-				if ($consumption >= $condition['next']) {
+				if ($consumption >= $this->next) {
 					return 'pass';
 				}
 			}
 		}
 
-		if (isset($condition['barrier'])) {
+		if ($this->barrier) {
 			$total = $customer->team_consumption();
-			if ($total < $condition['barrier']) {
+			if ($total < $this->barrier) {
 				return 'fail';
 			}
 		}
-		if (isset($condition['downline']) && isset($condition['level'])) {
-			$downline = $condition['downline'];
-			$level = Level::find($condition['level']);
+		if ($this->downline && $this->level_id) {
+			$downline = $this->downline;
+			$level = Level::find($this->level_id);
 
 			$count = 0;
 			$descendants = $customer->ntree->descendantsAndSelf()->with('customer')->get();
@@ -49,7 +51,7 @@ class Level extends Model
 				return 'fail';
 			}
 			else {
-				if (isset($condition['next'])) {
+				if ($this->next) {
 					return 'next';
 				}
 			}
@@ -71,17 +73,16 @@ class Level extends Model
 	}
 	public function conditionDescription()
 	{
-		$condition = $this->getCondition();
 		$description = array();
-		if (isset($condition['barrier'])) {
-			$description[] = '個人及介紹會員消費滿'.$condition['barrier'].'元。';
+		if ($this->barrier) {
+			$description[] = '個人及介紹會員消費滿'.$this->barrier.'元。';
 		}
-		if (isset($condition['downline']) && isset($condition['level'])) {
-			$level = Level::find($condition['level']);
-			$string = '擁有'.$condition['downline'].'線'.$level->title;
+		if ($this->downline && $this->level_id) {
+			$level = Level::find($this->level_id);
+			$string = '擁有'.$this->downline.'線'.$level->title;
 
-			if (isset($condition['next'])) {
-				$next = $condition['next'];
+			if ($this->next) {
+				$next = $this->next;
 				$next /= 10000;
 				$string .= '，且隔月業績'.$next.'萬PV';
 			}
@@ -97,10 +98,9 @@ class Level extends Model
 	}
 	public function achieveDescription($customer)
 	{
-		$condition = $this->getCondition();
-		if (isset($condition['next'])) {
+		if ($this->next) {
 			$team_consumption = $customer->team_consumption();
-			$next = $condition['next'];
+			$next = $this->next;
 			if ($team_consumption >= $next) {
 				return '本月個人及介紹會員消費金額為'.number_format($team_consumption).'，目標已達成。';
 			}

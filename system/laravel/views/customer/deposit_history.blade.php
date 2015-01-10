@@ -1,13 +1,3 @@
-<div class="form-group">
-  <label class="col-sm-2 control-label">Bonus總金額</label>
-  <div class="col-sm-10">
-  </div>
-</div>
-<div class="form-group">
-  <label class="col-sm-2 control-label">已提取總金額</label>
-  <div class="col-sm-10">
-  </div>
-</div>
 <div class="table-responsive">
   <table class="table table-bordered table-hover">
     <thead>
@@ -26,9 +16,9 @@
       <td class="text-left">{{ $history->id }}</td>
       <td class="text-left">{{ $history->created_at }}</td>
       <td class="text-left">{{ $history->user->username }}</td>
-      <td class="text-right">{{ $history->detail }}</td>
+      <td class="text-left">{{{ $history->detail }}}</td>
       <td class="text-right">{{ $history->amount }}</td>
-      <td class="text-right">{{ $history->comment }}</td>
+      <td class="text-left">{{{ $history->comment }}}</td>
     </tr>
     @endforeach
     </tbody>
@@ -36,7 +26,7 @@
 </div>
 <fieldset>
   <legend>允許提款</legend>
-  <form class="form-horizontal">
+  <form id="draw-form" class="form-horizontal">
     <div class="form-group">
       <label class="col-sm-2 control-label" for="input-deposit-status">變更狀態</label>
       <div class="col-sm-10">
@@ -50,7 +40,13 @@
     <div class="form-group">
       <label class="col-sm-2 control-label" for="input-draw"><span data-toggle="tooltip" title="輸入點數">提撥金額</span></label>
       <div class="col-sm-10">
-        <input type="text" name="draw" value="" placeholder="金額" id="input-draw" class="form-control" />
+        <input type="text" name="draw_amount" value="" placeholder="金額" id="input-draw" class="form-control" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-sm-2 control-label" for="input-deposit-reply">給使用者訊息</label>
+      <div class="col-sm-10">
+        <textarea name="deposit_reply" rows="8" id="input-deposit-reply" class="form-control">{{{ $deposit->reply }}}</textarea>
       </div>
     </div>
     <div class="form-group">
@@ -60,7 +56,7 @@
       </div>
     </div>
     <div class="text-right">
-      <button type="button" id="button-draw" data-loading-text="送出中" class="btn btn-primary"><i class="fa fa-plus-circle"></i> 送出要求</button>
+      <button type="button" id="button-draw" data-loading-text="送出中" class="btn btn-primary" data-id="{{ $deposit->id }}"><i class="fa fa-plus-circle"></i> 送出要求</button>
     </div>
   </form>
 </fieldset>

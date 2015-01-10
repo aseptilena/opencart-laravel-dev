@@ -114,4 +114,21 @@ $this->model_catalog_hook->productSave($this->request->get, $this->request->post
       </add>
     </operation>
   </file>
+  <file path="admin/controller/common/menu.php">
+    <operation>
+      <search><![CDATA[$this->load->language('common/menu');]]></search>
+      <add position="after"><![CDATA[
+        $data['level'] = $this->url->link('sale/level', 'token=' . $this->session->data['token'], 'SSL');
+        ]]></add>
+      </operation>
+    </file>
+
+    <file path="admin/view/template/common/menu.tpl">
+      <operation>
+        <search><![CDATA[<li><a class="parent"><?php echo $text_voucher; ?></a>]]></search>
+        <add position="before"><![CDATA[
+          <li><a href="<?php echo $level; ?>">會員等級管理</a></li>
+        ]]></add>
+      </operation>
+    </file>
 </modification>

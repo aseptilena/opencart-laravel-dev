@@ -12,24 +12,26 @@ abstract class AbstractValidator {
 
 	protected $rules = array();
 
-	protected $lang = array();
+	protected $lang;
 
 	protected $errors = array();
 
-	protected $messages = array();
+	protected $messages;
 
-	protected $responses = array();
+	protected $responses;
 
 	protected function beforeExecute()
 	{
 	}
 
-	public function with(array $data, array $lang, array $custom = null)
+	public function with(array $data, array $lang = null, array $custom = null)
 	{
 		$this->data = $data;
-		if ($custom)
-			$lang = array_merge($lang, $custom);
-		$this->lang = $lang;
+		if ($lang) {
+			if ($custom)
+				$lang = array_merge($lang, $custom);
+			$this->lang = $lang;
+		}
 		return $this;
 	}
 
@@ -40,16 +42,20 @@ abstract class AbstractValidator {
 
 	public function getResponse()
 	{
-
 		if (empty($this->errors))
 			return array();
 
-		$responses = array();
-
-		foreach ($this->errors->getMessages() as $key => $value) {
-			$responses[$this->responses[$key]] = $value[0];
+		if (is_null($this->responses)) {
+			return $this->errors->all();
 		}
-		return $responses;
+		else {
+			$responses = array();
+
+			foreach ($this->errors->getMessages() as $key => $value) {
+				$responses[$this->responses[$key]] = $value[0];
+			}
+			return $responses;
+		}
 	}
 
 	public function passes()
@@ -73,21 +79,30 @@ abstract class AbstractValidator {
 
 		$this->beforeExecute();
 
-		$messages = array();
-		foreach ($this->messages as $key => $value) {
-			if (is_array($value)) {
-				$lang_value = $value[0];
-				unset($value[0]);
-				$messages[$key] = vsprintf($this->lang[$lang_value], $value);
+		if (is_null($this->messages)) {
+			$validator = $factory->make($this->data, $this->rules);
+		}
+		else {
+			if (is_null($this->lang)) {
+				$validator = $factory->make($this->data, $this->rules, $this->messages);
 			}
 			else {
-				$messages[$key] = $this->lang[$value];
+				$messages = array();
+				foreach ($this->messages as $key => $value) {
+					if (is_array($value)) {
+						$lang_value = $value[0];
+						unset($value[0]);
+						$messages[$key] = vsprintf($this->lang[$lang_value], $value);
+					}
+					else {
+						$messages[$key] = $this->lang[$value];
+					}
+				}
+				$validator = $factory->make($this->data, $this->rules, $messages);
 			}
 		}
 
-		$validator = $factory->make($this->data, $this->rules, $messages);
-
-		if($validator->fails())
+		if ($validator->fails())
 		{
 			$this->errors = $validator->messages();
 			return false;

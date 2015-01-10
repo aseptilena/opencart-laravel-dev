@@ -1,8 +1,10 @@
 <h1>Bonus History</h1>
 <div class="form-group required">
   <label class="col-sm-2 control-label" for="input-name">Bonus總金額</label>
-  <div class="col-sm-10" style="padding-top: 9px;">
-    {{ $bonus_sum }}
+  <div class="col-sm-10">
+    <span class="form-text">
+      {{ $bonus_sum }}
+    </span>
   </div>
 </div>
 <div id="profit" class="table-responsive">

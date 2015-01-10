@@ -41,6 +41,14 @@ class Customer extends Model
 	{
 		return $this->hasMany('App\Eloquent\Deposit');
 	}
+	public function upgradeHistories()
+	{
+		return $this->hasMany('App\Eloquent\UpgradeHistory');
+	}
+	public function customerTransactions()
+	{
+		return $this->hasMany('App\Eloquent\CustomerTransaction');
+	}
 
 	public function addBtreeChild($customer)
 	{
@@ -97,11 +105,11 @@ class Customer extends Model
 			return;
 		}
 		$level = $levels[0];
+		$this->upgradeHistories()->create([
+			'record' => '升級到「'.$level->title.'」'
+			]);
+
 		$this->level_id = $level->id;
-		if (!$this->lock_condition) {
-			$this->commission = $level->commission;
-			$this->generation = $level->generation;
-		}
 	}
 	public function setReadyLevels($levels)
 	{
@@ -145,7 +153,7 @@ class Customer extends Model
 			return substr($this->date_added, 0, 7).'-01 00:00:00';
 		}
 		else if ($format == 'datetime') {
-			return DateTime::createFromFormat('Y-m-d H:i:s', substr($this->date_added, 0, 7).'-01 00:00:00');
+			return \DateTime::createFromFormat('Y-m-d H:i:s', substr($this->date_added, 0, 7).'-01 00:00:00');
 		}
 	}
 
@@ -323,6 +331,12 @@ class Customer extends Model
 			$record = $this->profit_record_of_date($date);
 			$record->ntree_bonus = $total_bonus;
 			$record->save();
+			$this->customerTransactions()->create([
+				'order_id' => 0,
+				'profit_record_id' => $record->id,
+				'description' => '來自'.$date->format('Y年m月').'的消費紅利',
+				'amount' => $total_bonus
+			]);
 		}
 		return [
 			'total_bonus' => $total_bonus,
@@ -338,11 +352,13 @@ class Customer extends Model
 		$used_bouns = 0;
 		foreach ($ancestors as $ancestor) {
 			if ($ancestor->id == $tree_id) {
-				$gain = $ancestor->customer->commission - $used_bouns;
+				$gain = $ancestor->customer->level->commission - $used_bouns;
+				if ($gain < 0)
+					$gain = 0;
 				return array($gain, $descendant->customer->profit_record_of_date($date)->consumption);
 			}
-			if ($ancestor->customer->commission > $used_bouns) {
-				$used_bouns = $ancestor->customer->commission;
+			if ($ancestor->customer->level->commission > $used_bouns) {
+				$used_bouns = $ancestor->customer->level->commission;
 			}
 		}
 	}
@@ -360,10 +376,10 @@ class Customer extends Model
 			$service->doBtree();
 		}
 
-		$this->btree_depth = 3;
+		$generation = $this->level->generation;
 
 		$tree = $store ? $this->calculateTree : $this->btree;
-		$descendants = $tree->descendantsAndSelf()->limitDepth(2)->with('customer')->get();
+		$descendants = $tree->descendantsAndSelf()->limitDepth($generation)->with('customer')->get();
 		$total_bonus = 0;
 
 		$collect_history = array();
@@ -395,48 +411,6 @@ class Customer extends Model
 			'histories' => $collect_history,
 		];
 	}
-
-	// public function passNtreeBonus($money)
-	// {
-	// 	$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get()->reverse();
-	// 	$used_bouns = 0;
-	// 	foreach ($ancestors as $ancestor) {
-	// 		if ($ancestor->customer->commission > $used_bouns) {
-	// 			$gain = $ancestor->customer->commission - $used_bouns;
-	// 			$used_bouns = $ancestor->customer->commission;
-	// 			$ancestor->customer->addProfit($money, $gain);
-	// 		}
-	// 	}
-	// }
-
-	// public function addProfit($total, $rate)
-	// {
-	// 	$profit = $total * $rate / 100.0;
-	// 	$this->pv_histories()->create(array(
-	// 		'profit' => $profit,
-	// 		'total' => $total,
-	// 		'rate' => $rate,
-	// 		));
-	// 	$this->increment('pv', $profit);
-
-	// 	$ancestors = $this->ntree->ancestorsAndSelf()->with('customer')->get();
-	// 	foreach ($ancestors as $ancestor) {
-	// 		$ancestor->customer->increment('total_pv', $profit);
-	// 	}
-	// }
-
-	// public function passBtreeBonus($money)
-	// {
-	// 	$ancestors = $this->btree->ancestorsAndSelf()->with('customer')->get()->reverse();
-	// 	$generation_count = 5;
-	// 	foreach ($ancestors as $ancestor) {
-	// 		$ancestor->customer->addProfit($money, 2);
-
-	// 		$generation_count--;
-	// 		if ($generation_count == 0)
-	// 			break;
-	// 	}
-	// }
 
 	public function setPassword($password)
 	{

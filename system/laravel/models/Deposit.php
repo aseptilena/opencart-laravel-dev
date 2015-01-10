@@ -8,32 +8,36 @@ class Deposit extends Model
 	const STATUS_DENIED = 2;
 	const STATUS_ACCEPT = 3;
 
-	public function deposit_histories()
+	public function depositHistories()
 	{
 		return $this->hasMany('App\Eloquent\DepositHistory');
 	}
 
 	static public function all_status()
 	{
-		return array(
-			(object)[
-				'id' => self::STATUS_REQUEST,
-				'name' => '要求中',
-			],
-			(object)[
-				'id' => self::STATUS_DENIED,
-				'name' => '已拒絕',
-			],
-			(object)[
-				'id' => self::STATUS_ACCEPT,
-				'name' => '已完成',
-			],
-		);
+		$array = array(
+			self::STATUS_REQUEST,
+			self::STATUS_DENIED,
+			self::STATUS_ACCEPT,
+			);
+		$collects = array();
+		foreach ($array as $value) {
+			$collects[] = (object)[
+				'id' => $value,
+				'name' => Deposit::statusNameOf($value),
+			];
+		}
+		return $collects;
 	}
 
 	public function statusName()
 	{
-		switch ($this->status) {
+		return Deposit::statusNameOf($this->status);
+	}
+
+	static public function statusNameOf($status)
+	{
+		switch ($status) {
 			case self::STATUS_REQUEST:
 				return '要求中';
 				break;
@@ -41,16 +45,11 @@ class Deposit extends Model
 				return '已拒絕';
 				break;
 			case self::STATUS_ACCEPT:
-				return '已完成';
+				return '已撥款';
 				break;
 			default:
 				return '';
 				break;
 		}
 	}
-	public function remitName()
-	{
-		return $this->is_remit == 0 ? '未撥款' : '已撥款';
-	}
-
 }

@@ -4,9 +4,14 @@ require_once(DIR_SYSTEM.'laravel/load.php');
 
 use App\Eloquent\Customer;
 use App\Eloquent\Deposit;
+use App\Eloquent\DepositHistory;
+use App\Eloquent\User;
 use App\Eloquent\Ntree;
+use App\Eloquent\Level;
 use App\Eloquent\CalculateTree;
 use App\Service\TreeContentService;
+use App\Service\TreeHistoryService;
+use App\Service\RemitService;
 
 use App\View\ViewManager;
 
@@ -87,6 +92,9 @@ class ControllerSaleTree extends Controller {
 		$data['profit'] = $this->profitContent($filter);
 		$data['bonus'] = $this->bonusContent($filter);
 		$data['deposit'] = $this->depositContent();
+		$data['ntree_history'] = $this->ntreeHistory();
+		$data['btree_history'] = $this->btreeHistory();
+
 
 		$data['profit_dates'] = $this->customer->own_months_options();
 		$data['bonus_dates'] = $this->customer->own_months_options();
@@ -95,6 +103,7 @@ class ControllerSaleTree extends Controller {
 		$data['bonus_url'] = $this->url->link('sale/tree/ajaxBonus');
 		$data['deposit_history_url'] = $this->url->link('sale/tree/ajaxDepositHistory');
 		$data['draw_url'] = $this->url->link('sale/tree/ajaxDraw');
+		$data['info_url'] = $this->url->link('sale/tree/ajaxInfo');
 		$data['token'] = $this->session->data['token'];
 		$data['customer_id'] = $this->request->get['customer_id'];
 
@@ -119,13 +128,24 @@ class ControllerSaleTree extends Controller {
 		$content = new TreeContentService($this->customer, $filter, 'ntree');
 		return $content->getContent();
 	}
+	public function ntreeHistory() {
+		$content = new TreeHistoryService($this->customer, 'ntree');
+		return $content->getContent();
+	}
 	public function btreeContent($filter) {
 		$content = new TreeContentService($this->customer, $filter, 'btree');
+		return $content->getContent();
+	}
+	public function btreeHistory() {
+		$content = new TreeHistoryService($this->customer, 'btree');
 		return $content->getContent();
 	}
 	public function infoContent() {
 		$data = array();
 		$data['customer'] = $this->customer;
+		$levels = Level::all();
+		$data['levels'] = $levels;
+		$data['upgrade_histories'] = $this->customer->upgradeHistories;
 		$data['ready_levels'] = $this->customer->getReadyLevels();
 
 		$r = ViewManager::loadBlade('not-sure', 'customer/info.blade.php', $data);
@@ -169,9 +189,37 @@ class ControllerSaleTree extends Controller {
 		$deposit = Deposit::find($this->request->get['deposit_id']);
 		$data['deposit'] = $deposit;
 		$data['statuses'] = Deposit::all_status();
-		$data['deposit_histories'] = $deposit->deposit_histories()->get();
+		$data['deposit_histories'] = $deposit->depositHistories;
 		$r = ViewManager::loadBlade('not-sure', 'customer/deposit_history.blade.php', $data);
 		echo $r->render();
+		die();
+	}
+	public function ajaxDraw() {
+		$user = User::find($this->user->getId());
+
+		$service = new RemitService($user, $this->request->post);
+
+		$validate = $service->validate();
+		if (is_array($validate)) {
+			echo json_encode($validate);
+			die();
+		}
+		$service->remit();
+		echo json_encode(['success' => true]);
+		die();
+	}
+	public function ajaxInfo() {
+		$customer = Customer::find($this->request->post['customer_id']);
+		$level = Level::find($this->request->post['level_id']);
+		if ($customer->level_id != $level->id) {
+			$customer->level()->associate($level);
+			$customer->save(); 
+			
+			$customer->upgradeHistories()->create([
+				'record' => '管理員:'.$this->user->getId().'調整至「'.$level->title.'」'
+				]);
+		}
+		echo json_encode(['success' => '更新成功!']);
 		die();
 	}
 }

@@ -8,4 +8,9 @@ class User extends Model
 	protected $primaryKey = 'user_id';
 	const CREATED_AT = 'date_added';
 	const UPDATED_AT = 'date_modified';
+
+	public function cooperation()
+	{
+		return $this->belongsTo('App\Eloquent\Cooperation');
+	}
 }

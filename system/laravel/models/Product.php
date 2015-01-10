@@ -10,4 +10,9 @@ class Product extends Model
 	const UPDATED_AT = 'date_modified';
 
 	protected $fillable = array();
+
+	public function cooperation()
+	{
+		return $this->belongsTo('App\Eloquent\Cooperation');
+	}
 }

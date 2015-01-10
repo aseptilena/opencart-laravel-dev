@@ -608,3 +608,6 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 .jqvmap-label {
 	z-index: 999;
 }
+.form-text {
+  line-height: 35px;
+}
