@@ -28,9 +28,15 @@ class TreeContentService
 			);
 
 		if ($this->tree == 'ntree') {
+			if (!$this->customer->ntree) {
+				return 'No Ntree';
+			}
 			$descendants = $this->customer->ntreeDescendantsAndSelfWithCustomer();
 		}
 		else if ($this->tree == 'btree') {
+			if (!$this->customer->btree) {
+				return 'No Btree';
+			}
 			$descendants = $this->customer->btreeDescendantsAndSelfWithCustomer();
 		}
 

@@ -62,13 +62,19 @@
           </tr>
         </thead>
         <tbody>
-        @foreach ($ready_levels as $level)
-        <tr>
-          <td class="text-left">{{ $level->title }}</td>
-          <td class="text-left">{{ $level->conditionDescription() }}</td>
-          <td class="text-left">{{ $level->achieveDescription($customer) }}</td>
-        </tr>
-        @endforeach
+        @if (count($ready_levels) > 0)
+          @foreach ($ready_levels as $level)
+          <tr>
+            <td class="text-left">{{ $level->title }}</td>
+            <td class="text-left">{{ $level->conditionDescription() }}</td>
+            <td class="text-left">{{ $level->achieveDescription($customer) }}</td>
+          </tr>
+          @endforeach
+        @else
+          <tr>
+            <td class="text-center" colspan="3">沒有內容</td>
+          </tr>
+        @endif
         </tbody>
       </table>
     </div>
@@ -84,12 +90,45 @@
           </tr>
         </thead>
         <tbody>
-        @foreach ($upgrade_histories as $history)
-        <tr>
-          <td class="text-left">{{ $history->date() }}</td>
-          <td class="text-left">{{ $history->record }}</td>
-        </tr>
-        @endforeach
+        @if (count($upgrade_histories) > 0)
+          @foreach ($upgrade_histories as $history)
+          <tr>
+            <td class="text-left">{{ $history->month() }}</td>
+            <td class="text-left">{{ $history->record }}</td>
+          </tr>
+          @endforeach
+        @else
+          <tr>
+            <td class="text-center" colspan="2">沒有內容</td>
+          </tr>
+        @endif
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="form-group">
+    <label class="col-sm-2 control-label">紅利紀錄</label>
+    <div class="col-sm-10">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>時間</th>
+            <th>資料</th>
+          </tr>
+        </thead>
+        <tbody>
+        @if (count($profit_records) > 0)
+          @foreach ($profit_records as $record)
+          <tr>
+            <td class="text-left">{{ $record->month() }}</td>
+            <td class="text-left">{{ $record->bonus_record }}</td>
+          </tr>
+          @endforeach
+        @else
+          <tr>
+            <td class="text-center" colspan="2">沒有內容</td>
+          </tr>
+        @endif
         </tbody>
       </table>
     </div>

@@ -18,13 +18,19 @@
       </tr>
     </thead>
     <tbody>
-    @foreach ($profit_histories as $history)
-    <tr>
-      <td class="text-left">{{ $history->id }}</td>
-      <td class="text-right">{{ $history->amount }}</td>
-      <td class="text-right">{{ $history->created_at }}</td>
-    </tr>
-    @endforeach
+    @if (count($profit_histories) > 0)
+      @foreach ($profit_histories as $history)
+      <tr>
+        <td class="text-left">{{ $history->id }}</td>
+        <td class="text-right">{{ $history->amount }}</td>
+        <td class="text-right">{{ $history->created_at }}</td>
+      </tr>
+      @endforeach
+    @else
+      <tr>
+        <td class="text-center" colspan="3">沒有內容</td>
+      </tr>
+    @endif
     </tbody>
   </table>
 </div>

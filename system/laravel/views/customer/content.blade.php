@@ -14,8 +14,12 @@ color: green;
 
 <script type="text/javascript">
   $(function() {
-    $('#ntree').jstree();
-    $('#btree').jstree();
+    $('#ntree, #btree').each(function() {
+      if ($(this).find('li').length == 0) {
+        return;
+      }
+      $(this).jstree();
+    })
   })
 </script>
 
@@ -200,7 +204,7 @@ color: green;
         <div id="ntree-history">
           {{ $ntree_history }}
         </div>
-        <div id="ntree" class="form-group">
+        <div id="ntree" class="table-responsive">
           {{ $ntree }}
         </div>
       </div>
@@ -209,7 +213,7 @@ color: green;
         <div id="btree-history">
           {{ $btree_history }}
         </div>
-        <div id="btree" class="form-group">
+        <div id="btree" class="table-responsive">
           {{ $btree }}
         </div>
       </div>

@@ -16,4 +16,9 @@ class ProfitRecord extends Model
 		return $query->whereRaw('MONTH(date) = ? AND YEAR(date) = ?', array($date->format('m'), $date->format('Y')));
 	}
 
+	public function month()
+	{
+		$date = \DateTime::createFromFormat('Y-m-d', $this->date);
+		return $date->format('Y年m月');
+	}
 }

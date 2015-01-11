@@ -23,13 +23,16 @@ class BtreeService
 	{
 		DB::table('calculate_trees')->truncate();
 		$descendants = $this->customer->btree->descendantsAndSelf()->with('customer')->get();
+		$lft = $this->customer->btree->lft - 1;
+		$depth = $this->customer->btree->depth;
 		foreach ($descendants as $descendant) {
+			$parent_id = $descendant->customer_id == $this->customer->customer_id ? null : $descendant->parent_id;
 			DB::table('calculate_trees')->insert([
 				'id' => $descendant->id,
-				'parent_id' => $descendant->parent_id,
-				'lft' => $descendant->lft,
-				'rgt' => $descendant->rgt,
-				'depth' => $descendant->depth,
+				'parent_id' => $parent_id,
+				'lft' => $descendant->lft - $lft,
+				'rgt' => $descendant->rgt - $lft,
+				'depth' => $descendant->depth - $depth,
 				'customer_id' => $descendant->customer_id,
 			]);
 		}

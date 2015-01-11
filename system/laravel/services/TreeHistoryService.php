@@ -22,9 +22,15 @@ class TreeHistoryService
 
 		$collects = array();
 		if ($this->type == 'ntree') {
+			if (!$this->customer->ntree) {
+				return 'No Ntree History';
+			}
 			$descendants = $this->customer->ntreeDescendantsAndSelfWithCustomer();
 		}
 		else if ($this->type == 'btree') {
+			if (!$this->customer->btree) {
+				return 'No Btree History';
+			}
 			$descendants = $this->customer->btreeDescendantsAndSelfWithCustomer();
 		}
 		$total = count($descendants);

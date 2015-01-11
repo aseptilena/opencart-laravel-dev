@@ -146,6 +146,7 @@ class ControllerSaleTree extends Controller {
 		$levels = Level::all();
 		$data['levels'] = $levels;
 		$data['upgrade_histories'] = $this->customer->upgradeHistories;
+		$data['profit_records'] = $this->customer->profit_records()->get();
 		$data['ready_levels'] = $this->customer->getReadyLevels();
 
 		$r = ViewManager::loadBlade('not-sure', 'customer/info.blade.php', $data);
@@ -216,6 +217,7 @@ class ControllerSaleTree extends Controller {
 			$customer->save(); 
 			
 			$customer->upgradeHistories()->create([
+				'date' => new DateTime('NOW'),
 				'record' => '管理員:'.$this->user->getId().'調整至「'.$level->title.'」'
 				]);
 		}

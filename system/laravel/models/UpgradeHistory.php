@@ -4,11 +4,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class UpgradeHistory extends Model
 {
-	protected $fillable = array('record');
+	protected $fillable = array('date', 'record');
 	
-	public function date()
+	public function month()
 	{
-		$date = \DateTime::createFromFormat('Y-m-d H:i:s', $this->created_at);
+		$date = \DateTime::createFromFormat('Y-m-d', $this->date);
 		return $date->format('Y年m月');
 	}
 }

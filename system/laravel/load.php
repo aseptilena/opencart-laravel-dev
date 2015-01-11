@@ -14,9 +14,11 @@ require_once(DIR_SYSTEM.'laravel/core/AbstractValidator.php');
 require_once(DIR_SYSTEM.'laravel/core/ViewManager.php');
 
 
+foreach (glob(DIR_SYSTEM.'laravel/lib/'.'*.php') as $filename) require_once $filename;
 foreach (glob(DIR_SYSTEM.'laravel/models/'.'*.php') as $filename) require_once $filename;
 foreach (glob(DIR_SYSTEM.'laravel/validators/'.'*.php') as $filename) require_once $filename;
 foreach (glob(DIR_SYSTEM.'laravel/services/'.'*.php') as $filename) require_once $filename;
+foreach (glob(DIR_SYSTEM.'laravel/tasks/'.'*.php') as $filename) require_once $filename;
 
 use App\Eloquent\Encapsulator;
 

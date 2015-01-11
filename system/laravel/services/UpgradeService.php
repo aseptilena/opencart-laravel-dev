@@ -8,9 +8,12 @@ class UpgradeService
 {
 	protected $customer;
 
-	public function __construct($customer)
+	protected $date;
+
+	public function __construct($customer, $date)
 	{
 		$this->customer = $customer;
+		$this->date = $date;
 	}
 
 	public function upgrade()
@@ -28,8 +31,7 @@ class UpgradeService
 				$ready_levels[] = $level;
 			}
 		}
-
-		$customer->setPassLevels($pass_levels);
+		$customer->setPassLevels($pass_levels, $this->date);
 		$customer->setReadyLevels($ready_levels);
 		$customer->save();
 	}

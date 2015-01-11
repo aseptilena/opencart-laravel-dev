@@ -20,18 +20,24 @@
       </tr>
     </thead>
     <tbody>
-    @foreach ($deposits as $deposit)
-    <tr>
-      <td class="text-left">{{ $deposit->id }}</td>
-      <td class="text-left">{{ $deposit->created_at }}</td>
-      <td class="text-left">{{ $deposit->request_amount }}</td>
-      <td class="text-right">{{ $deposit->statusName() }}</td>
-      <td class="text-right">{{ $deposit->remit_amount }}</td>
-      <td class="text-right">{{ $deposit->comment }}</td>
-      <td class="text-right">{{ $deposit->reply }}</td>
-      <td class="text-right"><a data-toggle="tooltip" title="View" class="btn btn-info" data-id="{{ $deposit->id }}" onclick="deposit_view(this);"><i class="fa fa-eye"></i></a></td>
-    </tr>
-    @endforeach
+    @if (count($deposits) > 0)
+      @foreach ($deposits as $deposit)
+      <tr>
+        <td class="text-left">{{ $deposit->id }}</td>
+        <td class="text-left">{{ $deposit->created_at }}</td>
+        <td class="text-left">{{ $deposit->request_amount }}</td>
+        <td class="text-right">{{ $deposit->statusName() }}</td>
+        <td class="text-right">{{ $deposit->remit_amount }}</td>
+        <td class="text-right">{{ $deposit->comment }}</td>
+        <td class="text-right">{{ $deposit->reply }}</td>
+        <td class="text-right"><a data-toggle="tooltip" title="View" class="btn btn-info" data-id="{{ $deposit->id }}" onclick="deposit_view(this);"><i class="fa fa-eye"></i></a></td>
+      </tr>
+      @endforeach
+    @else
+      <tr>
+        <td class="text-center" colspan="8">沒有內容</td>
+      </tr>
+    @endif
     </tbody>
   </table>
 </div>

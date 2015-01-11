@@ -49,6 +49,10 @@ class Customer extends Model
 	{
 		return $this->hasMany('App\Eloquent\CustomerTransaction');
 	}
+	public function grantHistories()
+	{
+		return $this->hasMany('App\Eloquent\GrantHistory');
+	}
 
 	public function addBtreeChild($customer)
 	{
@@ -99,15 +103,20 @@ class Customer extends Model
 	{
 		return $this->hasMany('App\Eloquent\BonusHistory');
 	}
-	public function setPassLevels($levels)
+	public function setPassLevels($levels, $date)
 	{
 		if (count($levels) == 0) {
+			$this->upgradeHistories()->create([
+				'date' => $date,
+				'record' => '本月無升級'
+			]);
 			return;
 		}
 		$level = $levels[0];
 		$this->upgradeHistories()->create([
+			'date' => $date,
 			'record' => '升級到「'.$level->title.'」'
-			]);
+		]);
 
 		$this->level_id = $level->id;
 	}
@@ -121,6 +130,9 @@ class Customer extends Model
 	}
 	public function getReadyLevels()
 	{
+		if ($this->ready_levels == '') {
+			return array();
+		}
 		$ready_levels = explode(',', $this->ready_levels);
 		$collects = array();
 		foreach ($ready_levels as $level) {
@@ -304,46 +316,6 @@ class Customer extends Model
 		$this->current_profit_record()->increment('consumption', $amount);
 	}
 
-	public function grantNtreeBonus($date, $store = false)
-	{
-		$descendants = $this->ntree->descendantsAndSelf()->with('customer')->get();
-		$total_bonus = 0;
-
-		$collect_history = array();
-		foreach ($descendants as $descendant) {
-			list($gain, $consumption) = $this->calculateNtreeBonus($descendant, $date);
-			$bonus = $gain / 100 * $consumption;
-			$info = [
-				'source_id' => $descendant->customer->customer_id,
-				'bonus' => $bonus,
-				'rate' => $gain,
-				'amount' => $consumption,
-				'date' => $date,
-				'type' => BonusHistory::NTREE_CONSUMPTION
-			];
-			if ($store) {
-				$this->bonus_histories()->create($info);
-			}
-			$collect_history[] = $info;
-			$total_bonus += $bonus;
-		}
-		if ($store) {
-			$record = $this->profit_record_of_date($date);
-			$record->ntree_bonus = $total_bonus;
-			$record->save();
-			$this->customerTransactions()->create([
-				'order_id' => 0,
-				'profit_record_id' => $record->id,
-				'description' => '來自'.$date->format('Y年m月').'的消費紅利',
-				'amount' => $total_bonus
-			]);
-		}
-		return [
-			'total_bonus' => $total_bonus,
-			'histories' => $collect_history,
-		];
-	}
-
 	public function calculateNtreeBonus($descendant, $date)
 	{
 		$tree_id = $this->ntree->id;
@@ -361,55 +333,6 @@ class Customer extends Model
 				$used_bouns = $ancestor->customer->level->commission;
 			}
 		}
-	}
-
-
-	public function grantBtreeBonus($date, $store = false)
-	{
-		if ($this->accumulated_consumption() < 1000) {
-			return;
-		}
-
-		if ($store) {
-			$service = new BtreeService($this);
-			$service->bulidBtree();
-			$service->doBtree();
-		}
-
-		$generation = $this->level->generation;
-
-		$tree = $store ? $this->calculateTree : $this->btree;
-		$descendants = $tree->descendantsAndSelf()->limitDepth($generation)->with('customer')->get();
-		$total_bonus = 0;
-
-		$collect_history = array();
-		foreach ($descendants as $descendant) {
-			$consumption = $descendant->customer->accumulated_consumption();
-			$gain = 2;
-			$bonus = $gain / 100 * $consumption;
-			$info = [
-				'source_id' => $descendant->customer->customer_id,
-				'bonus' => $bonus,
-				'rate' => $gain,
-				'amount' => $consumption,
-				'date' => $date,
-				'type' => BonusHistory::BTREE_CONSUMPTION
-			];
-			if ($store) {
-				$this->bonus_histories()->create($info);
-			}
-			$collect_history[] = $info;
-			$total_bonus += $bonus;
-		}
-		if ($store) {
-			$record = $this->profit_record_of_date($date);
-			$record->btree_bonus = $total_bonus;
-			$record->save();
-		}
-		return [
-			'total_bonus' => $total_bonus,
-			'histories' => $collect_history,
-		];
 	}
 
 	public function setPassword($password)
