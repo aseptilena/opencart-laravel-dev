@@ -118,17 +118,23 @@ $this->model_catalog_hook->productSave($this->request->get, $this->request->post
     <operation>
       <search><![CDATA[$this->load->language('common/menu');]]></search>
       <add position="after"><![CDATA[
-        $data['level'] = $this->url->link('sale/level', 'token=' . $this->session->data['token'], 'SSL');
-        ]]></add>
-      </operation>
-    </file>
-
-    <file path="admin/view/template/common/menu.tpl">
-      <operation>
-        <search><![CDATA[<li><a class="parent"><?php echo $text_voucher; ?></a>]]></search>
-        <add position="before"><![CDATA[
-          <li><a href="<?php echo $level; ?>">會員等級管理</a></li>
-        ]]></add>
-      </operation>
-    </file>
+        $data['sale_level'] = $this->url->link('sale/level', 'token=' . $this->session->data['token'], 'SSL');
+        $data['report_bonus'] = $this->url->link('report/bonus', 'token=' . $this->session->data['token'], 'SSL');
+      ]]></add>
+    </operation>
+  </file>
+  <file path="admin/view/template/common/menu.tpl">
+    <operation>
+      <search><![CDATA[<li><a class="parent"><?php echo $text_voucher; ?></a>]]></search>
+      <add position="before"><![CDATA[
+        <li><a href="<?php echo $sale_level; ?>">會員等級管理</a></li>
+      ]]></add>
+    </operation>
+    <operation>
+      <search><![CDATA[<li><a href="<?php echo $report_sale_coupon; ?>"><?php echo $text_report_sale_coupon; ?></a></li>]]></search>
+      <add position="after"><![CDATA[
+        <li><a href="<?php echo $report_bonus; ?>">紅利會員數據</a></li>
+      ]]></add>
+    </operation>
+  </file>
 </modification>
