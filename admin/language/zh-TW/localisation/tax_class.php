@@ -1,28 +1,33 @@
 <?php
 // Heading
-$_['heading_title']     = '稅務種類(Tax Class)';
+$_['heading_title']     = '商品稅類';
 
 // Text
-$_['text_shipping']     = '配送地址(Shipping Address)';
-$_['text_payment']      = '付款地址(Payment Address)';
-$_['text_store']        = '商店地址(Store Address)';
-$_['text_success']      = '已成功修改稅務種類設置';
+$_['text_success']      = '成功： 您已成功更新稅類！';
+$_['text_list']         = '商品稅類清單';
+$_['text_add']          = '添加商品稅類';
+$_['text_edit']         = '編輯商品稅類';
+$_['text_shipping']     = '配送地址';
+$_['text_payment']      = '支付地址';
+$_['text_store']        = '商店地址';
 
 // Column
-$_['column_title']      = '名稱(Tax Class Title)';
-$_['column_action']     = '動作(Action)';
+$_['column_title']      = '稅類標題';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_title']       = '稅務種類名稱(Tax Class Title)';
-$_['entry_description'] = '簡述(Description)';
-$_['entry_rate']        = '稅率百分比(Tax Rate)(例如5%則填入5)';
-$_['entry_based']       = '適用(Based On)';
-$_['entry_geo_zone']    = '所屬區域群組(Geo Zone)';
-$_['entry_priority']    = '優先順序(Priority)';
+$_['entry_title']       = '稅類標題：';
+$_['entry_description'] = '描述：';
+$_['entry_rate']        = '稅率類別：';
+$_['entry_based']       = '基於：';
+$_['entry_geo_zone']    = '區域：';
+$_['entry_priority']    = '優先次序：';
 
 // Error
-$_['error_permission']  = '您沒有權限更改稅務種類';
-$_['error_title']       = '種類名稱必須在3至32個字元之間';
-$_['error_description'] = '簡述必須在3至255個字元之間';
-$_['error_product']     = '不能刪除，因為有 %s 件商品使用此稅率';
-?>
+$_['error_permission']  = '警告：您沒有權限更改稅類！';
+$_['error_title']       = '稅類標題必須在3至32個字符之間！';
+$_['error_description'] = '描述長度必須在3至255個字符之間！';
+$_['error_product']     = '警告：該稅類不能被刪除，因為它和 %s 綁定！';
+$_['error_priority']    = '稅率優先次序必須要填上的！';
+$_['error_rate']        = '稅率是必須要填上的！';
+

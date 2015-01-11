@@ -1,19 +1,21 @@
 <?php
 // Heading
-$_['heading_title']    = '退換貨原因(Return Reason)';
+$_['heading_title']    = '退換原因';
 
 // Text
-$_['text_success']     = '已成功修改退換貨原因';
+$_['text_success']     = '成功：您已修改退換原因！';
+$_['text_list']        = '退換原因清單';
+$_['text_add']         = '添加退換原因';
+$_['text_edit']        = '編輯退換原因';
 
 // Column
-$_['column_name']      = '原因(Return Reason Name)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']      = '退換原因名稱';
+$_['column_action']    = '管理';
 
 // Entry
-$_['entry_name']       = '原因(Return Reason Name)';
+$_['entry_name']       = '退換原因名稱：';
 
 // Error
-$_['error_permission'] = '您沒有權限修改退換貨原因';
-$_['error_name']       = '原因必須在3至32個字元之間';
-$_['error_return']     = '不能刪除，因為有 %s 件退換貨案件正選用此原因';
-?>
+$_['error_permission'] = '警告：您沒有管理退換原因的權限！';
+$_['error_name']       = '退換原因名必須在3至32個字符之間！';
+$_['error_return']     = '警告：該退換原因不能刪除，因為被綁定到 %s 退換商品！';

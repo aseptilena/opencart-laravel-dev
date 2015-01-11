@@ -1,45 +1,45 @@
 <?php
 
-$_['heading_title'] = '分期設定(Profiles)';
+$_['heading_title'] = '循環支付';
 
-$_['button_insert'] = '新增(Insert)';
-$_['button_copy'] = '複製(Copy)';
-$_['button_delete'] = '刪除(Delete)';
-$_['button_remove'] = '移除(Remove)';
+$_['button_insert'] = '插入';
+$_['button_copy'] = '複制';
+$_['button_delete'] = '刪除';
+$_['button_remove'] = '移除';
 
-$_['text_no_results'] = '沒有結果(No Results)';
-$_['text_remove'] = '移除(Remove)';
-$_['text_edit'] = '編輯(Edit)';
-$_['text_enabled'] = '啟用(Enabled)';
-$_['text_disabled'] = '停用(Disabled)';
-$_['text_success'] = '已成功新增分期種類(Profile was successfully added)';
+$_['text_no_results'] = '無相關記錄';
+$_['text_remove'] = '移除';
+$_['text_edit'] = '編輯';
+$_['text_enabled'] = '啟用';
+$_['text_disabled'] = '停用';
+$_['text_success'] = '成功添加循環支付';
 
-$_['text_day'] = '天(Day)';
-$_['text_week'] = '週(Week)';
-$_['text_semi_month'] = '半個月(Semi Month)';
-$_['text_month'] = '月(Month)';
-$_['text_year'] = '年(Year)';
+$_['text_day'] = '天';
+$_['text_week'] = '周';
+$_['text_semi_month'] = '半月';
+$_['text_month'] = '月';
+$_['text_year'] = '年';
 
-$_['entry_name'] = '名稱(Name):';
-$_['entry_sort_order'] = '排序(Sort Order):';
-$_['entry_price'] = '價格(Price):';
-$_['entry_duration'] = '期數(Duration):';
-$_['entry_status'] = '狀態(Status):';
-$_['entry_cycle'] = '單位的數量(Cycle):';
-$_['entry_frequency'] = '單位(Frequency):';
-$_['entry_trial_price'] = '試用價格(Trial price):';
-$_['entry_trial_duration'] = '試用期數(Trial duration):';
-$_['entry_trial_status'] = '試用狀態(Trial status):';
-$_['entry_trial_cycle'] = '試用單位的數量(Trial cycle):';
-$_['entry_trial_frequency'] = '試用單位(Trial frequency):';
+$_['entry_name'] = '名稱︰';
+$_['entry_sort_order'] = '排序順序︰';
+$_['entry_price'] = '循環金額︰';
+$_['entry_duration'] = '循環期限︰';
+$_['entry_status'] = '循環狀態︰';
+$_['entry_cycle'] = '循環周期︰';
+$_['entry_frequency'] = '循環頻率︰';
+$_['entry_trial_price'] = '測試循環金額︰';
+$_['entry_trial_duration'] = '測試循環期限︰';
+$_['entry_trial_status'] = '測試循環狀態︰';
+$_['entry_trial_cycle'] = '測試循環周期︰';
+$_['entry_trial_frequency'] = '測試循環頻率︰';
 
-$_['column_name'] = '名稱(Name)';
-$_['column_sort_order'] = '排序(Sort Order)';
-$_['column_action'] = '動作(Action)';
+$_['column_name'] = '名稱';
+$_['column_sort_order'] = '排序順序︰';
+$_['column_action'] = '管理';
 
-$_['error_warning']          = '發生錯誤,請再確認';
-$_['error_permission']       = '您沒有權限更改分期設定的設置';
-$_['error_name']                 = '名稱長度必須在3至255個字元之間';
+$_['error_warning'] = '警告︰請仔細檢查表單的錯誤！';
+$_['error_permission'] = '警告︰您沒有權限修改配置文件！';
+$_['error_name'] = '配置文件名稱必須大於3小於255個字符！';
 
-$_['text_recurring_help']    = '例：如果要達成分六期，每兩個月繳款一次，一次繳納500元，可以這樣設定：<br />價格填500，期數填6，單位的數量填2，單位選月。另外如果期數填0則代表持續扣款直到取消。<br />Recurring amounts are calculated by the frequency and cycles. <br />For example if you use a frequency of "week" and a cycle of "2", then the user will be billed every 2 weeks. <br />The duration is the number of times the user will make a payment, set this to 0 if you want payments until they are cancelled.';
+$_['text_recurring_help']    = '循環支付的金額計算頻率和周期。 <br/>例如，如果你使用“星期”做為頻率和周期為“2”，那麼該用戶將被每2周收取一次。 <br/>循環期限是用戶進行付款的次數，設置為0取消循環期限。';
 ?>

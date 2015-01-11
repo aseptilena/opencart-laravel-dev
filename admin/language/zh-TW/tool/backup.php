@@ -1,17 +1,18 @@
 <?php
 // Heading
-$_['heading_title']    = '備份/ 還原(Backup / Restore)';
+$_['heading_title']    = '備份 / 恢復';
 
 // Text
-$_['text_backup']      = '下載備份檔(Download Backup)';
-$_['text_success']     = '已成功更新資料';
+$_['text_backup']      = '下載備份';
+$_['text_success']     = '成功：您已成功導入數據庫！';
+$_['text_list']        = '上傳清單';
 
 // Entry
-$_['entry_restore']    = '還原(Restore Backup)';
-$_['entry_backup']     = '備份(Backup)';
+$_['entry_restore']    = '恢復備份：';
+$_['entry_backup']     = '備份：';
 
 // Error
-$_['error_permission'] = '您沒有權限備份或還原資料';
-$_['error_backup']     = '您尚未選擇要備份的資料!';
-$_['error_empty']      = '上傳資料錯誤';
-?>
+$_['error_permission'] = '警告：您沒有權限修改備份！';
+$_['error_backup']     = '警告：您尚未選擇單元格！';
+$_['error_empty']      = '警告：您上傳的是空文件！';
+

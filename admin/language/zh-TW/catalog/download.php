@@ -1,30 +1,39 @@
-<?php
+﻿<?php
 // Heading
-$_['heading_title']    = '下載(Downloads)';
+$_['heading_title']    = '下載設置';
 
 // Text
-$_['text_success']     = '您已成功更新';
+$_['text_success']     = '成功： 您已成功更新下載設置！';
+$_['text_list']         = '下載清單';
+$_['text_add']          = '添加下載';
+$_['text_edit']         = '編輯下載';
+$_['text_upload']      = '文件已經成功上傳！';
 
 // Column
-$_['column_name']      = '下載項目(Download Name)';
-$_['column_remaining'] = '可下載次數(Total Downloads Allowed)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']      = '下載名稱';
+$_['column_date_added'] = '添加日期';
+$_['column_remaining'] = '剩余下載次數';
+$_['column_action']    = '管理';
 
 // Entry
-$_['entry_name']       = '項目名稱(Download Name)';
-$_['entry_filename']   = '檔案名稱(Filename)';
-$_['entry_mask']       = '別名(Mask)';
-$_['entry_remaining']  = '可下載次數(Total Downloads Allowed)';
-$_['entry_update']     = '提供之前購買過的會員免費升級<br /><span class="help">這是原商品的升級版,提供之前購買過的會員免費在下載區下載.</span>';
+$_['entry_name']       = '下載名稱：';
+$_['entry_filename']   = '文件名稱：';
+$_['entry_mask']       = 'Mask:';
+$_['entry_remaining']  = '剩余下載次數：';
+$_['entry_update']     = '發送給老客戶：';
+
+// Help
+$_['help_filename']     = '您可以通過上傳按鈕上傳或使用FTP上傳。';
+$_['help_mask']         = '更新以前曾訂購過此產品者。';
+
 
 // Error
-$_['error_permission'] = '您沒有權限更改下載設置';
-$_['error_name']       = '項目名稱必須在3至64個字元之間';
-$_['error_filename']   = '檔案名稱必須在3到128個字元之間';
-$_['error_filetype']   = '無效的檔案類型';
-$_['error_product']    = '不能被刪除，因為目前尚有%s 件商品關聯此下載';
-$_['error_upload']     = '尚未上傳!';
-$_['error_exists']     = '檔案不存在!';
-$_['error_mask']       = '別名必須在3至128個字元之間!';
+$_['error_permission'] = '警告：您沒有權限更改下載設置！';
+$_['error_name']       = '名稱必須在3至64個字符之間！';
+$_['error_upload']     = '請上傳文件';
+$_['error_filename']   = '文件名稱必須在3到128個字符之間！';
+$_['error_exists']     = '文件不存在！';
+$_['error_mask']       = 'Mask必須在3到128個字符之間！';
+$_['error_filetype']   = '無效的文件類型！';
+$_['error_product']    = '警告：該下載不能被刪除, 因為它與 %s 綁定！';
 
-?>

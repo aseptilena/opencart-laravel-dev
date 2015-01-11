@@ -1,7 +1,7 @@
 <?php
 // Entry
-$_['text_title'] = '信用卡 / 金融卡 (Google Checkout)';
+$_['text_title'] = '信用卡 / 借記卡 (Google Checkout)';
 
 // Error
-$_['error_shipping'] = '請選擇配送方式';
+$_['error_shipping'] = '警告：配送方式必選！';
 ?>

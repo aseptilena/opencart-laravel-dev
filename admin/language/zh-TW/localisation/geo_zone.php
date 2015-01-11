@@ -1,24 +1,27 @@
 <?php
 // Heading
-$_['heading_title']      = '區域群組(Geo Zones)';
+$_['heading_title']      = '區域群組';
 
 // Text
-$_['text_success']       = '已成功修改區域群組';
+$_['text_success']       = '成功： 您已成功更新區域群組！';
+$_['text_list']          = '區域群組清單';
+$_['text_add']           = '添加區域群組';
+$_['text_edit']          = '編輯區域群組';
 
 // Column
-$_['column_name']        = '名稱(Geo Zone Name)';
-$_['column_description'] = '簡述(Description)';
-$_['column_action']      = '動作(Action)';
+$_['column_name']        = '區域群組名稱';
+$_['column_description'] = '描述';
+$_['column_action']      = '管理';
 
 // Entry
-$_['entry_name']         = '區域群組名稱(Geo Zone Name)';
-$_['entry_description']  = '簡述(Description)';
-$_['entry_country']      = '所屬國家(Country)';
-$_['entry_zone']         = '區域(Zone)';
+$_['entry_name']         = '區域群組名稱：';
+$_['entry_description']  = '描述：';
+$_['entry_country']      = '國家：';
+$_['entry_zone']         = '區域/省/市：';
 
 // Error
-$_['error_permission']   = '你沒有權限更改區域群組';
-$_['error_name']         = '名稱必須在3至32個字元之間';
-$_['error_description']  = '簡述必須在3到255個字元之間';
-$_['error_tax_rate']     = '該區域群組不能被刪除, 因為它已經綁定了一個以上的稅類';
-?>
+$_['error_permission']   = '警告：您沒有權限更改區域群組！';
+$_['error_name']         = '區域群組名稱必須在3至32個字符之間！';
+$_['error_description']  = '描述名稱必須在3到255個字符之間！';
+$_['error_tax_rate']     = '警告：該區域群組不能被刪除，因為它和一個或多個稅類綁定！';
+

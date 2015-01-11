@@ -1,18 +1,19 @@
 <?php 
 // Heading
-$_['heading_title']     = '按件計費(Per Item)';
+$_['heading_title']    = '按件計算運費';
 
 // Text
-$_['text_shipping']    = '配送(Shipping)';
-$_['text_success']     = '已成功修改按件計費的設置';
+$_['text_shipping']    = '配送管理';
+$_['text_success']     = '成功： 您已成功更新按件計算運費！';
+$_['text_edit']        = '編輯按件計算運費';
 
 // Entry
-$_['entry_cost']       = '費用(Cost)';
-$_['entry_tax_class']        = '稅務種類(Tax Class)';
-$_['entry_geo_zone']   = '適用地區(Geo Zone)';
-$_['entry_status']     = '狀態(Status)';
-$_['entry_sort_order'] = '排序(Sort Order)';
+$_['entry_cost']       = '費用：';
+$_['entry_tax_class']  = '稅類：';
+$_['entry_geo_zone']   = '區域群組：';
+$_['entry_status']     = '狀態：';
+$_['entry_sort_order'] = '排序：';
 
 // Error
-$_['error_permission'] = '您沒有權限更改按件計費的設置';
-?>
+$_['error_permission'] = '警告：您沒有權限更改按件計算運費！';
+

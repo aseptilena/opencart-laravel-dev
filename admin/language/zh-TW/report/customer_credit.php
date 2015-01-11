@@ -1,16 +1,18 @@
 <?php
 // Heading
-$_['heading_title']         = '會員信用帳戶報表(Customer Credit Report)';
+$_['heading_title']         = '客戶信用統計';
 
 // Column
-$_['column_customer']       = '會員名稱(Customer Name)';
-$_['column_email']          = '電子郵件(E-Mail)';
-$_['column_customer_group'] = '會員群組(Customer Group)';
-$_['column_status']     = '狀態(Status)';
-$_['column_total']      = '總計(Total)';
-$_['column_action']     = '動作(Action)';
+$_['text_list']             = '客戶信用清單';
+$_['column_customer']       = '客戶名稱';
+$_['column_email']          = 'E-Mail';
+$_['column_customer_group'] = '用戶組';
+$_['column_status']         = '狀態';
+$_['column_credit']         = '客戶信用';
+$_['column_orders']         = '訂單數量';
+$_['column_total']          = '金額總計';
+$_['column_action']         = '管理';
 
 // Entry
-$_['entry_date_start']  = '開始日期(Date Start)';
-$_['entry_date_end']    = '結束日期(Date End)';
-?>
+$_['entry_date_start']      = '開始日期：';
+$_['entry_date_end']        = '結束日期：';

@@ -1,7 +1,7 @@
 <?php
 // Heading 
-$_['heading_title'] = '特賣商品';
+$_['heading_title']  = '特價商品';
 
 // Text
-$_['text_reviews']  = '共 %s 則評論'; 
-?>
+$_['text_reviews']     = '%s / 5 星！';
+$_['text_tax']      = '稅前：';

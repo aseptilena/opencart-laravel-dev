@@ -1,33 +1,46 @@
-<?php
+﻿<?php
 // Heading
-$_['heading_title']     	= '商店訊息(Information)';
+$_['heading_title']     = '文章管理';
 
 // Text
-$_['text_success']      	= '已成功修改文章內容';
-$_['text_default']      	= '預設(Default)';
+$_['text_success']      = '成功： 您已成功更新信息設置！';
+$_['text_list']              = '文章清單';
+$_['text_add']               = '添加文章';
+$_['text_edit']              = '編輯文章';
+$_['text_default']      = '默認';
 
 // Column
-$_['column_title']      	= '文章標題(Information Title)';
-$_['column_sort_order'] 	= '排序(Sort Order)';
-$_['column_action']     	= '動作(Action)';
+$_['column_title']      = '文章標題';
+$_['column_sort_order'] = '排序';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_title']       	= '文章標題(Information Title)';
-$_['entry_description'] 	= '文章內容(Description)';
-$_['entry_store']       	= '商店(Stores)';
-$_['entry_keyword']     	= '文章簡短網址(SEO Keyword)';
-$_['entry_bottom']      = '頁底是否顯示(Bottom)<br/><span class="help">是否顯示在頁底(footer位置).</span>';
-$_['entry_status']          = '開啟或關閉(Information Status)';
-$_['entry_sort_order']  	= '排序(Sort Order)';
-$_['entry_layout']      = '版面覆蓋(Layout Override)';
+$_['entry_title']       = '文章標題：';
+$_['entry_description'] = '文章內容：';
+$_['entry_store']       = '網店：';
+$_['entry_meta_title'] 	     = 'Meta標簽標題：';
+$_['entry_meta_keyword'] 	 = 'Meta標簽關鍵詞：';
+$_['entry_meta_description'] = 'Meta標簽說明：';
+$_['entry_keyword']     = 'SEO關鍵詞：';
+$_['entry_bottom']      = '頁面底部：';
+$_['entry_status']      = '文章狀態：';
+$_['entry_sort_order']  = '頁面排序：';
+$_['entry_layout']      = '布局覆蓋：';
+
+// Help
+$_['help_keyword']           = '請確保關鍵詞的維一性。請不要使用空格，使用『-』來替換空格。';
+$_['help_bottom']            = '在頁面底部顯示。';
 
 // Error 
-$_['error_warning']     = '發生錯誤,請再確認';
-$_['error_permission']  = '您沒有權限更改設置';
-$_['error_title']       = '文章標題必須在3至64個字元之間';
-$_['error_description'] = '文章內容必須大於3個字元';
-$_['error_account']     = '不能被刪除，因為它是目前預設的商店帳戶條款';
-$_['error_checkout']    = '不能被刪除，因為它是目前預設的商店結帳條款';
-$_['error_affiliate']   = '不能被刪除，因為已被指定為推薦會員同意條款使用';
-$_['error_store']       = '不能被刪除，因為目前尚有%s 間商店使用此訊息';
-?>
+$_['error_warning']     = '警告：相關數據未鍵入！';
+$_['error_permission']  = '警告：您沒有權限更改信息設置！';
+$_['error_title']       = '文章標題必須在3至64個字符之間！';
+$_['error_description'] = '文章內容長度不得少於3個字符！';
+$_['error_meta_title']       = 'Meta標題必須在3至255個字符之間！';
+$_['error_account']     = '警告：此信息頁不能被刪除，因為它是目前為默認的網店賬戶條款！';
+$_['error_checkout']    = '警告：此信息頁不能被刪除，因為它是目前為默認的網店結賬條款！';
+$_['error_affiliate']   = '警告：此信息頁不能被刪除，因為它是目前為默認的網店加盟賬戶！';
+$_['error_return']           = '警告：此信息頁不能被刪除，因為它是目前為默認的網店退換條款！';
+$_['error_store']       = '警告：此信息頁不能被刪除，因為目前它被綁定到%s網店使用！';
+$_['error_required_data']= '警告：相關數據未鍵入！';
+

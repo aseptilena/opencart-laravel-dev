@@ -1,22 +1,24 @@
-<?php
+﻿<?php
 // Heading
-$_['heading_title']       = '商品篩選(Filter)'; 
+$_['heading_title']     = '篩選過濾';
 
 // Text
-$_['text_success']        = '已成功修改商品篩選設置';
+$_['text_success']      = '成功： 您已成功更新篩選！';
+$_['text_list']         = '篩選過濾清單';
+$_['text_add']          = '添加篩選過濾';
+$_['text_edit']         = '編輯篩選過濾';
 
 // Column
-$_['column_group']      = '篩選群組(Filter Group)';
-$_['column_sort_order']         = '排序(Sort Order)';
-$_['column_action']    = '動作(Action)';
+$_['column_group']      = '篩選條件';
+$_['column_sort_order'] = '排序';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_group']       = '群組名稱(Filter Group Name)';
-$_['entry_name']        = '篩選名(Filter Name)<span style="color:#919191;font-size:11px;">(用於篩選的關鍵字)</span>';
-$_['entry_sort_order']          = '排序:';
+$_['entry_group']       = '篩選條件名稱：';
+$_['entry_name']        = '篩選名稱：';
+$_['entry_sort_order']  = '排序：';
 
 // Error
-$_['error_permission'] = '您沒有權限修改商品篩選的設置';
-$_['error_group']       = '群組名稱必須在1至64個字元之間';
-$_['error_name']        = '篩選名稱必須在1至64個字元之間';
-?>
+$_['error_permission']  = '警告：您沒有這個模塊的修改權限！';
+$_['error_group']       = '過濾組名稱必須在 1 至 64 字符！';
+$_['error_name']        = '過濾名稱必須在 1 and 64 字符！';

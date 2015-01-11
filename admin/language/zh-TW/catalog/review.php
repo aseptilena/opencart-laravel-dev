@@ -1,31 +1,38 @@
-<?php
+﻿<?php
 // Heading
-$_['heading_title']       = '評論(Reviews)';
+$_['heading_title']     = '商品評論';
 
 // Text
-$_['text_success']      = '已成功修改評論設置';
+$_['text_success']      = '成功： 您已成功更新評論！';
+$_['text_list']         = '商品評論清單';
+$_['text_add']          = '添加商品評論';
+$_['text_edit']         = '編輯商品評論';
 
 // Column
-$_['column_product']    = '商品(Product)';
-$_['column_author']     = '評論者(Author)';
-$_['column_rating']     = '評價(Rating)';
-$_['column_status']     = '狀態(Status)';
-$_['column_date_added'] = '加入的日期(Date Added)';
-$_['column_action']     = '動作(Action)';
+$_['column_product']    = '商品名稱';
+$_['column_author']     = '評論者';
+$_['column_rating']     = '評級';
+$_['column_status']     = '狀態';
+$_['column_date_added'] = '評論日期';
+$_['column_action']     = '評論管理';
 
 // Entry
-$_['entry_product']     = '商品(Product)<br /><span class="help">(自動完成)</span>';
-$_['entry_author']      = '評論者(Author)';
-$_['entry_rating']      = '評價(Rating)';
-$_['entry_status']      = '狀態(Status)';
-$_['entry_text']        = '評論內容(Text)';
-$_['entry_good']        = '非常好(Good)';
-$_['entry_bad']         = '太差了(Bad)';
+$_['entry_product']     = '&nbsp;&nbsp;商品分類：';
+$_['entry_author']      = '評論作者：';
+$_['entry_rating']      = '&nbsp;&nbsp;商品評級：';
+$_['entry_status']      = '&nbsp;&nbsp;評論狀態：';
+$_['entry_text']        = '評論內容：';
+$_['entry_date_added']  = '評論日期';
+$_['entry_good']        = '好評';
+$_['entry_bad']         = '差評';
+
+// Help
+$_['help_product']      = '(自動完成)';
 
 // Error
-$_['error_permission']  = '沒有權限更改評論設置';
-$_['error_product']     = '請選擇商品';
-$_['error_author']      = '評論者名稱必須在3至64個字元之間';
-$_['error_text']        = '未輸入評論';
-$_['error_rating']      = '請評分';
-?>
+$_['error_permission']  = '警告：您沒有權限更改評論！';
+$_['error_product']     = '您必須輸入商品名稱！';
+$_['error_author']      = '評論者名稱必須在3至64個字符之間！';
+$_['error_text']        = '評論內容必須在大於1個字符！';
+$_['error_rating']      = '您必須選擇評級！';
+

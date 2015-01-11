@@ -1,44 +1,44 @@
 <?php
 // Heading
-$_['heading_title']                = '管理首頁(Dashboard)';
+$_['heading_title']                = '管理首頁';
 
 // Text
-$_['text_overview']                = '統計(Overview)';
-$_['text_statistics']              = '分析(Statistics)';
-$_['text_latest_10_orders']        = '最新10筆訂單(Latest 10 Orders)';
-$_['text_total_sale']              = '銷售總額(Total Sales)';
-$_['text_total_sale_year']         = '全年銷售(Total Sales This Year)';
-$_['text_total_order']             = '總訂單數(Total Orders)';
-$_['text_total_customer']          = '會員數量(No. Of Customers)';
-$_['text_total_customer_approval'] = '待審核的會員數(Customers Waiting Approval)';
-$_['text_total_review_approval']    = '待批准的評論(Reviews Awaiting Approval)';
-$_['text_total_affiliate']          = '推薦會員數(No. of Affiliates)';
-$_['text_total_affiliate_approval'] = '待批准的推薦會員申請(Affiliates Awaiting Approval)';
-$_['text_day']                     = '今日(Today)';
-$_['text_week']                    = '本星期(This Week)';
-$_['text_month']                   = '本月份(This Month)';
-$_['text_year']                    = '本年度(This Year)';
-$_['text_order']                   = '訂單數(Total Orders)';
-$_['text_customer']                = '會員數(Total Customers)';
+$_['text_overview']                = '商店信息';
+$_['text_statistics']              = '商店統計';
+$_['text_latest_10_orders']        = '最新10筆訂單';
+$_['text_total_sale']              = '銷售總額：';
+$_['text_total_sale_year']         = '今年全年銷售：';
+$_['text_total_order']             = '總訂單數：';
+$_['text_total_customer']          = '總客戶數：';
+$_['text_total_customer_approval'] = '等待審核的客戶：';
+$_['text_total_review_approval']   = '未處理商品評論：';
+$_['text_total_affiliate']         = '聯盟會員：';
+$_['text_total_affiliate_approval']= '等待審核的聯盟賬戶：';
+$_['text_day']                     = '當天';
+$_['text_week']                    = '本星期';
+$_['text_month']                   = '本月度';
+$_['text_year']                    = '本年度';
+$_['text_order']                   = '訂單總數';
+$_['text_customer']                = '客戶總數';
 
 // Column 
-$_['column_order']                 = '訂單 ID(Order ID)';
-$_['column_customer']                  = '會員(Customer Name)';
-$_['column_status']                = '訂單狀態(Status)';
-$_['column_date_added']            = '購買日期(Date Added)';
-$_['column_total']                 = '總計(Total)';
-$_['column_firstname']             = '名字(First Name)';
-$_['column_lastname']              = '姓氏(Last Name)';
-$_['column_action']                = '動作(Action)';
+$_['column_order']                 = '訂單號';
+$_['column_customer']              = '客戶名稱';
+$_['column_status']                = '狀態';
+$_['column_date_added']            = '訂單日期';
+$_['column_total']                 = '總計';
+$_['column_firstname']             = '名字';
+$_['column_lastname']              = '姓氏';
+$_['column_action']                = '管理';
 
 // Entry
-$_['entry_range']                  = '選擇範圍(Select Range)';
+$_['entry_range']                  = '選擇范圍：';
 
 // Error
-$_['error_install']                 = '請刪除install目錄';
-$_['error_image']                   = '圖片目錄 %s 無法寫入';
-$_['error_image_cache']             = '圖片快取(cache)目錄 %s 無法寫入';
-$_['error_cache']                   = '快取(cache)目錄 %s 無法寫入';
-$_['error_download']                = '放置下載檔案的目錄 %s 無法寫入';
-$_['error_logs']                    = '系統記錄(Log)目錄 %s 無法寫入';
+$_['error_install']                 = '警告：安裝目錄尚未刪除,出於安全原因，應予以刪除！(Install目錄)';
+$_['error_image']                   = '警告：圖片目錄%s 不可寫！';
+$_['error_image_cache']             = '警告：圖片緩存目錄%s 不可寫！';
+$_['error_cache']                   = '警告：緩存目錄%s 不可寫！';
+$_['error_download']                = '警告：下載目錄%s 不可寫！';
+$_['error_logs']                    = '警告：日志目錄%s 不可寫！';
 ?>

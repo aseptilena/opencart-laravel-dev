@@ -1,13 +1,12 @@
 <?php
 //Text
-$_['paid_on_amazon_text'] = 'Amazon 支付';
+$_['text_paid_amazon'] = '在亞馬遜支付';
 
 //Order totals
-$_['shipping_text'] = '配送';
-$_['shipping_tax_text'] = '配送稅率';
-$_['gift_wrap_text'] = '包裝';
-$_['gift_wrap_tax_text'] = '包裝稅率';
-$_['sub_total_text'] = '小計';
-$_['tax_text'] = '稅率';
-$_['total_text'] = '總計'; 
-?>
+$_['text_total_shipping'] = '配送方式';
+$_['text_total_shipping_tax'] = '配送稅';
+$_['text_total_giftwrap'] = '禮品包裝';
+$_['text_total_giftwrap_tax'] = '禮品包裝稅';
+$_['text_total_sub'] = '小計';
+$_['text_tax'] = '稅';
+$_['text_total'] = '總計';

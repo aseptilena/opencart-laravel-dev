@@ -1,19 +1,21 @@
 <?php
 // Heading
-$_['heading_title']    = '處理方式(Return Action)';
+$_['heading_title']    = '退換管理';
 
 // Text
-$_['text_success']     = '已成功修改退換貨處理方式';
+$_['text_success']     = '成功：您已修改退換管理！';
+$_['text_list']        = '退換管理清單';
+$_['text_add']         = '添加退換管理';
+$_['text_edit']        = '編輯退換管理';
 
 // Column
-$_['column_name']      = '處理方式(Return Action Name)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']      = '退換管理名稱';
+$_['column_action']    = '管理';
 
 // Entry
-$_['entry_name']       = '處理方式(Return Action Name)';
+$_['entry_name']       = '退換管理名稱：';
 
 // Error
-$_['error_permission'] = '您沒有權限修改處理方式';
-$_['error_name']       = '方式名稱必須在3至32個字元之間';
-$_['error_return']     = '不能刪除，因為有 %s 件退換貨案件正採用此方式';
-?>
+$_['error_permission'] = '警告：您沒有管理退換管理的權限！';
+$_['error_name']       = '退換管理名必須在3至32個字符之間！';
+$_['error_return']     = '警告：該退換管理不能刪除，因為被綁定到 %s 退換商品！';

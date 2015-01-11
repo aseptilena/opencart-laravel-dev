@@ -1,29 +1,35 @@
 <?php
 // Heading
-$_['heading_title']    = '會員群組(Customer Group)';
+$_['heading_title']             = '客戶群組';
 
 // Text
-$_['text_success']     = '已成功修改會員群組的設置';
+$_['text_success']              = '成功：您已修改的客戶組！';
+$_['text_list']         = '客戶群組清單';
+$_['text_add']          = '添加客戶群組';
+$_['text_edit']         = '編輯客戶群組';
 
 // Column
-$_['column_name']      = '群組名稱(Customer Group Name)';
-$_['column_sort_order']         = '排序(Sort Order)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']               = '客戶群組名稱';
+$_['column_sort_order']         = '排序';
+$_['column_action']             = '管理';
 
 // Entry
-$_['entry_name']       = '群組名稱(Customer Group Name)';
-$_['entry_description']         = '內容:';
-$_['entry_approval']			= '加入會員是否需要審核(Approve New Customers)<br /><span class="help">新註冊會員是否需要審核後才能登入(Don\'t allow new customer to login until their account has been approved.)</span>';
-$_['entry_company_id_display']  = '是否顯示統一編號(Display Company No.):<br /><span class="help">會員資料中出現統一編號欄位</span>';
-$_['entry_company_id_required'] = '統一編號是否為必填欄位(Company No. Required):<br /><span class="help">會員必須填入統一編號才能結帳</span>';
-$_['entry_tax_id_display']      = '是否顯示稅籍編號(Display Tax ID.):<br /><span class="help">帳單地址中出現稅籍編號欄位</span>';
-$_['entry_tax_id_required']     = '稅籍編號是否為必填欄位(Tax ID Required):<br /><span class="help">會員必須填入稅籍編號才能結帳</span>';
-$_['entry_sort_order']          = '排序:';
+$_['entry_name']                = '客戶群組名稱：';
+$_['entry_description']         = '描述：';
+$_['entry_approval']            = '審核新客戶：';
+$_['entry_company_id_display']  = '顯示公司註冊號：<br /><span class="help">顯示公司的註冊號碼。</span>';
+$_['entry_company_id_required'] = '公司註冊號必填：<br /><span class="help">選擇哪個客戶群體在結帳時必須輸入自己公司的註冊號。</span>';
+$_['entry_tax_id_display']      = '顯示公司稅號：<br /><span class="help">在發票上顯示公司稅號。</span>';
+$_['entry_tax_id_required']     = '公司稅號必填：<br /><span class="help">選擇哪個客戶群體在結帳時必須輸入自己公司的稅號。</span>';
+$_['entry_sort_order']          = '排序：';
+
+// Help
+$_['help_approval']     = '新註冊用戶是否需要審核才能登入。';
 
 // Error
-$_['error_permission'] = '您沒有權限修改會員群組的設置';
-$_['error_name']       = '群組名稱必須在3至32個字元之間';
-$_['error_default']    = '不能刪除預設的群組';
-$_['error_store']      = '不能被刪除，因為目前尚有%s 間商店使用此群組';
-$_['error_customer']   = '不能被刪除，因為目前尚有%s 位會員屬於此群組';
-?>
+$_['error_permission']          = '警告：您沒有權限修改用戶組！';
+$_['error_name']                = '用戶組名稱必須在3至32個字符之間！';
+$_['error_default']             = '警告：不能刪除本狀態，因為它目前為默認的用戶組分配！';
+$_['error_store']               = '警告：這組不能被刪除，因為它目前與 %s 網店綁定！';
+$_['error_customer']            = '警告：這組不能被刪除，因為它目前分配到 %s 用戶的主要用戶！';
+

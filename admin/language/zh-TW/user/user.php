@@ -1,35 +1,36 @@
 <?php
 // Heading
-$_['heading_title']     = '管理員(User)';
+$_['heading_title']     = '商店管理員';
 
 // Text
-$_['text_success']      = '已成功修改管理員的設置';
+$_['text_success']      = '成功： 您已成功更新管理員設置！';
 
 // Column
-$_['column_username']   = '名稱(Username)';
-$_['column_status']     = '狀態(Status)';
-$_['column_date_added'] = '加入日期(Date Added)';
-$_['column_action']     = '動作(Action)';
+$_['column_username']   = '管理員名';
+$_['column_status']     = '狀態';
+$_['column_date_added'] = '生成日期';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_username']   = '帳號(Username)';
-$_['entry_password']   = '密碼(Password)';
-$_['entry_confirm']    = '確認密碼(Confirm)';
-$_['entry_firstname']  = '名字(First Name)';
-$_['entry_lastname']   = '姓氏(Last Name)';
-$_['entry_email']      = '電子信箱(E-Mail)';
-$_['entry_user_group'] = '管理員群組(User Group)';
-$_['entry_status']     = '狀態(Status)';
-$_['entry_captcha']    = '輸入驗證碼(Enter the code in the box below)';
+$_['entry_username']    = '管理員名稱：';
+$_['entry_user_group']  = '管理員群組：';
+$_['entry_password']    = '密碼：';
+$_['entry_confirm']     = '確認密碼：';
+$_['entry_firstname']   = '名字：';
+$_['entry_lastname']    = '姓氏：';
+$_['entry_email']       = '郵箱：';
+$_['entry_image']      	= '圖像：';
+$_['entry_status']      = '狀態：';
+$_['entry_captcha']     = '在下面的輸入框中輸入驗證碼：';
 
 // Error
-$_['error_permission']  = '您沒有權限更改管理員的設置';
-$_['error_account']     = '您不能刪除自己的帳戶';
-$_['error_exists']     = '帳號已存在';
-$_['error_username']    = '帳號必須在3至20個字元之間';
-$_['error_password']    = '密碼長度必須在4至20個字元之間';
-$_['error_confirm']     = '密碼和確認密碼不相同';
-$_['error_firstname']   = '名字必須在3至32個字元之間';
-$_['error_lastname']    = '姓氏必須在3至32個字元之間';
-$_['error_captcha']    = '驗證碼錯誤';
-?>
+$_['error_permission']  = '警告：您沒有權限更改管理員設置！';
+$_['error_account']     = '警告：您不能刪除自己的賬戶！';
+$_['error_exists']      = '警告：管理員名稱已存在！';
+$_['error_username']    = '管理員名必須在3至20個字符之間！';
+$_['error_password']    = '密碼長度必須在4至20個字符之間！';
+$_['error_confirm']     = '密碼和確認密碼不一致！';
+$_['error_firstname']   = '名字必須在1至32個字符之間！';
+$_['error_lastname']    = '姓氏必須在1至32個字符之間！';
+$_['error_captcha']     = '驗證碼輸入有誤！';
+

@@ -1,18 +1,18 @@
 <?php
 // Text
-$_['text_subject']  = '%s - 感謝您的註冊';
-$_['text_welcome']  = '感謝您申請成為 %s 的會員';
-$_['text_login']    = '您的會員帳戶已成功建立，您可以使用您的電子郵件和密碼從以下網址登入到我們的網站';
-$_['text_approval'] = '您註冊的帳戶正在審核。審核通過後您可通過以下網址使用您的電子郵件和密碼登入到我們的網站';
-$_['text_services'] = '登入後, 您可使用會員中心的所有服務';
-$_['text_thanks']   = '感謝您的支持與愛護';
-$_['text_new_customer']   = '新會員註冊通知';
-$_['text_signup']         = '新會員資訊:';
-$_['text_website']        = '網站:';
-$_['text_customer_group'] = '會員群組:';
-$_['text_firstname']      = '名字:';
-$_['text_lastname']       = '姓氏:';
-$_['text_company']        = '公司名:';
-$_['text_email']          = '電子郵件:';
-$_['text_telephone']      = '聯繫電話:';
-?>
+$_['text_subject']  	= '%s - 感謝您的註冊';
+$_['text_welcome']  	= '歡迎並感謝您註冊到 %s！';
+$_['text_login']    	= '您的賬戶已創建並且您可以使用您的郵箱地址和密碼從以下地址登錄到我們的網站：';
+$_['text_approval'] 	= '您註冊的賬戶必須通過審核。審核通過後您可通過以下地址使用您的郵箱和密碼登錄到我們的網站：';
+$_['text_services'] 	= '登錄後， 您將能夠享受其他服務包括訪問歷史訂單記錄， 打印發票和編輯您的賬戶信息。';
+$_['text_thanks']   	= '謝謝！';
+$_['text_new_customer']   = '新客戶';
+$_['text_signup']         = '已經註冊的新客戶:';
+$_['text_website']        = '網站：';
+$_['text_customer_group'] = '客戶組：';
+$_['text_firstname']      = '名稱：';
+$_['text_lastname']       = '姓氏：';
+$_['text_email']          = 'E-Mail:';
+$_['text_telephone']      = '電話：';
+$_['text_company']        = '公司：';
+

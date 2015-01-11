@@ -1,12 +1,12 @@
 <?php
 // Text
-$_['text_title']           = 'Credit Card / Debit Card (SagePay)';
-$_['text_credit_card']     = 'Credit Card Details';
-$_['text_wait']            = 'Please wait!';
+$_['text_title']           = '信用卡/ 借記卡(SagePay)';
+$_['text_credit_card']     = '信用卡資料';
+$_['text_wait']            = '請稍候！';
 
 // Entry
-$_['entry_cc_owner']       = 'Card Owner:';
-$_['entry_cc_number']      = 'Card Number:';
-$_['entry_cc_expire_date'] = 'Card Expiry Date:';
-$_['entry_cc_cvv2']        = 'Card Security Code (CVV2):';
-?>
+$_['entry_cc_owner']       = '持卡人：';
+$_['entry_cc_number']      = '卡號：';
+$_['entry_cc_expire_date'] = '信用卡有效期到：';
+$_['entry_cc_cvv2']        = '信用卡安全碼 (CVV2)：';
+

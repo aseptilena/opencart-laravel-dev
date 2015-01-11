@@ -1,26 +1,27 @@
 <?php
-//Headings
-$_['heading_title'] = 'Amazon Payments';
-$_['heading_address'] = 'Please choose a delivery address';
-$_['heading_payment'] = 'Please select a payment method';
-$_['heading_confirm'] = 'Order summary';
+//Heading
+$_['heading_title'] = '亞馬遜支付';
+$_['heading_address'] = '請選擇一個送貨地址';
+$_['heading_payment'] = '請選擇付款方式';
+$_['heading_confirm'] = '訂單總結';
 
 //Text
-$_['text_back'] = 'Back';
-$_['text_cart'] = 'Cart';
-$_['text_confirm'] = 'Confirm';
-$_['text_continue'] = 'Continue';
-$_['text_cba'] = 'Amazon Payments';
-$_['text_enter_coupon'] = "Enter your coupon code here. If you don't have one, leave it empty.";
-$_['text_coupon'] = "Coupon";
-$_['text_tax_other'] = "Taxes / Other handling fees";
-$_['text_payment_failed'] = 'Your payment has failed. Please contact the shop administrator for assistance or use a different payment option.';
-$_['text_payment_success'] = "Your order was successfully placed. Order's details are below";
+$_['text_back'] = '返回';
+$_['text_cart'] = '購物車';
+$_['text_confirm'] = '確認';
+$_['text_continue'] = '繼續';
+$_['text_cba'] = '亞馬遜支付';
+$_['text_enter_coupon'] = "請在此輸入您的折扣券代碼。如果您沒有的話，將其留空。";
+$_['text_coupon'] = "折扣券";
+$_['text_tax_other'] = "稅 / 其他手續費";
+$_['text_payment_failed'] = '您的付款失敗。請聯系店管理員尋求幫助，或使用不同的付款方式。';
+$_['text_success_title']		= '您的訂單已被提交！';
+$_['text_payment_success'] = "您的訂單已成功生成。訂單的詳情如下";
 
-//Errors
-$_['error_payment_method'] = 'Please select a payment method';
-$_['error_shipping'] = 'Please select a shipping method';
-$_['error_shipping_address'] = 'Please select a delivery address';
-$_['error_shipping_methods'] = 'There was an error retrieving your address from Amazon. Please contact the shop administrator for help';
-$_['error_no_shipping_methods'] = 'There are no shipping options to the selected address. Please select a different shipping address';
-?>
+//Error
+$_['error_payment_method'] = '請選擇付款方式';
+$_['error_shipping'] = '請選擇配送方式';
+$_['error_shipping_address'] = '請選擇一個配送地址';
+$_['error_shipping_methods'] = '亞馬遜獲取您的地址時發生錯誤。請聯系店管理員尋求幫助';
+$_['error_no_shipping_methods'] = '沒有配送選擇可以送到選定的地址。請選擇一個另一個送貨地址';
+

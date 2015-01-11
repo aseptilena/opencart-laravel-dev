@@ -1,31 +1,38 @@
 <?php
 // Heading
-$_['heading_title']        = '貨幣(Currency)';  
+$_['heading_title']        = '貨幣設置';
 
 // Text
-$_['text_success']         = '你已成功修改貨幣設置';
+$_['text_success']         = '成功： 您已成功更新貨幣設置！';
+$_['text_list']            = '貨幣設置清單';
+$_['text_add']             = '添加貨幣設置';
+$_['text_edit']            = '編輯貨幣設置';
 
 // Column
-$_['column_title']         = '名稱(Currency Title)';
-$_['column_code']          = '代碼(Code)'; 
-$_['column_value']         = '匯率(Value)';
-$_['column_date_modified'] = '最後更新(Last Updated)';
-$_['column_action']        = '動作(Action)';
+$_['column_title']         = '貨幣名稱';
+$_['column_code']          = '代碼';
+$_['column_value']         = '匯率';
+$_['column_date_modified'] = '最近更新';
+$_['column_action']        = '管理';
 
 // Entry
-$_['entry_title']          = '貨幣名稱(Currency Title)';
-$_['entry_code']           = '代碼(Code)<br /><span class="help">如果已經設置為商店預設貨幣請不要更改,或先設為非預設貨幣再更改(Do not change if this is your default currency.)</span>)';
-$_['entry_value']          = '匯率(Value)<br /><span class="help">如果這是您的預設貨幣，請將它設置為1.00000(Set to 1.00000 if this is your default currency.)</span>)';
-$_['entry_symbol_left']    = '左符號(Symbol Left)';
-$_['entry_symbol_right']   = '右符號(Symbol Right)';
-$_['entry_decimal_place']  = '小數點後位數(Decimal Places)';
-$_['entry_status']         = '狀態(Status)';
+$_['entry_title']          = '貨幣名稱：';
+$_['entry_code']           = '代碼：';
+$_['entry_value']          = '匯率：';
+$_['entry_symbol_left']    = '左符號：';
+$_['entry_symbol_right']   = '右符號：';
+$_['entry_decimal_place']  = '小數位：';
+$_['entry_status']         = '狀態：';
+
+// Help
+$_['help_code']            = '如果這是您的默認貨幣請不要改變。</br>必須是有效的 <a href="http://www.xe.com/iso4217.php" target="_blank">ISO 代碼</a>。';
+$_['help_value']           = '如果這是您的默認貨幣，請將它設置為1.00000。';
 
 // Error
-$_['error_permission']     = '你沒有權限更改貨幣設置';
-$_['error_title']          = '貨幣名稱必須在3至32個字元之間';
-$_['error_code']           = '貨幣代碼必須是3個字元';
-$_['error_default']        = '不能刪除商店的預設貨幣';
-$_['error_store']          = '不能刪除，因為有 %s 間商店正採用';
-$_['error_order']          = '不能刪除，因為有 %s 筆訂單正採用';
-?>
+$_['error_permission']     = '警告：您沒有權限更改貨幣設置';
+$_['error_title']          = '貨幣名稱必須在3至32個字符之間！';
+$_['error_code']           = '貨幣代碼必須是3個字符！';
+$_['error_default']        = '警告：該貨幣不能被刪除，因為它是商店的默認貨幣！';
+$_['error_store']          = '警告：該貨幣不能刪除，因為被綁定到 %s 訂單！';
+$_['error_order']          = '警告：該貨幣不能刪除，因為被綁定到 %s 訂單！';
+

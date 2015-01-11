@@ -1,9 +1,9 @@
 <?php
-//Headings
-$_['heading_title']             = 'View Transaction';
+// Heading
+$_['heading_title']					= '顯示交易記錄';
 
 //Text
-$_['text_pp_express']           = 'PayPal Express Checkout';
+$_['text_pp_express']           = 'PayPal快速結帳';
 $_['text_product_lines']        = 'Product lines';
 $_['text_ebay_txn_id']          = 'eBay transaction ID';
 $_['text_name']                 = 'Name';
@@ -83,4 +83,4 @@ $_['text_close_date']           = 'Closing date';
 $_['text_multi_item']           = 'Multi item';
 $_['text_sub_amt']              = 'Subscription amount';
 $_['text_sub_period']           = 'Subscription period';
-?>
+

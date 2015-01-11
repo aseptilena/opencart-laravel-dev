@@ -1,19 +1,22 @@
 <?php
 // Heading
-$_['heading_title']    = '庫存狀態(Stock Status)';
+$_['heading_title']    = '庫存狀態';
 
 // Text
-$_['text_success']     = '已成功修改庫存狀態設置';
+$_['text_success']     = '成功： 您已成功更新庫存狀態！';
+$_['text_list']        = '庫存狀態清單';
+$_['text_add']         = '添加庫存狀態';
+$_['text_edit']        = '編輯庫存狀態';
 
 // Column
-$_['column_name']      = '名稱(Stock Status Name)';
-$_['column_action']    = '動作(Action)';
+$_['column_name']      = '庫存狀態名稱';
+$_['column_action']    = '管理';
 
 // Entry
-$_['entry_name']       = '庫存狀態名稱(Stock Status Name)';
+$_['entry_name']       = '庫存狀態名稱：';
 
 // Error
-$_['error_permission'] = '您沒有權限更改庫存狀態設置';
-$_['error_name']       = '庫存狀態名稱必須在3至32個字元之間';
-$_['error_product']    = '不能刪除，因為有 %s 件商品設定此狀態';
-?>
+$_['error_permission'] = '警告：您沒有權限更改庫存狀態！';
+$_['error_name']       = '庫存狀態名稱必須在3至32個字符之間！';
+$_['error_product']    = '警告：該庫存狀態不能被刪除，因為它被綁定到 %s 商品！';
+

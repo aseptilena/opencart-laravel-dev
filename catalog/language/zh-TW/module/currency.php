@@ -1,4 +1,4 @@
 <?php
 // Text
-$_['text_currency'] = '貨　幣';
+$_['text_currency'] = '貨幣';
 ?>

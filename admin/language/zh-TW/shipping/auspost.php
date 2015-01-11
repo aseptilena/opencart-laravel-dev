@@ -1,23 +1,28 @@
 <?php
 // Heading
-$_['heading_title']      = 'Australia Post';
+$_['heading_title']      = '澳大利亞郵政';
 
 // Text
-$_['text_shipping']      = 'Shipping';
-$_['text_success']       = 'Success: You have modified Australia Post shipping!';
+$_['text_shipping']      = '配送管理';
+$_['text_success']       = '成功： 您已成功更新澳大利亞郵政運費！';
+$_['text_edit']          = '編輯澳大利亞郵政';
 
 // Entry
-$_['entry_postcode']     = 'Post Code:';
-$_['entry_express']      = 'Express Postage:';
-$_['entry_standard']     = 'Standard Postage:';
-$_['entry_display_time'] = 'Display Delivery Time:<br /><span class="help">Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)</span>';
-$_['entry_weight_class'] = 'Weight Class:<span class="help">Set to grams.</span>';
-$_['entry_tax_class']    = 'Tax Class:';
-$_['entry_geo_zone']     = 'Geo Zone:';
-$_['entry_status']       = 'Status:';
-$_['entry_sort_order']   = 'Sort Order:';
+$_['entry_postcode']     = '郵編：';
+$_['entry_express']      = '快遞服務：';
+$_['entry_standard']     = '標准服務：';
+$_['entry_display_time'] = '顯示配送時間：';
+$_['entry_weight_class'] = '重量單位：';
+$_['entry_tax_class']    = '稅類：';
+$_['entry_geo_zone']     = '區域群組：';
+$_['entry_status']       = '狀態：';
+$_['entry_sort_order']   = '排序：';
+
+// Help
+$_['help_display_time']  = '您是否希望顯示配送時效？ （如顯示3-5個工作日派送）';
+$_['help_weight_class']  = '設置為克。';
 
 // Error
-$_['error_permission']   = 'Warning: You do not have permission to modify Australia Post shipping!';
-$_['error_postcode']     = 'Post Code must be 4 digits!';
-?>
+$_['error_permission']   = '警告：您沒有權限更改運費！';
+$_['error_postcode']     = '郵編至少4位數字！';
+

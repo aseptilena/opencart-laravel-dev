@@ -1,31 +1,33 @@
 <?php
 // Heading
-$_['heading_title']        = '稅率(Tax Rates)';
+$_['heading_title']        = '稅率';
 
 // Text
-$_['text_percent']         = '百分比(Percentage)';
-$_['text_amount']          = '固定金額(Fixed Amount)';
-$_['text_success']         = '已成功修改稅率設置';
+$_['text_success']         = '成功： 你已成功更改稅率！';
+$_['text_list']            = '稅率清單';
+$_['text_add']             = '添加稅率';
+$_['text_edit']            = '編輯稅率';
+$_['text_percent']         = '百分比';
+$_['text_amount']          = '固定稅率';
 
 // Column
-$_['column_name']          = '稅率名稱(Tax Name)';
-$_['column_rate']          = '稅率(Tax Rate)';
-$_['column_type']          = '方式(Type)';
-$_['column_geo_zone']      = '適用地區(Geo Zone)';
-$_['column_date_added']    = '新增日期(Date Added)';
-$_['column_date_modified'] = '修改日期(Date Modified)';
-$_['column_action']        = '動作(Action)';
+$_['column_name']          = '稅種';
+$_['column_rate']          = '稅率';
+$_['column_type']          = '類型';
+$_['column_geo_zone']      = '區域';
+$_['column_date_added']    = '添加日期';
+$_['column_date_modified'] = '更改日期';
+$_['column_action']        = '管理';
 
 // Entry
-$_['entry_name']           = '稅率名稱(Tax Name)';
-$_['entry_rate']           = '稅率(Tax Rate)';
-$_['entry_type']           = '方式(Type)';
-$_['entry_customer_group'] = '會員群組(Customer Group)';
-$_['entry_geo_zone']       = '適用地區(Geo Zone)';
+$_['entry_name']           = '稅種：';
+$_['entry_rate']           = '稅率：';
+$_['entry_type']           = '類型：';
+$_['entry_customer_group'] = '客戶組：';
+$_['entry_geo_zone']       = '區域：';
 
 // Error
-$_['error_permission']     = '您沒有權限更改稅率內容';
-$_['error_tax_rule']       = '不能刪除，因為有 %s 稅務種類正使用此稅率';
-$_['error_name']           = '稅率名稱必須在3至32個字元之間';
-$_['error_rate']           = '請輸入稅率';
-?>
+$_['error_permission']  = '警告：您沒有權限更改稅類！';
+$_['error_tax_rule']    = '警告：該稅類不能被刪除，因為它和 %s 綁定！';
+$_['error_name']        = '稅種必須必須在3至32個字符之間！';
+$_['error_rate']        = '稅率是必須要填上的！';

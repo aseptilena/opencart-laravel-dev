@@ -1,15 +1,15 @@
 <?php
 // Heading
-$_['heading_title']    = '購物禮券(Gift Voucher)';
+$_['heading_title']    = '禮品券';
 
 // Text
-$_['text_total']       = '訂單計算項目(Order Totals)';
-$_['text_success']     = '已成功修改購物禮券的設置';
+$_['text_total']       = '訂單金額';
+$_['text_success']     = '成功： 您已成功修改禮品券！';
+$_['text_edit']        = '編輯禮品券';
 
 // Entry
-$_['entry_status']     = '狀態(Status)';
-$_['entry_sort_order'] = '排序(Sort Order)';
+$_['entry_status']     = '狀態：';
+$_['entry_sort_order'] = '排序：';
 
 // Error
-$_['error_permission'] = '您沒有權限決定要不要使用購物禮券';
-?>
+$_['error_permission'] = '警告：您沒有變更禮品券的權限！';

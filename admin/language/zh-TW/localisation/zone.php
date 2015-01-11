@@ -1,28 +1,31 @@
 <?php
 // Heading
-$_['heading_title']          = '區域(Zones)';
+$_['heading_title']          = '地區設置';
 
 // Text
-$_['text_success']           = '已成功修改區域設置';
+$_['text_success']           = '成功： 您已成功更新地區設置！';
+$_['text_list']              = '地區清單';
+$_['text_add']               = '添加地區';
+$_['text_edit']              = '編輯地區';
 
 // Column
-$_['column_name']            = '名稱(Zone Name)';
-$_['column_code']            = '區域代碼(Zone Code)';
-$_['column_country']         = '所屬國家(Country)';
-$_['column_action']          = '動作(Action)';
+$_['column_name']            = '地區名稱';
+$_['column_code']            = '地區代碼';
+$_['column_country']         = '國家名稱';
+$_['column_action']          = '管理';
 
 // Entry
-$_['entry_status']           = '狀態(Zone Status)';
-$_['entry_name']             = '區域名稱(Zone Name)';
-$_['entry_code']             = '區域代碼(Zone Code)';
-$_['entry_country']          = '所屬國家(Country)';
+$_['entry_status']           = '地區狀態：';
+$_['entry_name']             = '地區名稱：';
+$_['entry_code']             = '地區代碼：';
+$_['entry_country']          = '所屬國家：';
 
 // Error
-$_['error_permission']       = '您沒有權限修改區域';
-$_['error_name']             = '區域名稱必須在3至128個字元之間';
-$_['error_default']          = '不能刪除預設區域';
-$_['error_store']            = '不能刪除，因為有 %s 間商店已使用';
-$_['error_address']          = '不能刪除，因為有 %s 筆地址簿中包含此區域';
-$_['error_affiliate']        = '不能刪除，因為有 %s 個推薦會員屬於此區域';
-$_['error_zone_to_geo_zone'] = '不能刪除，因為有 %s 個區域群組包含此區域';
-?>
+$_['error_permission']       = '警告：您沒有權限更改地區設置';
+$_['error_name']             = '地區名稱必須在3至128個字符之間！';
+$_['error_default']          = '警告：該地區不能被刪除， 因為它是默認區域！';
+$_['error_store']            = '警告：該地區不能被刪除， 因為它和 %s 網店綁定！';
+$_['error_address']          = '警告：該地區不能被刪除， 因為它和 %s 地址簿記錄綁定！';
+$_['error_affiliate']        = '警告：該地區不能被刪除， 因為它和 %s 聯盟賬戶綁定！';
+$_['error_zone_to_geo_zone'] = '警告：該地區不能被刪除， 因為它和 %s 地址位置綁定！';
+

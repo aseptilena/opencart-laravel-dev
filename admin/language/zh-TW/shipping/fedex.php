@@ -1,10 +1,12 @@
 <?php
+
 // Heading
-$_['heading_title']                            = 'Fedex';
+$_['heading_title']                           = '聯邦快遞 (FEDEX)';
 
 // Text
-$_['text_shipping']                            = 'Shipping';
-$_['text_success']                             = 'Success: You have modified Fedex shipping!';
+$_['text_shipping']                           = '配送';
+$_['text_success']                            = '成功： 您已修改聯邦快遞 (FEDEX) 配送信息！';
+$_['text_edit']                                = '編輯聯邦快遞';
 $_['text_europe_first_international_priority'] = 'Europe First International Priority';
 $_['text_fedex_1_day_freight']                 = 'Fedex 1 Day Freight';
 $_['text_fedex_2_day']                         = 'Fedex 2 Day';
@@ -43,28 +45,33 @@ $_['text_account_rate']                        = 'Account Rate';
 
 // Entry
 $_['entry_key']                                = 'Key:';
-$_['entry_password']                           = 'Password:';
-$_['entry_account']                            = 'Account Number:';
-$_['entry_meter']                              = 'Meter Number:';
-$_['entry_postcode']                           = 'Post Code:';
-$_['entry_test']                               = 'Test Mode:';
+$_['entry_password']                           = '密碼';
+$_['entry_account']                            = '帳戶 ID';
+$_['entry_meter']                              = 'Meter Number';
+$_['entry_postcode']                           = '郵 編';
+$_['entry_test']                               = '測試模式';
 $_['entry_service']                            = 'Services:';
 $_['entry_dropoff_type']                       = 'Drop Off Type:';
 $_['entry_packaging_type']                     = 'Packaging Type:';
 $_['entry_rate_type']                          = 'Rate Type:';
-$_['entry_display_time']                       = 'Display Delivery Time:<br /><span class="help">Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)</span>';
-$_['entry_display_weight']                     = 'Display Delivery Weight:<br /><span class="help">Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg\'s)</span>';
-$_['entry_weight_class']                       = 'Weight Class:<span class="help">Set to kilograms or pounds.</span>';
-$_['entry_tax_class']                          = 'Tax Class:';
-$_['entry_geo_zone']                           = 'Geo Zone:';
-$_['entry_status']                             = 'Status:';
-$_['entry_sort_order']                         = 'Sort Order:';
+$_['entry_display_time']                       = 'Display Delivery Time:';
+$_['entry_display_weight']                     = 'Display Delivery Weight:';
+$_['entry_weight_class']                       = 'Weight Class:';
+$_['entry_tax_class']                          = '稅類：';
+$_['entry_geo_zone']                           = '區域群組：';
+$_['entry_status']                             = '狀態：';
+$_['entry_sort_order']                         = '排序：';
+
+// Help
+$_['help_display_time']                        = 'Do you want to display the shipping time? (e.g. Ships within 3 to 5 days)';
+$_['help_display_weight']                      = 'Do you want to display the shipping weight? (e.g. Delivery Weight : 2.7674 Kg\'s)';
+$_['help_weight_class']                        = 'Set to kilograms or pounds.';
 
 // Error
-$_['error_permission']                         = 'Warning: You do not have permission to modify Fedex shipping!';
-$_['error_key']                                = 'Key Required!';
-$_['error_password']                           = 'Password Required!';
-$_['error_account']                            = 'Account Required!';
-$_['error_meter']                              = 'Meter Required!';
-$_['error_postcode']                           = 'Post Code Required!';
-?>
+$_['error_permission']                         = '警告：您沒有權限修改聯邦快遞 (FEDEX) 配送信息！';
+$_['error_key']                                = 'Key沒有填寫！';
+$_['error_password']                           = '密碼沒有填寫！';
+$_['error_account']                            = '帳戶ID 必填！';
+$_['error_meter']                              = '聯邦快遞 (FEDEX)號碼表必填！';
+$_['error_postcode']                           = '郵編必填！';
+

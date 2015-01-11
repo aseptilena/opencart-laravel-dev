@@ -1,22 +1,23 @@
 <?php
-$_['lang_btn_status']           = 'Change status';
-$_['lang_order_channel']        = 'Order Channel';
-$_['lang_confirmed']            = 'orders have been marked';
-$_['lang_no_orders']            = 'No orders selected for update';
-$_['lang_confirm_title']        = 'Review bulk status update';
-$_['lang_confirm_change_text']  = 'Changing order status to';
-$_['lang_column_addtional']     = 'Additional info';
-$_['lang_column_comments']      = 'Comments';
-$_['lang_column_notify']        = 'Notify';
-$_['lang_carrier']              = 'Carrier';
-$_['lang_tracking']             = 'Tracking';
-$_['lang_other']                = 'Other';
-$_['lang_refund_reason']        = 'Refund reason';
-$_['lang_refund_message']       = 'Refund message';
-$_['lang_update']               = 'Update';
-$_['lang_cancel']               = 'Cancel';
-$_['lang_e_ajax_1']             = 'A play order is missing a refund message!';
-$_['lang_e_ajax_2']             = 'A play order is missing tracking info!';
-$_['lang_e_ajax_3']             = 'An Amazon order is missing an "Other Carrier" entry!';
-$_['lang_title_order_update']   = 'Bulk order update';
+$_['lang_btn_status']           = '改變訂單狀態';
+$_['lang_order_channel']        = '訂單來源';
+$_['lang_confirmed']            = '個已標記訂單更新為';
+$_['lang_no_orders']            = '未選擇要更新的訂單';
+$_['lang_confirm_title']        = '訂單狀態批量更新預覽';
+$_['lang_confirm_change_text']  = '將訂單狀態改變為';
+$_['lang_column_addtional']     = '附加信息';
+$_['lang_column_comments']      = '備注';
+$_['lang_column_notify']        = '通知';
+$_['lang_carrier']              = '貨運方式';
+$_['lang_tracking']             = '跟蹤';
+$_['lang_other']                = '其它';
+$_['lang_refund_reason']        = '退換原因';
+$_['lang_refund_message']       = '退換信息';
+$_['lang_update']               = '確認更新';
+$_['lang_cancel']               = '取消';
+$_['lang_e_ajax_1']             = '訂單缺少退款信息！';
+$_['lang_e_ajax_2']             = '訂單缺少跟蹤信息！';
+$_['lang_e_ajax_3']             = 'Amazon訂單缺少貨運信息！';
+$_['lang_title_order_update']   = '批量訂單更新';
 ?>
+

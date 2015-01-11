@@ -1,17 +1,17 @@
 <?php
 // Heading
-$_['heading_title']     = '推薦獎金報表(Affiliate Commission Report)';
+$_['heading_title']     = '客戶加盟佣金統計';
 
 // Column
-$_['column_affiliate']  = '推薦人(Affiliate Name)';
-$_['column_email']      = '電子郵件(E-Mail)';
-$_['column_status']     = '狀態(Status)';
-$_['column_commission'] = '獎金(Commission)';
-$_['column_orders']     = '訂單數量(No. Orders)';
-$_['column_total']      = '總計(Total)';
-$_['column_action']     = '動作(Action)';
+$_['column_affiliate']  = '加盟客戶名';
+$_['column_email']      = 'E-Mail';
+$_['column_status']     = '狀態';
+$_['column_commission'] = '佣金';
+$_['column_orders']     = '訂單數量';
+$_['column_total']      = '佣金總計';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_date_start']  = '開始日期(Date Start)';
-$_['entry_date_end']    = '結束日期(Date End)';
+$_['entry_date_start']  = '開始日期︰';
+$_['entry_date_end']    = '結束日期︰';
 ?>

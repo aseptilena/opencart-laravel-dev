@@ -1,18 +1,22 @@
 <?php
 // Heading
-$_['heading_title']      = '依重量計費(Weight Based Shipping)';
+$_['heading_title']    = '按重量配送';
 
 // Text
-$_['text_shipping']      = '配送(Shipping)';
-$_['text_success']       = '已成功修改依重量計費的設置';
+$_['text_shipping']    = '配送管理';
+$_['text_success']     = '成功：按重量配送設定更新完成！';
+$_['text_edit']        = '編輯重量配送';
 
 // Entry
-$_['entry_rate']         = '計價設置(Rates)<br /><span class="help">範例 510.00,712.00 請照左邊格式輸入,用冒號分隔重量(在左)和金額(在右),多筆輸入請用逗號分隔(Example 510.00,712.00 WeightCost,WeightCost, etc..)</span>';
-$_['entry_tax_class']          = '稅務種類(Tax Class)';
-$_['entry_geo_zone']     = '適用地區(Geo Zone)';
-$_['entry_status']       = '狀態(Status)';
-$_['entry_sort_order']   = '排序(Sort Order)';
+$_['entry_rate']       = '費用：';
+$_['entry_tax_class']  = '稅類：';
+$_['entry_geo_zone']   = '區域群組：';
+$_['entry_status']     = '狀態：';
+$_['entry_sort_order'] = '排序：';
+
+// Help
+$_['help_rate']        = '例: 5:10.00,7:12.00 重量:金額，重量:金額，等等。';
 
 // Error
-$_['error_permission']   = '您沒有權限更改依重量計費的設置';
-?>
+$_['error_permission'] = '警告：您沒有變更按重量配送設定的權限！';
+

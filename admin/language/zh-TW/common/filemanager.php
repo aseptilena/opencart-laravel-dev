@@ -1,46 +1,49 @@
 <?php
 // Heading
-$_['heading_title']         = '圖檔管理';
+$_['heading_title']         = '圖片管理';
  
 // Text
-$_['text_uploaded']         = '您的檔案已上傳';
-$_['text_file_delete']      = '檔案已刪除';
-$_['text_create']           = '新建目錄';
-$_['text_delete']           = '檔案或目錄已刪除';
-$_['text_move']             = '檔案或目錄已移動';
-$_['text_copy']             = '檔案或目錄已複製';
-$_['text_rename']           = '檔案或目錄已重命名';
+$_['text_uploaded']         = '成功：您的文件已上傳！';
+$_['text_directory']   = '成功：目錄創建！';
+$_['text_delete']      = '成功：文件/目錄已被刪除！';
+$_['text_create']           = '成功：創建目錄！';
+$_['text_delete']           = '成功：文件或目錄已被刪除！';
+$_['text_move']             = '成功：文件或目錄已被移動！';
+$_['text_copy']             = '成功：文件或目錄已被復制！';
+$_['text_rename']           = '成功：文件或目錄已被重命名！';
 
 // Entry
-$_['entry_folder']          = '新建檔案夾';
-$_['entry_move']            = '移動';
-$_['entry_copy']            = '名稱';
-$_['entry_rename']          = '名稱';
+$_['entry_search']     = '搜索..';
+$_['entry_folder']          = '新建文件夾：';
+$_['entry_move']            = '移動：';
+$_['entry_copy']            = '復制：';
+$_['entry_rename']          = '重命名：';
 
 // Error
-$_['error_select']          = '請選擇一個目錄或檔案';
-$_['error_file']            = '請選擇一個檔案';
-$_['error_directory']       = '請選擇一個目錄';
-$_['error_default']         = '不能更改預設目錄';
-$_['error_delete']          = '您不能刪除此目錄';
-$_['error_filename']        = '檔案名必須在3至255個字元之間';
-$_['error_missing']         = '檔案或目錄不存在';
-$_['error_exists']          = '檔案名或目錄名已存在';
-$_['error_name']            = '請輸入一個新名稱';
-$_['error_move']            = '移動至目錄不存在';
-$_['error_copy']            = '無法複製這個檔案或目錄';
-$_['error_rename']          = '不能重命名此目錄';
-$_['error_file_type']       = '不正確的檔案類型';
-$_['error_file_size']       = '圖片檔案太大，請保持檔案不大於300kb，且尺寸不得大於1000px * 1000px';
-$_['error_uploaded']        = '原因不明，檔案不能上傳';
-$_['error_permission']      = '無權限';
+$_['error_permission']      = '警告：權限被拒絕！';
+$_['error_filename']        = '警告：文件名必須在3至255個字符之間！';
+$_['error_folder']     = '警告：目錄名必須在3至255個字符之間！';
+$_['error_exists']          = '警告：文件名或目錄名已存在！';
+$_['error_directory']       = '警告：請選擇一個目錄！';
+$_['error_filetype']       = '警告：不正確的文件類型！';
+$_['error_upload']        = '警告：文件不能上傳，原因不明！';
+$_['error_delete']          = '警告：您不能刪除此目錄！';
+$_['error_select']          = '警告：請選擇一個目錄或文件！';
+$_['error_file']            = '警告：請選擇一個文件！';
+$_['error_default']         = '警告：不能更改默認目錄！';
+$_['error_missing']         = '警告：文件或目錄不存在！';
+$_['error_name']            = '警告：請輸入一個新名稱！';
+$_['error_move']            = '警告：移動至目標目錄不存在！';
+$_['error_copy']            = '警告：無法復制這個文件或目錄！';
+$_['error_rename']          = '警告：不能重命名此目錄！';
+$_['error_file_size']       = '警告：圖片文件太大，請確認文件不大於300kb，且文件不得大於1000px X 1000px！';
 
 // Button
-$_['button_folder']         = '新建檔案夾';
+$_['button_folder']         = '新建文件夾';
 $_['button_delete']         = '刪除';
 $_['button_move']           = '移動';
-$_['button_copy']           = '複製';
+$_['button_copy']           = '復制';
 $_['button_rename']         = '重命名';
 $_['button_upload']         = '上傳';
 $_['button_refresh']        = '刷新';
-?>
+

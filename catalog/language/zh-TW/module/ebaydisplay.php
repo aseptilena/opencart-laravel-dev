@@ -1,3 +1,3 @@
 <?php
-$_['heading_title']     = '我們在eBay上開設的商店';
-?>
+$_['heading_title']     = '在我們的eBay網店';
+

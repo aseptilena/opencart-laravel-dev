@@ -1,7 +1,7 @@
 <?php
 // Text
 $_['text_title']           = 'United Parcel Service';
-$_['text_weight']          = 'Weight:';
+$_['text_weight']          = '重量：';
 $_['text_us_origin_01']    = 'UPS Next Day Air';
 $_['text_us_origin_02']    = 'UPS 2nd Day Air';
 $_['text_us_origin_03']    = 'UPS Ground';
@@ -37,7 +37,11 @@ $_['text_eu_origin_86']    = 'UPS Today Express Saver';
 $_['text_eu_origin_01']    = 'UPS Next Day Air';
 $_['text_eu_origin_02']    = 'UPS 2nd Day Air';
 $_['text_eu_origin_03']    = 'UPS Ground';
+$_['text_eu_origin_07']    = 'UPS Worldwide Express';
+$_['text_eu_origin_08']    = 'UPS Worldwide Expedited';
 $_['text_eu_origin_14']    = 'UPS Next Day Air Early A.M.';
+$_['text_eu_origin_54']    = 'UPS Worldwide Express Plus';
+$_['text_eu_origin_65']    = 'UPS Saver';
 $_['text_mx_origin_07']    = 'UPS Express';
 $_['text_mx_origin_08']    = 'UPS Expedited';
 $_['text_mx_origin_54']    = 'UPS Express Plus';
@@ -47,4 +51,4 @@ $_['text_other_origin_08'] = 'UPS Worldwide Expedited';
 $_['text_other_origin_11'] = 'UPS Standard';
 $_['text_other_origin_54'] = 'UPS Worldwide Express Plus';
 $_['text_other_origin_65'] = 'UPS Saver';
-?>
+

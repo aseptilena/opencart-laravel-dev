@@ -1,44 +1,50 @@
 <?php
 // Heading  
-$_['heading_title']     = '購物禮券(Gift Voucher)';
+$_['heading_title']     = '禮品券';
 
 // Text
-$_['text_send']         = '寄出(Send)';
-$_['text_success']      = '已成功修改購物禮券的設置';
-$_['text_sent']         = '內含購物禮券的E-mail已成功寄出';
-$_['text_wait']         = '請稍等...(Please Wait)';
+$_['text_success']      = '成功：您已經修改禮品券！';
+$_['text_list']         = '禮品券清單';
+$_['text_add']          = '添加禮品券';
+$_['text_edit']         = '編輯禮品券';
+$_['text_sent']         = '成功： 禮品券郵件已發送！';
+$_['text_wait']         = '請耐心等待！';
 
 // Column
-$_['column_name']       = '禮券名稱(Voucher Name)';
-$_['column_code']       = '代碼(Code)';
-$_['column_from']       = '贈送人(From)';
-$_['column_to']         = '受贈人(To)';
-$_['column_theme']      = '樣式(Theme)';
-$_['column_amount']     = '金額(Amount)';
-$_['column_status']     = '狀態(Status)';
-$_['column_order_id']   = '訂單號碼(Order ID)';
-$_['column_customer']   = '會員(Customer)';
-$_['column_date_added'] = '購買日期(Date Added)';
-$_['column_action']     = '動作(Action)';
+$_['column_name']       = '禮品券名稱';
+$_['column_code']       = '禮品券代碼';
+$_['column_from']       = '發送者';
+$_['column_to']         = '收券人';
+$_['column_theme']      = '主題';
+$_['column_amount']     = '金額';
+$_['column_date_added'] = '添加日期';
+$_['column_status']     = '狀態';
+$_['column_order_id']   = '訂單ID';
+$_['column_customer']   = '客戶';
+$_['column_date_added'] = '添加日期';
+$_['column_action']     = '管理';
 
 // Entry
-$_['entry_code']        = '代碼(Code)<br /><span class="help">結帳時輸入此代碼使用禮券(The code the customer enters to activate the voucher).</span>';
-$_['entry_from_name']   = '寄件人(From Name)';
-$_['entry_from_email']  = '寄件人的Email(From E-Mail)';
-$_['entry_to_name']     = '收件人(To Name)';
-$_['entry_to_email']    = '收件人的Email(To E-Mail)';
-$_['entry_theme']       = '樣式(Theme)';
-$_['entry_message']     = '給收件人的話(Message)';
-$_['entry_amount']      = '金額(Amount)';
-$_['entry_status']      = '狀態(Status)';
+$_['entry_code']        = '禮品券代碼：';
+$_['entry_from_name']   = '來自：';
+$_['entry_from_email']  = 'E-Mail：';
+$_['entry_to_name']     = '發送給：';
+$_['entry_to_email']    = 'E-Mail：';
+$_['entry_theme']       = '主題：';
+$_['entry_message']     = '內容：';
+$_['entry_amount']      = '金額：';
+$_['entry_status']      = '狀態：';
+
+// Help
+$_['help_code']         = '激活禮品券所需代碼。';
 
 // Error
-$_['error_permission']  = '您沒有權限修改購物禮券的設置';
-$_['error_exists']      = '代碼已存在';
-$_['error_code']        = '代碼必須在3到10個字元之間';
-$_['error_to_name']     = '收件人名稱必須在1到64個字元之間';
-$_['error_from_name']   = '寄件人名稱必須在1到64個字元之間';
-$_['error_email']       = 'E-Mail錯誤';
-$_['error_amount']      = '金額必須大於或等於1';
-$_['error_order']       = '不能刪除，已使用於 <a href="%s">訂單</a>中';
-?>
+$_['error_selection']   = '警告：您沒有選擇券主題！';
+$_['error_permission']  = '警告：您沒有權限修改券主題！';
+$_['error_exists']      = '警告：禮品券已經使用！';
+$_['error_code']        = '代碼必須在3至10個字符之間！';
+$_['error_to_name']     = '收券人名稱必須在1至64個字符之間！';
+$_['error_from_name']   = '您的名稱必須在1至64個字符之間！';
+$_['error_email']       = '無效的郵件地址！';
+$_['error_amount']      = '總計必須大於等於1！';
+$_['error_order']       = '警告：本禮品券不能被刪除，因為已經應用到一個<a href="%s">訂單</a>上！';

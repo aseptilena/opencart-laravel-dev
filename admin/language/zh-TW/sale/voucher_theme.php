@@ -1,25 +1,27 @@
 <?php
 // Heading
-$_['heading_title']      = '禮券樣式(Voucher Themes)';
+$_['heading_title']      = '禮品券主題';
 
 // Text
-$_['text_success']       = '已成功修改禮券樣式';
-$_['text_image_manager'] = '圖檔管理';
-$_['text_browse']            = '瀏覽';
-$_['text_clear']             = '清除';
+$_['text_success']       = '成功：你已經修改禮品券主題！';
+$_['text_list']         = '禮品券主題清單';
+$_['text_add']          = '添加禮品券主題';
+$_['text_edit']         = '編輯禮品券主題';
+$_['text_image_manager'] = '圖片管理';
+$_['text_browse']        = '選擇圖像';
+$_['text_clear']         = '清除圖像';
 
 // Column
-$_['column_name']        = '名稱(Voucher Theme Name)';
-$_['column_action']      = '動作(Action)';
+$_['column_name']        = '禮品券主題名稱';
+$_['column_action']      = '管理';
 
 // Entry
-$_['entry_name']         = '名稱(Voucher Theme Name)';
-$_['entry_description']  = '樣式說明(Voucher Theme Description)';
-$_['entry_image']        = '圖片(Image)';
+$_['entry_name']         = '禮品券主題名稱：';
+$_['entry_description']  = '禮品券主題說明：';
+$_['entry_image']        = '&nbsp;&nbsp;圖片：';
 
 // Error
-$_['error_permission']  = '您沒有權限修改禮券樣式';
-$_['error_name']        = '樣式名稱必須在3到32個字元之間';
-$_['error_image']       = '請選擇圖片';
-$_['error_voucher']     = '不能被刪除，因為目前尚有 %s 張禮券使用此樣式';
-?>
+$_['error_permission']  = '警告：您沒有權限更改禮品券主題！';
+$_['error_name']        = '禮品券主題名稱必須在3至32個字符之間！';
+$_['error_image']       = '請輸入商品！';
+$_['error_voucher']     = '警告：此券主題不能被刪除因為它是目前分配到%s 禮品券！';

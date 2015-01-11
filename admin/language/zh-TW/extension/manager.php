@@ -1,12 +1,12 @@
 <?php
 // Heading 
-$_['heading_title']    = '擴充模組管理(Extension Manager)';
+$_['heading_title']    = '插件管理';
 
 // Text
-$_['text_success']     = '已成功修改擴充模組管理';
+$_['text_success']     = '成功：你已經安裝了你的插件！';
 
 // Error
-$_['error_permission'] = '您沒有權限修改擴充模組管理設置';
-$_['error_upload']     = '尚未選擇要上傳的檔案';
-$_['error_filetype']   = '不支援的檔案類型';
+$_['error_permission'] = '警告：您沒有權限修改這個插件！';
+$_['error_upload']     = '請先上傳！';
+$_['error_filetype']   = '不支持的文件類型！';
 ?>

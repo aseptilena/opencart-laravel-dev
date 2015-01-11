@@ -1,18 +1,28 @@
 <?php
 // Heading
-$_['heading_title']         = '會員紅利點數報表(Customer Reward Points Report)';
+$_['heading_title']         = '客戶獎勵積分統計';
+
+// Text
+$_['text_list']             = '客戶獎勵積分清單';
+$_['text_year']             = '本年度';
+$_['text_month']            = '本月度';
+$_['text_week']             = '本星期';
+$_['text_day']              = '僅今天';
 
 // Column
-$_['column_customer']       = '會員名稱(Customer Name)';
-$_['column_email']          = '電子郵件(E-Mail)';
-$_['column_customer_group'] = '會員群組(Customer Group)';
-$_['column_status']     = '狀態(Status)';
-$_['column_points']         = '紅利點數(Reward Points)';
-$_['column_orders']     = '訂單數量(No. Orders)';
-$_['column_total']      = '總計(Total)';
-$_['column_action']     = '動作(Action)';
+$_['column_date_start']     = '開始日期';
+$_['column_date_end']       = '結束日期';
+$_['column_customer']       = '客戶名稱';
+$_['column_email']          = 'E-Mail';
+$_['column_customer_group'] = '用戶組';
+$_['column_status']         = '狀態';
+$_['column_points']         = '獎勵積分';
+$_['column_orders']         = '訂單數量';
+$_['column_total']          = '金額總計';
+$_['column_action']         = '管理';
 
 // Entry
-$_['entry_date_start']  = '開始日期(Date Start)';
-$_['entry_date_end']    = '結束日期(Date End)';
-?>
+$_['entry_status']          = '訂單狀態：';
+$_['entry_date_start']      = '開始日期：';
+$_['entry_date_end']        = '結束日期：';
+$_['entry_group']           = '顯示分組：';

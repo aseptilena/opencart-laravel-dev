@@ -1,29 +1,29 @@
 <?php
 // Text
-$_['text_for']          = '購買金額 %s 禮券（收件者：%s）';
-$_['text_success']      = '訂單內容已更新';
+$_['text_for']          = '%s 禮券為 %s';
+$_['text_success']      = '訂單總額已經重新核算！';
 
 // Error
-$_['error_warning']     = '尚有資料未輸入';
-$_['error_permission']  = '您沒有權限修改此項功能';
-$_['error_customer']    = '找不到該名會員';
-$_['error_email']       = 'E-Mail錯誤';
-$_['error_postcode']    = '郵遞區號必須在2到10個字元之間';
-$_['error_country']     = '請選擇國家';
-$_['error_zone']        = '請選擇地區或省';
-$_['error_stock']       = '商品標有 *** 表示數量不足或沒有存貨';
-$_['error_minimum']     = ' %s 最少需訂購 %s 件';	
-$_['error_required']    = '%s 尚未選擇';
-$_['error_shipping']    = '請選擇配送方式';
-$_['error_no_shipping'] = '沒有適合的配送方式可選擇';
-$_['error_payment']     = '請選擇付款方式';
-$_['error_no_payment']  = '沒有適合的付款方式可選擇';
-$_['error_coupon']      = '此優惠券無效或過期或已達優惠人數上限';
-$_['error_voucher']     = '此購物禮券無效或已使用完畢';
-$_['error_reward']      = '請輸入要使用的紅利點數';	
-$_['error_points']      = '您沒有%s 點紅利點數可使用';
-$_['error_maximum']     = '此次消費最高能使用的紅利點數為 %s';
-$_['error_to_name']     = '收件人名稱必須在1到64個字元之間';
-$_['error_from_name']   = '寄件人名稱必須在1到64個字元之間';
-$_['error_amount']      = '金額必須在 %s 和 %s 之間';
+$_['error_warning']     = '警告：請仔細查看下列錯誤信息！';
+$_['error_permission']  = '您沒有權限訪問此頁面，請參閱您的系統管理員。';
+$_['error_customer']    = '警告：無此用戶！';
+$_['error_email']       = '無效的郵箱地址！';
+$_['error_postcode']    = '郵編必須在2到10字符之間！';
+$_['error_country']     = '請選擇一個國家！';
+$_['error_zone']        = '請選擇地區/省份！';
+$_['error_stock']       = '商品標有 *** 表示數量不足或沒有存貨！';
+$_['error_minimum']     = '%s 的最小起訂量是 %s！';	
+$_['error_required']    = '%s 要求！';
+$_['error_shipping']    = '警告：請選擇一個貨運方式！';
+$_['error_no_shipping'] = '警告：無可用貨運方式。';
+$_['error_payment']     = '警告：請選擇一個支付方式！';
+$_['error_no_payment']  = '警告：無可用支付方式。';
+$_['error_coupon']      = '警告：無效優惠券或已經過期！';
+$_['error_voucher']     = '警告：無效禮品券或已經失效！';
+$_['error_reward']      = '警告：請輸入積分數！';	
+$_['error_points']      = '警告：您沒有 %s 積分！';
+$_['error_maximum']     = '警告：您可使用的有效積分數為%s！';
+$_['error_to_name']     = '警告：收券人名字必須在1到64字符之間！';
+$_['error_from_name']   = '警告：您的名字必須在1到64字符之間！';
+$_['error_amount']      = '警告：數值必須在 %s 和 %s 之間！';
 ?>
