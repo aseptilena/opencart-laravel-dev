@@ -50,7 +50,7 @@ class GrantService
 				'rate' => $gain,
 				'amount' => $consumption,
 				'date' => $this->date,
-				'type' => BonusHistory::NTREE_CONSUMPTION
+				'type' => BonusHistory::NTREE_BONUS
 			];
 			if ($this->store) {
 				$this->customer->bonus_histories()->create($info);
@@ -117,7 +117,7 @@ class GrantService
 				'rate' => $gain,
 				'amount' => $consumption,
 				'date' => $this->date,
-				'type' => BonusHistory::BTREE_CONSUMPTION
+				'type' => BonusHistory::BTREE_BONUS
 			];
 			if ($this->store) {
 				$this->customer->bonus_histories()->create($info);
@@ -128,6 +128,7 @@ class GrantService
 		if ($this->store) {
 			$record = $this->customer->profit_record_of_date($this->date);
 			$record->btree_bonus = $total_bonus;
+			$record->used_btree = true;
 			$record->bonus_record .= '已發放行銷紅利'.$total_bonus.'元。';
 			$record->save();
 			$this->customer->customerTransactions()->create([
@@ -143,4 +144,5 @@ class GrantService
 			'histories' => $collect_history,
 		];
 	}
+
 }

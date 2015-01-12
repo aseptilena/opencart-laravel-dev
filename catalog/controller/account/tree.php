@@ -26,7 +26,7 @@ class ControllerAccountTree extends Controller
 		// $customer->grantNtreeBonus($this_month, true);
 		// $service = new UpgradeService($customer);
 		// $service->upgrade();
-
+// Ntree::rebuild(true);
 echo 'end';
 		return;
 		// $customer->consume(100);

@@ -9,4 +9,8 @@ class Language extends Model
 	const CREATED_AT = 'date_added';
 	const UPDATED_AT = 'date_modified';
 
+	static public function current($opencart)
+	{
+		return Language::where('code', '=', $opencart->session->data['language'])->first();
+	}
 }

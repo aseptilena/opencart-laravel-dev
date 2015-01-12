@@ -51,11 +51,20 @@
             </div>
           </div>
           <div class="form-group">
+            <label class="col-sm-2 control-label" for="input-leader">屬於領導階層</label>
+            <div class="col-sm-10">
+              <select name="leader" id="input-leader" class="form-control">
+                <option value="1" @if ($level->leader == 1) selected="selected" @endif>是</option>
+                <option value="0" @if ($level->leader == 0) selected="selected" @endif>否</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
             <label class="col-sm-2 control-label" for="input-jump">可跳升</label>
             <div class="col-sm-10">
               <select name="jump" id="input-jump" class="form-control">
-                <option value="1" @if ($level->jump == 1) selected="selected" @endif>啟用</option>
-                <option value="0" @if ($level->jump == 0) selected="selected" @endif>停用</option>
+                <option value="1" @if ($level->jump == 1) selected="selected" @endif>是</option>
+                <option value="0" @if ($level->jump == 0) selected="selected" @endif>否</option>
               </select>
             </div>
           </div>

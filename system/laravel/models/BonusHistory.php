@@ -4,8 +4,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class BonusHistory extends Model
 {
-	const NTREE_CONSUMPTION = 1;
-    const BTREE_CONSUMPTION = 2;
+	const NTREE_BONUS = 1;
+    const BTREE_BONUS = 2;
+    const LEADER_BONUS = 3;
 
 	protected $fillable = array('source_id', 'bonus', 'rate', 'amount', 'date', 'type');
 
@@ -20,11 +21,14 @@ class BonusHistory extends Model
 	public function typeName()
 	{
 		switch ($this->type) {
-			case self::NTREE_CONSUMPTION:
-				return '來自於N Tree分紅';
+			case self::NTREE_BONUS:
+				return '來自於消費分紅';
 				break;
-			case self::BTREE_CONSUMPTION:
-				return '來自於B Tree分紅';
+			case self::BTREE_BONUS:
+				return '來自於行銷分紅';
+				break;
+			case self::LEADER_BONUS:
+				return '來自於領導分紅';
 				break;
 			default:
 				return 'None';

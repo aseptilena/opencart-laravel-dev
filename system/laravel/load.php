@@ -4,6 +4,7 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 define('START_DATE', '2014-11-01');
+define('ROOT_CUSTOMER', 2);
 
 require_once(DIR_SYSTEM.'laravel/vendor/autoload.php');
 

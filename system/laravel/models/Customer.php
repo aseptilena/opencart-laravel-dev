@@ -54,37 +54,6 @@ class Customer extends Model
 		return $this->hasMany('App\Eloquent\GrantHistory');
 	}
 
-	public function addBtreeChild($customer)
-	{
-		$descendants = $this->btree->descendantsAndSelf()->with('customer')->get()->toHierarchy();
-		$find_descendant = $this->findBtreePosition($descendants);
-
-		$child = Btree::create(['name' => 'Child']);
-		$child->customer()->associate($customer);
-		$child->save();
-		$child->makeChildOf($find_descendant);
-	}
-
-	public function findBtreePosition($descendants) {
-		foreach ($descendants as $descendant) {
-			if ($descendant->children->count() == 0) {
-				return $descendant;
-			}
-		}
-		foreach ($descendants as $descendant) {
-			if ($descendant->children->count() == 1) {
-				return $descendant;
-			}
-		}
-		$collects = array();
-		foreach ($descendants as $descendant) {
-			foreach ($descendant->children as $child) {
-				$collects[] = $child;
-			}
-		}
-		return $this->findBtreePosition($collects);
-	}
-
 	public function pv_histories()
 	{
 		return $this->hasMany('App\Eloquent\PvHistory');
@@ -103,6 +72,40 @@ class Customer extends Model
 	{
 		return $this->hasMany('App\Eloquent\BonusHistory');
 	}
+	public function custom_field($field)
+	{
+		$custom_fields = unserialize($this->custom_field);
+		return $custom_fields[$field];
+	}
+	public function custom_field_filepath($field)
+	{
+		if ($this->custom_field != '') {
+			$custom_fields = unserialize($this->custom_field);
+			if ($custom_fields[$field]) {
+				$upload = Upload::where('code', '=', $custom_fields[$field])->first();
+				return $upload;
+			}
+			else {
+				return Upload::defaultCooperation();
+			}
+		}
+		return Upload::defaultCooperation();
+	}
+
+	static public function generatePromo()
+	{
+		$a = substr(str_shuffle(str_repeat("ABCDEFGHJKMNPQRSTWXYZ", 3)), 0, 3);
+		$b = substr(str_shuffle(str_repeat("123456789", 3)), 0, 3);
+		$promo = $a.$b;
+		$find = Customer::where('promo', '=', $promo)->first();
+		if ($find) {
+			return Customer::generatePromo();
+		}
+		else {
+			return $promo;
+		}
+	}
+
 	public function setPassLevels($levels, $date)
 	{
 		if (count($levels) == 0) {

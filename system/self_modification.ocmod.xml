@@ -1,140 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
 <modification>
-  <name>SELF Modification</name>
-  <code>default</code>
-  <version>1.0</version>
-  <author>Howard Yang</author>
-  <link>http://www.opencart.com</link>
-  <file path="admin/view/template/sale/customer_form.tpl">
-    <operation>
-      <search><![CDATA[<li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>]]></search>
-      <add position="after">
-        <![CDATA[<li><a href="#tab-tree" data-toggle="tab">小資男女</a></li>]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[<div class="tab-pane" id="tab-ip">]]></search>
-      <add position="before">
-        <![CDATA[
+	<name>SELF Modification</name>
+	<code>default</code>
+	<version>1.0</version>
+	<author>Howard Yang</author>
+	<link>http://www.opencart.com</link>
+	<file path="admin/view/template/sale/customer_form.tpl">
+		<operation>
+			<search><![CDATA[<li><a href="#tab-ip" data-toggle="tab"><?php echo $tab_ip; ?></a></li>]]></search>
+			<add position="after">
+<![CDATA[<li><a href="#tab-tree" data-toggle="tab">小資男女</a></li>]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<div class="tab-pane" id="tab-ip">]]></search>
+			<add position="before">
+				<![CDATA[
 <div class="tab-pane" id="tab-tree">
-  <div id="tree">
-  </div>
+	<div id="tree">
+	</div>
 </div>
-        ]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');]]></search>
-      <add position="after">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$('#transaction').load('index.php?route=sale/customer/transaction&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');]]></search>
+			<add position="after">
+				<![CDATA[
 $('#tree').load('index.php?route=sale/tree&token=<?php echo $token; ?>&customer_id=<?php echo $customer_id; ?>');
-        ]]>
-      </add>
-    </operation>
-  </file>
-  <file path="catalog/controller/account/account.php">
-    <operation>
-      <search><![CDATA[$data['wishlist'] = $this->url->link('account/wishlist');]]></search>
-      <add position="after">
-        <![CDATA[$data['tree'] = $this->url->link('account/tree');]]>
-      </add>
-    </operation>
-  </file>
-  <file path="catalog/view/theme/*/template/account/account.tpl">
-    <operation>
-      <search><![CDATA[<li><a href="<?php echo $wishlist; ?>"><?php echo $text_wishlist; ?></a></li>]]></search>
-      <add position="after">
-        <![CDATA[<li><a href="<?php echo $tree; ?>">PV</a></li>]]>
-      </add>
-    </operation>
-  </file>
-  <file path="admin/view/template/catalog/product_form.tpl">
-    <operation>
-      <search><![CDATA[<li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>]]></search>
-      <add position="after">
-        <![CDATA[<li><a href="#tab-bonus" data-toggle="tab">紅利回饋</a></li>]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[<div class="tab-pane" id="tab-design">]]></search>
-      <add position="before">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/account.php">
+		<operation>
+			<search><![CDATA[$data['wishlist'] = $this->url->link('account/wishlist');]]></search>
+			<add position="after">
+				<![CDATA[$data['tree'] = $this->url->link('account/tree');]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/*/template/account/account.tpl">
+		<operation>
+			<search><![CDATA[<li><a href="<?php echo $wishlist; ?>"><?php echo $text_wishlist; ?></a></li>]]></search>
+			<add position="after">
+<![CDATA[<li><a href="<?php echo $tree; ?>">PV</a></li>]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/product_form.tpl">
+		<operation>
+			<search><![CDATA[<li><a href="#tab-design" data-toggle="tab"><?php echo $tab_design; ?></a></li>]]></search>
+			<add position="after">
+<![CDATA[<li><a href="#tab-bonus" data-toggle="tab">紅利回饋</a></li>]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<div class="tab-pane" id="tab-design">]]></search>
+			<add position="before">
+				<![CDATA[
 <div class="tab-pane" id="tab-bonus">
 </div>
-        ]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[$('input[name=\'manufacturer\']').autocomplete({]]></search>
-      <add position="before">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$('input[name=\'manufacturer\']').autocomplete({]]></search>
+			<add position="before">
+				<![CDATA[
 $('#tab-bonus').load('index.php?route=catalog/product_bonus&token=<?php echo $token; ?>&product_id=<?php echo $this->request->get['product_id']; ?>');
-        ]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[<input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />]]></search>
-      <add position="after" offset="2">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />]]></search>
+			<add position="after" offset="2">
+				<![CDATA[
 <div class="form-group">
-  <label class="col-sm-2 control-label" for="input-price">回饋金額</label>
-  <div class="col-sm-10">
-    <input type="text" name="bonus" value="<?php echo $bonus; ?>" placeholder="回饋金額" id="input-bonus" class="form-control" />
-  </div>
+	<label class="col-sm-2 control-label" for="input-price">回饋金額</label>
+	<div class="col-sm-10">
+		<input type="text" name="bonus" value="<?php echo $bonus; ?>" placeholder="回饋金額" id="input-bonus" class="form-control" />
+	</div>
 </div>
-        ]]>
-      </add>
-    </operation>
-  </file>
-  <file path="admin/controller/catalog/product.php">
-    <operation>
-      <search><![CDATA[if (isset($this->request->post['price'])) {]]></search>
-      <add position="before">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/catalog/product.php">
+		<operation>
+			<search><![CDATA[if (isset($this->request->post['price'])) {]]></search>
+			<add position="before">
+				<![CDATA[
 $this->load->model('catalog/hook');
 $product_object = $this->model_catalog_hook->productInfo($this->request->get['product_id']);
 
 if (isset($this->request->post['bonus'])) {
-  $data['bonus'] = $this->request->post['bonus'];
+	$data['bonus'] = $this->request->post['bonus'];
 } elseif (!empty($product_info)) {
-  $data['bonus'] = $product_object->bonus;
+	$data['bonus'] = $product_object->bonus;
 } else {
-  $data['bonus'] = '';
+	$data['bonus'] = '';
 }
-        ]]>
-      </add>
-    </operation>
-    <operation>
-      <search><![CDATA[$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
-      <add position="after">
-        <![CDATA[
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
+			<add position="after">
+				<![CDATA[
 $this->load->model('catalog/hook');
 $this->model_catalog_hook->productSave($this->request->get, $this->request->post);
-        ]]>
-      </add>
-    </operation>
-  </file>
-  <file path="admin/controller/common/menu.php">
-    <operation>
-      <search><![CDATA[$this->load->language('common/menu');]]></search>
-      <add position="after"><![CDATA[
-        $data['sale_level'] = $this->url->link('sale/level', 'token=' . $this->session->data['token'], 'SSL');
-        $data['report_bonus'] = $this->url->link('report/bonus', 'token=' . $this->session->data['token'], 'SSL');
-      ]]></add>
-    </operation>
-  </file>
-  <file path="admin/view/template/common/menu.tpl">
-    <operation>
-      <search><![CDATA[<li><a class="parent"><?php echo $text_voucher; ?></a>]]></search>
-      <add position="before"><![CDATA[
-        <li><a href="<?php echo $sale_level; ?>">會員等級管理</a></li>
-      ]]></add>
-    </operation>
-    <operation>
-      <search><![CDATA[<li><a href="<?php echo $report_sale_coupon; ?>"><?php echo $text_report_sale_coupon; ?></a></li>]]></search>
-      <add position="after"><![CDATA[
-        <li><a href="<?php echo $report_bonus; ?>">紅利會員數據</a></li>
-      ]]></add>
-    </operation>
-  </file>
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/common/menu.php">
+		<operation>
+			<search><![CDATA[$this->load->language('common/menu');]]></search>
+			<add position="after"><![CDATA[
+$data['sale_level'] = $this->url->link('sale/level', 'token=' . $this->session->data['token'], 'SSL');
+$data['report_bonus'] = $this->url->link('report/bonus', 'token=' . $this->session->data['token'], 'SSL');
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/view/template/common/menu.tpl">
+		<operation>
+			<search><![CDATA[<li><a class="parent"><?php echo $text_voucher; ?></a>]]></search>
+			<add position="before"><![CDATA[
+<li><a href="<?php echo $sale_level; ?>">會員等級管理</a></li>
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<li><a href="<?php echo $report_sale_coupon; ?>"><?php echo $text_report_sale_coupon; ?></a></li>]]></search>
+			<add position="after"><![CDATA[
+<li><a href="<?php echo $report_bonus; ?>">紅利會員數據</a></li>
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+if (isset($this->request->get['promo'])) {
+	$this->session->data['promo'] = $this->request->get['promo'];
+}
+				]]>
+			</add>
+		</operation>
+	</file>
+
+	<file path="catalog/controller/account/register.php">
+		<operation>
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after"><![CDATA[
+if (isset($this->request->post['promo']) || isset($this->request->get['promo'])) {
+	$promo = isset($this->request->post['promo']) ? $this->request->post['promo'] : $this->request->get['promo'];
+	$data['promo'] = $promo;
+	$this->load->model('tool/hook');
+	$data['cooperation'] = $this->model_tool_hook->getCooperation($promo);
+} else {
+	$data['promo'] = '';
+}
+$data['cooperation_url'] = $this->url->link('account/cooperation');
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[if (isset($this->error['custom_field'])) {]]></search>
+			<add position="before"><![CDATA[
+if (isset($this->error['promo'])) {
+	$data['error_promo'] = $this->error['promo'];
+} else {
+	$data['error_promo'] = '';
+}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[public function validate() {]]></search>
+			<add position="after"><![CDATA[
+$this->load->model('tool/hook');
+$this->model_tool_hook->validateRegister($this->error, $this->request->post);
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/model/account/customer.php">
+		<operation>
+			<search><![CDATA[$customer_id = $this->db->getLastId();]]></search>
+			<add position="after"><![CDATA[
+$this->load->model('tool/hook');
+$this->model_tool_hook->afterAddCustomer($customer_id, $data);
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/journal2/template/account/register.tpl">
+		<operation>
+			<search><![CDATA[<label class="col-sm-2 control-label" for="input-telephone"><?php echo $entry_telephone; ?></label>]]></search>
+			<add position="before" offset="1"><![CDATA[
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-cooperation">協會名稱</label>
+	<div class="col-sm-10">
+		<p style="padding-top: 7px;">
+		<?php if (isset($cooperation)) { ?>
+		目前選定的協會為<?php echo $cooperation->firstname.$cooperation->lastname; ?>
+		<?php } else { ?>
+		無選定協會
+		<?php } ?>
+		，<a href="<?php echo $cooperation_url; ?>" target="_blank">選擇協會</a></p>
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-promo">或輸入推薦碼</label>
+	<div class="col-sm-10">
+		<input type="text" name="promo" value="<?php echo $promo; ?>" placeholder="推薦碼" id="input-promo" class="form-control" />
+		<?php if ($error_promo) { ?>
+		<div class="text-danger"><?php echo $error_promo; ?></div>
+		<?php } ?>
+	</div>
+</div>
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/edit.php">
+		<operation>
+			<search><![CDATA[$this->load->model('account/custom_field');]]></search>
+			<add position="before"><![CDATA[
+$this->load->model('tool/hook');
+$data['hook'] = $this->model_tool_hook;
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/journal2/template/account/edit.tpl">
+		<operation>
+			<search><![CDATA[<input type="hidden" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : ''); ?>" />]]></search>
+			<add position="after"><![CDATA[
+<?php if (isset($account_custom_field[$custom_field['custom_field_id']])) {
+$upload = $hook->getUpload($account_custom_field[$custom_field['custom_field_id']]);
+	if ($upload->isImage()) {
+		echo '<img id="cooperation_image" src="'.$upload->filepath().'" style="width:200px;">';
+	}
+} ?>
+				]]>
+			</add>
+		</operation>
+	</file>
 </modification>

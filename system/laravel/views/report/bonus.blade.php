@@ -8,7 +8,7 @@
   </script>
   <div class="page-header">
     <div class="container-fluid">
-      <h1>會員等級</h1>
+      <h1>紅利會員數據</h1>
       <ul class="breadcrumb">
         @foreach ($breadcrumbs as $breadcrumb)
         <li><a href="{{ $breadcrumb->href }}">{{ $breadcrumb->text }}</a></li>
@@ -19,7 +19,7 @@
   <div class="container-fluid">
     <div class="panel panel-default">
       <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-list"></i> Customer List</h3>
+        <h3 class="panel-title"><i class="fa fa-list"></i> 數據</h3>
       </div>
       <div class="panel-body">
         <div class="alert alert-info" id="filter_loading" style="display:none;"><i class="fa fa-clock-o"></i> Loading....
@@ -64,9 +64,14 @@
                 <th class="text-right">{{ MyMath::percent($profit_summary->consumption, $order_total) }}</th>
               </tr>
               <tr>
-                <th class="text-right">紅利總金額</th>
+                <th class="text-right">消費與行銷總金額</th>
                 <th class="text-right">{{ number_format($profit_summary->bonus) }}</th>
                 <th class="text-right">{{ MyMath::percent($profit_summary->bonus, $profit_summary->consumption) }}</th>
+              </tr>
+              <tr>
+                <th class="text-right">領導總金額</th>
+                <th class="text-right">{{ number_format($profit_summary->leader_bonus) }}</th>
+                <th class="text-right">{{ MyMath::percent($profit_summary->leader_bonus, $profit_summary->consumption) }}</th>
               </tr>
               <tr>
                 <th class="text-right">會員總人數</th>
