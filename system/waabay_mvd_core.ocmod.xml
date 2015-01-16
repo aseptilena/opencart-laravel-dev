@@ -1,18 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <modification>
-    <id>Multi Vendor Drop Shipper 2.0.1.1 - Coded by waabay.com</id>
-    <version>1.0</version>
-    <vqmver>2.5.1</vqmver>
-    <author>waabay</author>
-	<email>waabay@gmail.com</email>
-	<website>http://www.waabay.com</website>
+	<name>Multi Vendor Drop Shipper 2.0.1.1 - Coded by waabay.com</name>
+	<code>default</code>
+	<version>1.0</version>
+	<author>waabay</author>
+	<link>http://www.waabay.com</link>
 	
 	<!--Edit User Library-->
-	<file name="system/library/user.php">
+	<file path="system/library/user.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			private $permission = array();
 			]]></search>
-			<add><![CDATA[
+			<add position="after"><![CDATA[
 			private $store_permission;
 			private $cat_permission;
 			private $vendor_permission;
@@ -23,10 +23,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$this->username = $user_query->row['username'];
 			]]></search>
-			<add><![CDATA[
+			<add position="after"><![CDATA[
 			$this->store_permission = $user_query->row['store_permission'];
 			$this->cat_permission = $user_query->row['cat_permission'];
 			$this->vendor_permission = $user_query->row['vendor_permission'];
@@ -42,10 +42,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$this->username = '';
 			]]></search>
-			<add><![CDATA[
+			<add position="after"><![CDATA[
 			$this->store_permission = '';
 			$this->cat_permission = '';
 			$this->vendor_permission = '';
@@ -56,10 +56,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="after" offset="1"><![CDATA[
+			<search><![CDATA[
 			return $this->username;
 			]]></search>
-			<add><![CDATA[
+			<add position="after" offset="1"><![CDATA[
 			public function getSP() {
 				return $this->store_permission;
 			}
@@ -87,12 +87,12 @@
 		</operation>
 	</file>
 	
-	<file name="admin/controller/common/column_left.php">
+	<file path="admin/controller/common/column_left.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$data['stats'] = $this->load->controller('common/stats');
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if (!$this->user->getVP()) {
 				$data['stats'] = $this->load->controller('common/stats');
 			} else {
@@ -102,12 +102,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/dashboard.php">
+	<file path="admin/controller/common/dashboard.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$data['footer'] = $this->load->controller('common/footer');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$data['text_total_product'] = $this->language->get('text_total_product');
 			$data['text_total_shipping'] = $this->language->get('text_total_shipping');
 			$data['text_total_product_approval'] = $this->language->get('text_total_product_approval');
@@ -117,12 +117,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/forgotten.php">
+	<file path="admin/controller/common/forgotten.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$this->response->redirect($this->url->link('common/dashboard', '', 'SSL'));
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if (!$this->user->getVP()) {
 				$this->response->redirect($this->url->link('common/dashboard', '', 'SSL'));
 			} else {
@@ -132,22 +132,22 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/header.php">
+	<file path="admin/controller/common/header.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$data['text_logout'] = $this->language->get('text_logout');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$data['text_multi_vendor_status'] = $this->language->get('text_multi_vendor_status');
 			$data['text_total_pending_products'] = $this->language->get('text_total_pending_products');
 			$data['text_total_pending_accounts'] = $this->language->get('text_total_pending_accounts');
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$data['complete_status'] = $this->url->link('sale/order', 'token=' . $this->session->data['token'] . '&filter_order_status=' . implode(',', $this->config->get('config_complete_status')), 'SSL');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$this->load->model('catalog/mvd_product');
 			$total_pending_products = $this->model_catalog_mvd_product->getTotalWaitingApprovalProduct();
 			$data['total_pending_products'] = $total_pending_products;
@@ -160,21 +160,21 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$data['alerts'] = $customer_total + $product_total + $review_total + $return_total + $affiliate_total;
 			]]></search>
-			<add><![CDATA[
+			<add position="replace"><![CDATA[
 			$data['alerts'] = $customer_total + $product_total + $review_total + $return_total + $affiliate_total + $total_pending_products + $total_pending_accounts;
 			]]></add>
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/login.php">
+	<file path="admin/controller/common/login.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$this->response->redirect($this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL'));
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if (!$this->user->getVP()) {
 				$this->response->redirect($this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL'));
 			} else {
@@ -184,12 +184,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/menu.php">
+	<file path="admin/controller/common/menu.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$data['text_openbay_order_import'] = $this->language->get('text_openbay_order_import');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$data['text_vendor_tool'] = $this->language->get('text_vendor_tool');
 			$data['text_add_vendors'] = $this->language->get('text_add_vendors');
 			$data['text_add_courier'] = $this->language->get('text_add_courier');
@@ -213,18 +213,18 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			$data['home'] = $this->url->link('common/dashboard', 'token=' . $this->session->data['token'], 'SSL');
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			if (!$this->user->getVP()) {
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			return $this->load->view('common/menu.tpl', $data);
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			$data['mvd_add_vendors'] = $this->url->link('catalog/vendor', 'token=' . $this->session->data['token'], 'SSL');
 			$data['mvd_add_courier'] = $this->url->link('catalog/courier', 'token=' . $this->session->data['token'], 'SSL');
 			$data['mvd_product'] = $this->url->link('catalog/mvd_product', 'token=' . $this->session->data['token'], 'SSL');
@@ -247,10 +247,10 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			return $this->load->view('common/menu.tpl', $data);
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			} else {
 				$data['home'] = $this->url->link('common/vdi_dashboard', 'token=' . $this->session->data['token'], 'SSL');
 				$data['vdi_product'] = $this->url->link('catalog/vdi_product', 'token=' . $this->session->data['token'], 'SSL');
@@ -281,12 +281,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/profile.php">
+	<file path="admin/controller/common/profile.php">
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			$data['user_group'] = $user_info['user_group'] ;
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			if ($this->user->getExpireDate()!= '0000-00-00') { 
 				$data['expiration_date'] = '<span style="color:white;background-color:#4AA02C;padding:1px 5px 1px 5px;border-radius: 3px 3px 3px 3px">' . $this->user->getExpireDate() . '</span>';
 			} else {
@@ -296,12 +296,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/common/reset.php">
+	<file path="admin/controller/common/reset.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$this->response->redirect($this->url->link('common/dashboard', '', 'SSL'));
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if (!$this->user->getVP()) {
 				$this->response->redirect($this->url->link('common/dashboard', '', 'SSL'));
 			} else {
@@ -310,10 +310,10 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$data['header'] = $this->load->controller('common/header');
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if (!$this->user->getVP()) {
 				$data['header'] = $this->load->controller('common/header');
 			} else {
@@ -323,12 +323,12 @@
 		</operation>
 	</file>
 	
-	<file name="admin/controller/dashboard/recent.php">
+	<file path="admin/controller/dashboard/recent.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			foreach ($results as $result) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$status = $this->model_sale_order->getAllVendorOrderStatus($result['order_id']);
 				
 			if ($status) {
@@ -339,62 +339,62 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			'status'     => $result['status'],
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			'status'     => $status,
 			]]></add>
 		</operation>	
 	</file>
 	
-	<file name="admin/controller/sale/order.php">
+	<file path="admin/controller/sale/order.php">
 		<operation error="skip">
-			<search position="after" index="2"><![CDATA[
+			<search><![CDATA[
 			$data['entry_comment'] = $this->language->get('entry_comment');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" index="2"><![CDATA[			
 			$data['entry_sent_comment_to_all'] = $this->language->get('entry_sent_comment_to_all');
 			$data['help_sent_comment_to_all'] = $this->language->get('help_sent_comment_to_all');
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before" index="2"><![CDATA[
+			<search><![CDATA[
 			$products = $this->model_sale_order->getOrderProducts($this->request->get['order_id']);
 			]]></search>
-			<add><![CDATA[			
+			<add position="before" index="2"><![CDATA[			
 			$this->load->model('catalog/vendor');
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$vname = $this->model_catalog_vendor->getVendor($product['vendor_id']);
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			'name'    	 	   => $product['name'],
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			'vname' 		   => $vname['vendor_name'],
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before" index="2"><![CDATA[
+			<search><![CDATA[
 			foreach ($results as $result) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="before" index="2"><![CDATA[			
 			$this->load->model('catalog/vendor');
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" index="2"><![CDATA[
+			<search><![CDATA[
 			foreach ($results as $result) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" index="2"><![CDATA[			
 			$vendor_info = $this->model_catalog_vendor->getVendor($result['vendor_id']);
 			if (!empty($vendor_info)) {
 				$vendor_name = $vendor_info['vendor_name'];
@@ -404,21 +404,21 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			'status'     => $result['status'],
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			'status'     => $result['status'] . ' - ' . $vendor_name,
 			]]></add>
 		</operation>
 	</file>
 	
-	<file name="admin/language/english/common/dashboard.php">
+	<file path="admin/language/english/common/dashboard.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['heading_title']                = 'Dashboard';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['text_total_product']           = 'Total Products';
 			$_['text_total_shipping']          = 'Total Shipping Charges';
 			$_['text_total_product_approval']  = 'Products Awaiting Approval';
@@ -428,12 +428,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/language/english/common/header.php">
+	<file path="admin/language/english/common/header.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['text_logout']          = 'Logout';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['text_multi_vendor_status']      = 'Multi Vendor';
 			$_['text_total_pending_products']   = 'Products Pending';
 			$_['text_total_pending_accounts']   = 'Accounts Pending';
@@ -441,23 +441,23 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/language/english/common/login.php">
+	<file path="admin/language/english/common/login.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['error_token']    = 'Invalid token session. Please login again.';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['error_expired']  = 'Account Expired. Please contact system administrator.';
 			]]></add>
 		</operation>	
 	</file>
 	
-	<file name="admin/language/english/common/menu.php">
+	<file path="admin/language/english/common/menu.php">
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			$_['text_affiliate']                   = 'Affiliates';
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			$_['expiration_date']      			= 'Account Expiry Date : ';
 			$_['text_vendor_tool']       		= 'Vendors';
 			$_['text_pro2ven']      	 		= 'Vendor Products';
@@ -483,12 +483,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/language/english/sale/order.php">
+	<file path="admin/language/english/sale/order.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['text_history']                            = 'Add Order History';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['entry_sent_comment_to_all']               = 'All Comments';
 			$_['help_sent_comment_to_all']                = '<b>Notify Customer checkbox need to be checked</b>';
 			$_['text_default_store']                      = 'Default Store';
@@ -496,20 +496,20 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/model/sale/order.php">
+	<file path="admin/model/sale/order.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$query = $this->db->query("SELECT oh.date_added, os.name AS status, oh.comment, oh.notify FROM " . DB_PREFIX . "order_history oh LEFT JOIN " . DB_PREFIX . "order_status os ON oh.order_status_id = os.order_status_id WHERE oh.order_id = '" . (int)$order_id . "' AND os.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY oh.date_added ASC LIMIT " . (int)$start . "," . (int)$limit);
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			$query = $this->db->query("SELECT oh.date_added, os.name AS status, oh.comment, oh.notify, oh.vendor_id FROM " . DB_PREFIX . "order_history oh LEFT JOIN " . DB_PREFIX . "order_status os ON oh.order_status_id = os.order_status_id WHERE oh.order_id = '" . (int)$order_id . "' AND os.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY oh.date_added ASC LIMIT " . (int)$start . "," . (int)$limit);
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			public function getTotalEmailsByProductsOrdered($products) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			public function getAllVendorOrderStatus($order_id) {
 				$getOrderStatusID = $this->db->query("SELECT order_status_id FROM  `" . DB_PREFIX . "order` WHERE order_id = '" . (int)$order_id . "'");
 				$count1 = $this->db->query("SELECT COUNT(*) as total FROM  `" . DB_PREFIX . "order_status_vendor_update` WHERE order_id = '" . (int)$order_id . "'");
@@ -551,12 +551,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/view/template/common/header.tpl">
+	<file path="admin/view/template/common/header.tpl">
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			<li class="dropdown-header"><?php echo $text_product; ?></li>
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			<li class="dropdown-header"><?php echo $text_multi_vendor_status; ?></li>
 			<li><a href="<?php echo $pending_products; ?>"><?php echo $text_total_pending_products; ?> <span class="label label-danger pull-right"><?php echo $total_pending_products; ?></a></li>
 			<li><a href="<?php echo $pending_accounts; ?>"><?php echo $text_total_pending_accounts; ?> <span class="label label-danger pull-right"><?php echo $total_pending_accounts; ?></span></a></li>
@@ -565,12 +565,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/view/template/common/menu.tpl">
+	<file path="admin/view/template/common/menu.tpl">
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			<li><a class="parent"><i class="fa fa-share-alt fa-fw"></i> <span><?php echo $text_marketing; ?></span></a>
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			<li id="extension"><a class="parent"><i class="fa fa-users fa-fw"></i> <span><?php echo $text_vendor_tool; ?></span></a>
 			  <ul>
 				<li><a href="<?php echo $mvd_add_vendors; ?>"><?php echo $text_add_vendors; ?></a></li>
@@ -616,12 +616,12 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/language/english/common/profile.php">
+	<file path="admin/language/english/common/profile.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			<small><?php echo $user_group; ?></small></div>
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			<small><?php echo $user_group; ?></small><br ?>
 			<?php if ($expiration_date) { ?>
 			<small><?php echo $expiration_date; ?></small><?php } ?></div>
@@ -629,20 +629,20 @@
 		</operation>	
 	</file>
 	
-	<file name="admin/view/template/sale/order_info.tpl">
+	<file path="admin/view/template/sale/order_info.tpl">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			<td class="text-left"><a href="<?php echo $product['href']; ?>"><?php echo $product['name']; ?></a>
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			&nbsp;<small> - <?php echo $product['vname']; ?></small>
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" offset="2"><![CDATA[
+			<search offset="2"><![CDATA[
 			<input type="checkbox" name="notify" value="1" id="input-notify" />
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			<div class="form-group">
               <label class="col-sm-2 control-label" for="input-sent-comment-to-all"><span data-toggle="tooltip" title="<?php echo $help_sent_comment_to_all; ?>"><?php echo $entry_sent_comment_to_all; ?></span></label>
                 <div class="col-sm-10">
@@ -652,38 +652,38 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			data: 'order_status_id=' + encodeURIComponent($('select[name=\'order_status_id\']').val()) + '&notify=' + ($('input[name=\'notify\']').prop('checked') ? 1 : 0) + '&append=' + ($('input[name=\'append\']').prop('checked') ? 1 : 0) + '&comment=' + encodeURIComponent($('textarea[name=\'comment\']').val()),
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			data: 'order_status_id=' + encodeURIComponent($('select[name=\'order_status_id\']').val()) + '&notify=' + ($('input[name=\'notify\']').prop('checked') ? 1 : 0) + '&sent_comment_to_all=' + ($('input[name=\'sent_comment_to_all\']').prop('checked') ? 1 : 0) + '&append=' + ($('input[name=\'append\']').prop('checked') ? 1 : 0) + '&comment=' + encodeURIComponent($('textarea[name=\'comment\']').val()),
 			]]></add>
 		</operation>
 	</file>
 	
-	<file name="catalog/controller/api/order.php">
+	<file path="catalog/controller/api/order.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			'notify',
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			'sent_comment_to_all',
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$this->model_checkout_order->addOrderHistory($order_id, $this->request->post['order_status_id'], $this->request->post['comment'], $this->request->post['notify']);	
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			$this->model_checkout_order->addOrderHistory($order_id, $this->request->post['order_status_id'], $this->request->post['comment'], $this->request->post['notify'], $this->request->post['sent_comment_to_all']);
 			$this->UpdateAllMultiVendorOrderStatus($order_id, $this->request->post['order_status_id']);
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			public function history() {
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			public function UpdateAllMultiVendorOrderStatus($order_id, $order_status_id) {
 				$this->db->query("UPDATE `" . DB_PREFIX . "order_status_vendor_update` SET order_status_id = '" . (int)$order_status_id . "' WHERE order_id = '" . $order_id . "'");
 				$this->db->query("UPDATE `" . DB_PREFIX . "order_product` SET order_status_id = '" . (int)$order_status_id . "' WHERE order_id = '" . $order_id . "'");
@@ -692,12 +692,12 @@
 		</operation>
 	</file>
 	
-	<file name="catalog/controller/checkout/confirm.php">
+	<file path="catalog/controller/checkout/confirm.php">
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			$order_data['products'][] = array(
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			$get_vendor_id = $this->db->query("SELECT v.vendor AS vendor, cm.commission_type AS commission_type, cm.commission AS commission, cm.commission_name as commission_name FROM `" . DB_PREFIX . "vendor` v LEFT JOIN `" . DB_PREFIX . "vendors` vds ON (v.vendor = vds.vendor_id) LEFT JOIN `" . DB_PREFIX . "commission` cm ON (vds.commission_id = cm.commission_id) WHERE v.vproduct_id = '" . (int)$product['product_id'] . "'");
 			if (isset($get_vendor_id->row['vendor'])) {
 				switch ($get_vendor_id->row['commission_type']) {
@@ -763,10 +763,10 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" index="1"><![CDATA[
+			<search><![CDATA[
 			'subtract'   => $product['subtract'],
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" index="1"><![CDATA[			
 			'commission' 	=> $commission,
 			'vendor_id'  	=> $vendor_id,
 			'vendor_total' 	=> $vendor_total,
@@ -777,40 +777,40 @@
 		</operation>
 	</file>
 	
-	<file name="catalog/language/english/checkout.php">
+	<file path="catalog/language/english/checkout.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['text_year']                      = 'year';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['text_commission']       		 = 'Commission';
 			]]></add>
 		</operation>
 	</file>
 	
-	<file name="catalog/model/checkout/order.php">
+	<file path="catalog/model/checkout/order.php">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_id = '" . (int)$order_id . "', product_id = '" . (int)$product['product_id'] . "', name = '" . $this->db->escape($product['name']) . "', model = '" . $this->db->escape($product['model']) . "', quantity = '" . (int)$product['quantity'] . "', price = '" . (float)$product['price'] . "', total = '" . (float)$product['total'] . "', tax = '" . (float)$product['tax'] . "', reward = '" . (int)$product['reward'] . "'");
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			$this->db->query("INSERT INTO " . DB_PREFIX . "order_product SET order_id = '" . (int)$order_id . "', product_id = '" . (int)$product['product_id'] . "', name = '" . $this->db->escape($product['name']) . "', model = '" . $this->db->escape($product['model']) . "', quantity = '" . (int)$product['quantity'] . "', price = '" . (float)$product['price'] . "', total = '" . (float)$product['total'] . "', tax = '" . (float)$product['tax'] . "', vendor_id = '" . (int)$product['vendor_id'] . "', commission =  '" . (float)$product['commission'] . "', title = '" . $this->db->escape($product['title']) . "', vendor_total = '" . (float)$product['vendor_total'] . "', vendor_tax = '" . (float)$product['vendor_tax'] . "', store_tax = '" . (float)$product['store_tax'] . "',reward = '" . (int)$product['reward'] . "'");
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" index="1" offset="2"><![CDATA[
+			<search><![CDATA[
 			foreach ($product['option'] as $option) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" index="1" offset="2"><![CDATA[			
 			$getVenId = $this->db->query("SELECT vs.vendor_id AS vendor_id FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "vendor v ON (p.product_id = v.vproduct_id) LEFT JOIN " . DB_PREFIX . "vendors vs ON (v.vendor = vs.vendor_id) WHERE p.product_id = '" . (int)$product['product_id'] . "'");
 			$getVenIds[] = array ('vendor_id' => $getVenId->row['vendor_id']);
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="before"><![CDATA[
+			<search><![CDATA[
 			$this->load->model('checkout/voucher');
 			]]></search>
-			<add><![CDATA[			
+			<add position="before"><![CDATA[			
 			$vendor_cost = $this->getdescost();	
 			$getUniVenId = array_map("unserialize", array_unique(array_map("serialize", $getVenIds)));
 			foreach ($getUniVenId as $vendor) {
@@ -895,10 +895,10 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" index="1"><![CDATA[
+			<search><![CDATA[
 			$this->db->query("INSERT INTO " . DB_PREFIX . "order_total SET order_id = '" . (int)$order_id . "', code = '" . $this->db->escape($total['code']) . "', title = '" . $this->db->escape($total['title']) . "', `value` = '" . (float)$total['value'] . "', sort_order = '" . (int)$total['sort_order'] . "'");
 			]]></search>
-			<add><![CDATA[
+			<add position="after" index="1"><![CDATA[
 			if($total['code'] == 'coupon') {
 				$code = '';		
 				$start = strpos($total['title'], '(') + 1;
@@ -972,28 +972,28 @@
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			public function addOrderHistory($order_id, $order_status_id, $comment = '', $notify = false) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			public function addOrderHistory($order_id, $order_status_id, $comment = '', $notify = false, $sent_comment_to_all = false) {
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="after" offset="2"><![CDATA[
+			<search><![CDATA[
 			$download_status = false;
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" offset="2"><![CDATA[			
 			$this->load->model('tool/upload');
 			$this->db->query("UPDATE `" . DB_PREFIX . "order_product` SET order_status_id = '" . (int)$order_status_id . "' WHERE order_id = '" . (int)$order_id . "'");
 			]]></add>
 		</operation>
 		
 		<operation error="skip">
-			<search position="before" index="1"><![CDATA[
+			<search><![CDATA[
 			$product_download_query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product_to_download` WHERE product_id = '" . (int)$order_product['product_id'] . "'");
 			]]></search>
-			<add><![CDATA[			
+			<add position="before" index="1"><![CDATA[			
 			$option_data_vendor = array();
 			$order_option_vendor_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product['order_product_id'] . "'");
 					
@@ -1036,10 +1036,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="after" offset="2"><![CDATA[
+			<search><![CDATA[
 			$download_status = true;
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" offset="2"><![CDATA[			
 			$vendor_unique = array_map("unserialize", array_unique(array_map("serialize", $vendor_list)));				
 			if (($this->config->get('mvd_email_status')) && (in_array((int)$order_status_id,$this->config->get('mvd_checkout_order_status')))) {
 				if ($vendor_products){
@@ -1310,10 +1310,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			if ($order_info['order_status_id'] && $order_status_id) {
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$order_product_query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
 				$this->db->query("UPDATE `" . DB_PREFIX . "order_product` SET order_status_id = '" . (int)$order_status_id . "' WHERE order_id = '" . (int)$order_id . "'");
 				
@@ -1634,10 +1634,10 @@
 		</operation>
 		
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$message .= strip_tags($comment) . "\n\n";
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if ($notify && $sent_comment_to_all) {
 				$getComments = $this->getVendorComment($order_id);
 					foreach ($getComments AS $Comment) {
@@ -1652,10 +1652,10 @@
 		</operation>
 		<!--Start version 2.0.0.0-->
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			$message .= $comment . "\n\n";
 			]]></search>
-			<add><![CDATA[			
+			<add position="replace"><![CDATA[			
 			if ($notify && $sent_comment_to_all) {
 				$getComments = $this->getVendorComment($order_id);
 					foreach ($getComments AS $Comment) {
@@ -1670,10 +1670,10 @@
 		</operation>
 		<!--End version 2.0.0.0-->
 		<operation error="skip">
-			<search position="after" offset="1"><![CDATA[
+			<search><![CDATA[
 			$this->event->trigger('post.order.history.add', $order_id);
 			]]></search>
-			<add><![CDATA[			
+			<add position="after" offset="1"><![CDATA[			
 				Private function getdescost() {
 				$purchase_product = array();
 				$vendor_country = array();
@@ -1933,23 +1933,23 @@
 		</operation>
 	</file>
 	
-	<file name="catalog/language/english/checkout/checkout.php">
+	<file path="catalog/language/english/checkout/checkout.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['text_year']                      = 'year';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['text_commission']       		 = 'Commission';
 			]]></add>
 		</operation>
 	</file>
 	
-	<file name="catalog/controller/common/header.php">
+	<file path="catalog/controller/common/header.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$data['telephone'] = $this->config->get('config_telephone');
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$data['signup'] = $this->url->link('account/signup', '', 'SSL');
 			$data['mvd_login'] = HTTP_SERVER . 'admin';
 			$data['txt_signup'] = $this->language->get('txt_signup');
@@ -1959,24 +1959,24 @@
 		</operation>	
 	</file>
 	
-	<file name="catalog/language/english/common/header.php">
+	<file path="catalog/language/english/common/header.php">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			$_['text_all']           = 'See All';
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			$_['txt_signup']         = 'Sign Up';
 			$_['text_seller']        = 'Seller Account';
 			]]></add>
 		</operation>	
 	</file>
 	
-	<file name="catalog/view/theme/default/template/common/header.tpl">
+	<file path="catalog/view/theme/default/template/common/header.tpl">
 		<operation error="skip">
-			<search position="after"><![CDATA[
+			<search><![CDATA[
 			<li><a href="<?php echo $contact; ?>"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md"><?php echo $telephone; ?></span></li>
 			]]></search>
-			<add><![CDATA[
+			<add position="after"><![CDATA[
 			<?php if ($mvd_signup) { ?>
 			<li class="dropdown"><a href="<?php echo $signup; ?>" title="<?php echo $text_seller; ?>" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users fa-fw"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $text_seller; ?></span> <span class="caret"></span></a>
 			  <ul class="dropdown-menu dropdown-menu-right">
@@ -1989,20 +1989,20 @@
 		</operation>	
 	</file>
 	
-	<file name="catalog/view/theme/default/template/checkout/shipping_method.tpl">
+	<file path="catalog/view/theme/default/template/checkout/shipping_method.tpl">
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			<input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
 			]]></search>
-			<add><![CDATA[
+			<add position="after"><![CDATA[
 			<?php echo isset($quote['cimage']) ? $quote['cimage'] : ''; ?><input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
 			]]></add>
 		</operation>
 		<operation error="skip">
-			<search position="replace"><![CDATA[
+			<search><![CDATA[
 			<input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
 			]]></search>
-			<add><![CDATA[			
+			<add position="after"><![CDATA[			
 			<?php echo isset($quote['cimage']) ? $quote['cimage'] : ''; ?><input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
 			]]></add>
 		</operation>	
