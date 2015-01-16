@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Multi Vendor Drop Shipper 2.0.1.1 - 3 - Coded by waabay.com</name>
+	<code>default</code>
+	<version>1.0</version>
+	<author>waabay</author>
+	<link>http://www.waabay.com</link>
+	
+	<file path="catalog/language/english/checkout/checkout.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['text_year']                      = 'year';
+			]]></search>
+			<add position="after"><![CDATA[			
+			$_['text_commission']       		 = 'Commission';
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/controller/common/header.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$data['telephone'] = $this->config->get('config_telephone');
+			]]></search>
+			<add position="after"><![CDATA[			
+			$data['signup'] = $this->url->link('account/signup', '', 'SSL');
+			$data['mvd_login'] = HTTP_SERVER . 'admin';
+			$data['txt_signup'] = $this->language->get('txt_signup');
+			$data['text_seller'] = $this->language->get('text_seller');
+			$data['mvd_signup'] = $this->config->get('mvd_sign_up');
+			]]></add>
+		</operation>	
+	</file>
+	
+	<file path="catalog/language/english/common/header.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['text_all']           = 'See All';
+			]]></search>
+			<add position="after"><![CDATA[			
+			$_['txt_signup']         = 'Sign Up';
+			$_['text_seller']        = 'Seller Account';
+			]]></add>
+		</operation>	
+	</file>
+	
+	<file path="catalog/view/theme/default/template/common/header.tpl">
+		<operation error="skip">
+			<search><![CDATA[
+			<li><a href="<?php echo $contact; ?>"><i class="fa fa-phone"></i></a> <span class="hidden-xs hidden-sm hidden-md"><?php echo $telephone; ?></span></li>
+			]]></search>
+			<add position="after"><![CDATA[
+			<?php if ($mvd_signup) { ?>
+			<li class="dropdown"><a href="<?php echo $signup; ?>" title="<?php echo $text_seller; ?>" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-users fa-fw"></i> <span class="hidden-xs hidden-sm hidden-md"><?php echo $text_seller; ?></span> <span class="caret"></span></a>
+			  <ul class="dropdown-menu dropdown-menu-right">
+				<li><a href="<?php echo $signup; ?>"><?php echo $txt_signup; ?></a></li>
+				<li><a href="<?php echo $mvd_login; ?>"><?php echo $text_login; ?></a></li>
+			  </ul>
+			</li>
+			<?php } ?>
+			]]></add>
+		</operation>	
+	</file>
+	
+	<!-- <file path="catalog/view/theme/default/template/checkout/shipping_method.tpl">
+		<operation error="skip">
+			<search><![CDATA[
+			<input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
+			]]></search>
+			<add position="after"><![CDATA[
+			<?php echo isset($quote['cimage']) ? $quote['cimage'] : ''; ?><input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" checked="checked" />
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search><![CDATA[
+			<input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
+			]]></search>
+			<add position="after"><![CDATA[			
+			<?php echo isset($quote['cimage']) ? $quote['cimage'] : ''; ?><input type="radio" name="shipping_method" value="<?php echo $quote['code']; ?>" />
+			]]></add>
+		</operation>	
+	</file> -->
+</modification>
