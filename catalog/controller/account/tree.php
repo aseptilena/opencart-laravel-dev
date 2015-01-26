@@ -20,7 +20,8 @@ class ControllerAccountTree extends Controller
 		$this->document->addStyle('catalog/view/javascript/jquery/jstree/themes/default/style.min.css');
 
 		$customer = Customer::find(2);
-
+print_r($customer);
+die();
 		// $this_month = new DateTime('NOW');
 		// $this_month->modify('first day of this month');
 		// $customer->grantNtreeBonus($this_month, true);
