@@ -427,6 +427,21 @@
 			]]></add>
 		</operation>	
 	</file>
+
+	<file path="admin/language/english/common/dashboard.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['heading_title']
+			]]></search>
+			<add position="after"><![CDATA[			
+			$_['text_total_product']           = '總產品數';
+			$_['text_total_shipping']          = '總貨運成本';
+			$_['text_total_product_approval']  = '等待審核的產品';
+			$_['text_total_product_pendding']  = 'Products Pending Approval';
+			$_['text_total_vendor_approval']   = '等待審核的帳戶';
+			]]></add>
+		</operation>	
+	</file>
 	
 	<file path="admin/language/english/common/header.php">
 		<operation error="skip">
@@ -440,6 +455,19 @@
 			]]></add>
 		</operation>	
 	</file>
+
+	<file path="admin/language/zh-TW/common/header.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['text_logout']
+			]]></search>
+			<add position="after"><![CDATA[			
+			$_['text_multi_vendor_status']      = '多個供應商';
+			$_['text_total_pending_products']   = '產品等候';
+			$_['text_total_pending_accounts']   = '帳戶等候';
+			]]></add>
+		</operation>	
+	</file>
 	
 	<file path="admin/language/english/common/login.php">
 		<operation error="skip">
@@ -448,6 +476,17 @@
 			]]></search>
 			<add position="after"><![CDATA[			
 			$_['error_expired']  = 'Account Expired. Please contact system administrator.';
+			]]></add>
+		</operation>	
+	</file>
+
+	<file path="admin/language/zh-TW/common/login.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['error_token']
+			]]></search>
+			<add position="after"><![CDATA[			
+			$_['error_expired']  = '帳戶過期，請聯絡管理員。';
 			]]></add>
 		</operation>	
 	</file>
@@ -479,6 +518,37 @@
 			$_['text_vendor_tools']      		= 'Tools';
 			$_['text_quicker_status_modifier']  = 'Quicker Status Modifier';
 			$_['text_contract_status_modifier'] = 'Contract Status Modifier';
+			]]></add>
+		</operation>	
+	</file>
+
+	<file path="admin/language/zh-TW/common/menu.php">
+		<operation error="skip">
+			<search><![CDATA[
+			$_['text_affiliate']
+			]]></search>
+			<add position="before"><![CDATA[			
+			$_['expiration_date']      			= '帳戶過期時間 : ';
+			$_['text_vendor_tool']       		= '供應商';
+			$_['text_pro2ven']      	 		= '供應商商品';
+			$_['text_add_vendors']       	    = '管理供應商';
+			$_['text_add_courier']       		= '管理配送商';
+			$_['text_vendor_sales']      	    = '銷售';
+			$_['text_vendor_sales_orders']      = '訂單';
+			$_['text_vendor_report']      	    = '報告';
+			$_['text_vendor_transaction']      	= '交易';
+			$_['text_payment_history']      	= '付款歷史';
+			$_['text_contract_history']     	= '合約歷史';
+			$_['text_setup']       		   		= '設定';
+			$_['text_vendor_setting']      		= '貨運商設定';
+			$_['text_vendor_commission']      	= '佣金';
+			$_['text_package_limit']      	   	= '產品限制';
+			$_['text_vendor_personal']      	= '個人資料';
+			$_['text_vendor_update_profile']   	= '更新資料';
+			$_['text_vendor_update_password']   = '換密碼';
+			$_['text_vendor_tools']      		= '工具';
+			$_['text_quicker_status_modifier']  = '快速修改狀態';
+			$_['text_contract_status_modifier'] = '修改合約狀態';
 			]]></add>
 		</operation>	
 	</file>
