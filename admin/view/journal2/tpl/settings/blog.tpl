@@ -615,5 +615,65 @@
                 </accordion>
             </ul>
         </accordion-group>
+
+        <!--RSS Feed-->
+        <accordion-group is-open="accordion.accordions[2]">
+            <accordion-heading>
+                <div class="accordion-bar bar-level-0">RSS Feed</div>
+            </accordion-heading>
+            <ul class="module-create-options">
+                <li>
+                    <span class="module-create-title">Feed Icon</span>
+                        <span class="module-create-option">
+                            <j-opt-icon data-ng-model="settings.feed_icon"></j-opt-icon>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
+
+                <li>
+                    <span class="module-create-title">Text</span>
+                        <span class="module-create-option">
+                            <j-opt-text-lang data-ng-model="settings.feed_text"></j-opt-text-lang>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+
+                <li>
+                    <span class="module-create-title">Text Font</span>
+                        <span class="module-create-option">
+                            <j-opt-font data-ng-model="settings.feed_text_font"></j-opt-font>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+
+                <li>
+                    <span class="module-create-title">Text Hover</span>
+                        <span class="module-create-option">
+                            <j-opt-color data-ng-model="settings.feed_text_font_hover"></j-opt-color>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+
+                <li>
+                    <span class="module-create-title">Position Offset <small>Top x Right</small></span>
+                        <span class="module-create-option">
+                            <j-opt-text data-ng-model="settings.feed_text_offset_top" class="journal-number-field"></j-opt-text> x
+                            <j-opt-text data-ng-model="settings.feed_text_offset_right" class="journal-number-field"></j-opt-text>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+
+                <li>
+                    <span class="module-create-title">Feed Image Dimensions <small>Width x Height</small></span>
+                        <span class="module-create-option">
+                            <j-opt-text data-ng-model="settings.feed_image_width" class="journal-number-field"></j-opt-text> x
+                            <j-opt-text data-ng-model="settings.feed_image_height" class="journal-number-field"></j-opt-text>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+
+
+            </ul>
+            </accordion-group>
     </accordion>
 </div>

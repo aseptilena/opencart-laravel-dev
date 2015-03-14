@@ -190,7 +190,20 @@
                                     <switch-option key="newest">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Latest&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</switch-option>
                                     <switch-option key="comments">Most Commented&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</switch-option>
                                     <switch-option key="views">Most Viewed</switch-option>
+                                    <switch-option key="custom">Custom</switch-option>
                                 </switch>
+                            </span>
+                        </li>
+                        <li data-ng-show="column.type === 'posts' && column.posts_type === 'custom'">
+                            <span class="module-create-title">Posts</span>
+                            <span class="module-create-option">
+                                <ul class="simple-list">
+                                    <li data-ng-repeat="post in column.posts">
+                                        <blog-post-search model="post.data"></blog-post-search>
+                                        <a class="btn red delete" href="javascript:;" data-ng-click="removePost(column, $index)">X</a>
+                                    </li>
+                                </ul>
+                                <a href="javascript:;" data-ng-click="addPost(column)" class="btn blue add-product">Add</a>
                             </span>
                         </li>
                         <li data-ng-show="column.type === 'products' && column.section_type == 'module'">

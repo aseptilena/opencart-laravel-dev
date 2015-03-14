@@ -530,6 +530,20 @@
                         <a href="#" target="_blank" class="journal-tip"></a>
                     </li>
                     <li>
+                    <span class="module-create-title">User Website Font</span>
+                                                <span class="module-create-option">
+                                                    <j-opt-font data-ng-model="settings.post_comment_user_site_font"></j-opt-font>
+                                                </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+                    <li>
+                        <span class="module-create-title">User Website Font Hover</span>
+                                                <span class="module-create-option">
+                                                    <j-opt-color data-ng-model="settings.post_comment_user_site_hover"></j-opt-color>
+                                                </span>
+                        <a href="#" target="_blank" class="journal-tip"></a>
+                    </li>
+                    <li>
                         <span class="module-create-title">Comment Font</span>
                                                 <span class="module-create-option">
                                                     <j-opt-font data-ng-model="settings.post_comment_font"></j-opt-font>

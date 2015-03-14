@@ -26,7 +26,7 @@
         <!--Notification-->
         <accordion-group is-open="accordion.accordions[0]">
             <accordion-heading>
-                <div class="accordion-bar bar-level-0">Notification</div>
+                <div class="accordion-bar bar-level-0">General</div>
             </accordion-heading>
             <ul class="module-create-options">
 

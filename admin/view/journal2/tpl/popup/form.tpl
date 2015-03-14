@@ -72,6 +72,18 @@
                         </switch>
                     </span>
                 </li>
+                <li>
+                    <span class="module-create-title">Show After <small>In Milliseconds</small></span>
+                    <span class="module-create-option">
+                        <input type="text" class="journal-input journal-number-field" data-ng-model="module_data.open_after" />
+                    </span>
+                </li>
+                <li>
+                    <span class="module-create-title">Auto Close After <small>In Milliseconds</small></span>
+                    <span class="module-create-option">
+                        <input type="text" class="journal-input journal-number-field" data-ng-model="module_data.close_after" />
+                    </span>
+                </li>
                 <li data-ng-show="module_data.type == 'text'">
                     <span class="module-create-title">Content Padding</span>
                     <span class="module-create-option">

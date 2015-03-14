@@ -13,8 +13,8 @@ class ModelJournal2Menu extends Model {
 
         $menus = array(
             'common/home'                   => 'text_home',
-            'account/wishlist'              => sprintf($text_wishlist, '<span class="product-count">' . (isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0) . '</span>'),
-            'product/compare'               => sprintf($this->language->get('text_compare'), '<span class="product-count">' . (isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0)  . '</span>'),
+            'account/wishlist'              => sprintf($text_wishlist, '<span class="product-count">{{_wishlist_}}</span>'),
+            'product/compare'               => sprintf($this->language->get('text_compare'), '<span class="product-count">{{_compare_}}</span>'),
             'account/account'               => 'text_account',
             'checkout/cart'                 => 'text_shopping_cart',
             'checkout/checkout'             => 'text_checkout',
@@ -70,11 +70,9 @@ class ModelJournal2Menu extends Model {
                 $href = "javascript:Journal.openPopup('{$link['menu_item']}')";
                 break;
             case 'opencart':
-                $customer_name = null;
                 switch ($link['menu_item']['page']) {
                     case 'login':
                         $link['menu_item']['page'] = $this->customer->isLogged() ? 'account/account' : 'account/login';
-                        $customer_name = $this->customer->getFirstName();
                         break;
                     case 'register':
                         $link['menu_item']['page'] = $this->customer->isLogged() ? 'account/logout' : 'account/register';
@@ -114,6 +112,15 @@ class ModelJournal2Menu extends Model {
             $page = 'account/return/add';
         }
         return $this->url->link($page, '', 'SSL');
+    }
+
+    public function replaceCacheVars($cache) {
+        $cache = str_replace('{{_wishlist_}}', isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0, $cache);
+        $cache = str_replace('{{_compare_}}', isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0, $cache);
+        if ($this->customer->isLogged()) {
+            $cache = str_replace('{{_customer_}}', $this->customer->getFirstName(), $cache);
+        }
+        return $cache;
     }
 
 }

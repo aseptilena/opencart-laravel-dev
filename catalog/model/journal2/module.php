@@ -94,7 +94,7 @@ class ModelJournal2Module extends Model {
                 }
                 $this->journal2->settings->set('enquiry_button_text', Journal2Utils::getProperty($tab, 'name.value.' . $this->config->get('config_language_id')));
                 $this->journal2->settings->set('enquiry_button_icon', Journal2Utils::getIconOptions2(Journal2Utils::getProperty($tab, 'icon')));
-                $this->journal2->settings->set('enquiry_popup_code' , "javascript:Journal.openPopup('" . (int)Journal2Utils::getProperty($tab, 'popup') . "')");
+                $this->journal2->settings->set('enquiry_popup_code' , (int)Journal2Utils::getProperty($tab, 'popup'));
                 switch (Journal2Utils::getProperty($tab, 'global')) {
                     case 0:
                         foreach (Journal2Utils::getProperty($tab, 'products', array()) as $product) {

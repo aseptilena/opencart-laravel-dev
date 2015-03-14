@@ -8,6 +8,12 @@
 <?php echo $column_left; ?><?php echo $column_right; ?>
 <div id="content">
     <h1 class="heading-title"><?php echo $heading_title; ?></h1><?php echo $content_top; ?>
+    <?php if ($this->journal2->settings->get('blog_blog_feed_url')): ?>
+    <a class="journal-blog-feed" href="<?php echo $this->journal2->settings->get('blog_blog_feed_url'); ?>" target="_blank"><span class="feed-text"><?php echo $this->journal2->settings->get("feed_text"); ?></span></a>
+    <?php endif; ?>
+    <?php if (isset($category_description) && $category_description): ?>
+    <div><?php echo $category_description; ?></div>
+    <?php endif; ?>
     <?php if ($posts): ?>
     <div class="posts main-posts blog-<?php echo $this->journal2->settings->get("config_blog_settings.posts_display", "grid"); ?>-view">
         <?php foreach ($posts as $post): ?>

@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -56,6 +56,14 @@
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
   -webkit-background-clip: padding-box;
   background-clip: padding-box; }
+  .dropdown-menu > li > a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.428571429;
+    color: #333;
+    white-space: nowrap; }
   .dropdown-menu * {
     box-sizing: border-box; }
 
@@ -88,7 +96,7 @@
   background-color: #428bca; }
 
 .btn-danger {
-  background-color: #EA2E49; }
+  background-color: #ea2e49; }
   .btn-danger:hover {
     color: white; }
 
@@ -252,13 +260,17 @@
   border-radius: 2px;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05); }
 
+.action-area .panel {
+  margin-bottom: 5px; }
+
 .panel-body {
   padding: 15px;
   background-color: white; }
 
 .panel-heading {
   padding: 10px;
-  background-color: #5F6874; }
+  background-color: #5f6874;
+  transition: all 0.2s; }
   .panel-heading a:hover {
     color: #6fb9f9; }
 
@@ -315,7 +327,7 @@ button.close {
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 1040;
+  z-index: 10400;
   -webkit-overflow-scrolling: touch;
   outline: 0; }
 
@@ -361,9 +373,9 @@ button.close {
   right: 0;
   left: 0;
   background-color: #000000;
-  z-index: 999;
+  z-index: 9999;
   width: 100%;
-  height: 100%; }
+  height: 200%; }
 
 .modal-backdrop.fade {
   opacity: 0;
@@ -450,6 +462,7 @@ button.close {
   font-family: 'Glyphicons Halflings';
   src: url("../../../javascript/bootstrap/fonts/glyphicons-halflings-regular.eot");
   src: url("../../../javascript/bootstrap/fonts/glyphicons-halflings-regular.eot?#iefix") format("embedded-opentype"), url("../../../javascript/bootstrap/fonts/glyphicons-halflings-regular.woff") format("woff"), url("../../../javascript/bootstrap/fonts/glyphicons-halflings-regular.ttf") format("truetype"), url("../../../javascript/bootstrap/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular") format("svg"); }
+
 .glyphicon, .glyphicon:before {
   position: relative;
   top: 1px;

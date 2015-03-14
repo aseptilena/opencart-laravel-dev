@@ -2546,7 +2546,7 @@ a.news-export:before{
   label.close-others input {
     top: 1px;
   }
-  .journal-body .collapse {
+  #journal-body .collapse {
      display: block;
   }
   .accordion-inner ul {
@@ -2765,5 +2765,17 @@ a.news-export:before{
     padding: 0 6px;
     font-size: 10.5px;
   }
+  .multi-lang > span img{
+    right: -8px;
+    top: 7px;
+  }
+  .multi-lang > span textarea + img{
+    right:-70px;
+  }
 }
 
+html:not(.oc2) #header{
+  display: inline-block;
+  width: 100%;
+  max-height: 85px;
+}

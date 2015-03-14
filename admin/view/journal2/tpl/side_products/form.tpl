@@ -47,14 +47,16 @@
                 <li data-ng-show="module_data.section_type == 'module'">
                     <span class="module-create-title">Module Type <small data-ng-show="module_data.section_type == 'module' && (module_data.module_type === 'related' || module_data.module_type === 'people-also-bought')">Product Layout Only</small></span>
                     <span class="module-create-option">
-                        <switch data-ng-model="module_data.module_type">
-                            <switch-option key="featured">Featured</switch-option>
-                            <switch-option key="bestsellers">Bestsellers</switch-option>
-                            <switch-option key="specials">Specials</switch-option>
-                            <switch-option key="latest">Latest</switch-option>
-                            <switch-option key="related">Related</switch-option>
-                            <switch-option key="people-also-bought">Also Bought</switch-option>
-                        </switch>
+                        <select data-ng-model="module_data.module_type" ui-select2="{minimumResultsForSearch: -1}">
+                            <option value="featured">Featured</option>
+                            <option value="bestsellers">Bestsellers</option>
+                            <option value="specials">Specials</option>
+                            <option value="latest">Latest</option>
+                            <option value="related">Related</option>
+                            <option value="people-also-bought">Also Bought</option>
+                            <option value="recently-viewed">Recently Viewed</option>
+                            <option value="most-viewed">Most Viewed</option>
+                        </select>
                     </span>
                 </li>
                 <li data-ng-show="module_data.section_type == 'module' && module_data.module_type == 'featured' && featured_modules !== null">

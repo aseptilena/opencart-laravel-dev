@@ -105,6 +105,9 @@
 <?php endif; ?>
         <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" class="form-horizontal">
         <fieldset>
+          <?php if (isset($product_id) && $product_id): ?>
+          <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
+          <?php endif; ?>
           <?php if (!isset($is_j2_popup)): ?>
           <h2 class="secondary-title"><?php echo $text_contact; ?></h2>
           <?php endif; ?>

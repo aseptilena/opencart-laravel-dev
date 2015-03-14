@@ -445,6 +445,9 @@ class Journal2Utils {
     }
 
     public static function staticAsset($url) {
+        if (self::isExternalResource($url)) {
+            return $url;
+        }
         $https = isset($_SERVER['HTTPS']) && (($_SERVER['HTTPS'] == 'on') || ($_SERVER['HTTPS'] == '1'));
         if ($https && defined('HTTPS_STATIC_CDN')) {
             return HTTPS_STATIC_CDN . $url;
@@ -461,6 +464,17 @@ class Journal2Utils {
             return true;
         }
         return (bool)$obj->journal2->settings->get('enquiry_products.' . $product_id, false);
+    }
+
+    public static function isLocalResource($url) {
+        if (strpos($url, '//') === 0) {
+            return false;
+        }
+        return !filter_var($url, FILTER_VALIDATE_URL);
+    }
+
+    public static function isExternalResource($url) {
+        return !self::isLocalResource($url);
     }
 
 }

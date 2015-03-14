@@ -114,6 +114,7 @@ define(['./../module', 'underscore'], function (module, _) {
                 items_limit: 4,
                 module_type: 'featured',
                 posts_type: 'newest',
+                posts: [],
                 status: '1',
                 disable_mobile: '0'
             };
@@ -503,6 +504,16 @@ define(['./../module', 'underscore'], function (module, _) {
         /* remove product */
         $scope.removeProduct = function (section, $index) {
             section.products.splice($index, 1);
+        };
+
+        /* add post */
+        $scope.addPost = function (column) {
+            column.posts.push({ });
+        };
+
+        /* remove product */
+        $scope.removeProduct = function (column, $index) {
+            column.posts.splice($index, 1);
         };
     });
 

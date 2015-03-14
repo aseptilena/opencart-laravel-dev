@@ -6,7 +6,7 @@
     <?php } ?>
   </ul>
   <?php if ($error_warning) { ?>
-  <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?></div>
+  <div class="alert alert-danger warning"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?></div>
   <?php } ?>
   <div class="row"><?php echo $column_left; ?><?php echo $column_right; ?>
     <?php if ($column_left && $column_right) { ?>
@@ -283,8 +283,7 @@ $('button[id^=\'button-custom-field\']').on('click', function() {
 								
 					if (json['success']) {
 						alert(json['success']);
-            $('#cooperation_image').before('已上傳圖片，請存擋');
-            $('#cooperation_image').remove();
+						
 						$(node).parent().find('input').attr('value', json['code']);
 					}
 				},			

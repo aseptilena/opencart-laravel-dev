@@ -288,5 +288,39 @@ class ModelJournal2Product extends Model {
         return array_slice($this->model_catalog_product->getProductRelated($product_id), 0, $limit);
     }
 
+    public function getMostViewed($limit = 5) {
+        $sql = '
+            SELECT p.product_id
+            FROM ' . DB_PREFIX . 'product p
+            LEFT JOIN ' . DB_PREFIX . 'product_to_store p2s ON (p.product_id = p2s.product_id)
+            WHERE p.status = "1"
+                AND p.date_available <= NOW()
+                AND p2s.store_id = "' . (int)$this->config->get('config_store_id') . '"
+            ORDER BY viewed DESC
+            LIMIT ' . (int)$limit;
+        $query = $this->db->query($sql);
+        $results = array();
+        foreach ($query->rows as $row) {
+            $result = $this->model_catalog_product->getProduct($row['product_id']);
+            if ($result) {
+                $results[] = $result;
+            }
+        }
+        return $results;
+    }
+
+    public function getRecentlyViewed($limit = 5) {
+        $products = isset($this->request->cookie['jrv']) && $this->request->cookie['jrv'] ? explode(',', $this->request->cookie['jrv']) : array();
+        $products = array_slice($products, 0, $limit);
+        $results = array();
+        foreach ($products as $pid) {
+            $result = $this->model_catalog_product->getProduct($pid);
+            if ($result) {
+                $results[] = $result;
+            }
+        }
+        return $results;
+    }
+
 }
 ?>

@@ -33,7 +33,7 @@ class ControllerJournal2Blog extends Controller {
 
         /* check blog status */
         if (!$this->model_journal2_blog->isEnabled()) {
-            $this->redirect('index.php?route=error/not_found');
+            $this->response->redirect('index.php?route=error/not_found');
             exit();
         }
 
@@ -108,10 +108,19 @@ class ControllerJournal2Blog extends Controller {
                 'separator' => $this->language->get('text_separator')
             );
 
+            $this->data['category_description'] = $category_info['description'];
+
             $this->blog_title           = $category_info['name'];
             $this->blog_heading_title   = $category_info['name'];
+            $this->blog_meta_title      = $category_info['meta_title'];
+            $this->blog_meta_description= $category_info['meta_description'];
+            $this->blog_meta_keywords   = $category_info['meta_keywords'];
         } else if ($tag) {
             $this->blog_heading_title = $this->language->get('text_tags') . ' ' . $tag;
+        }
+
+        if ($this->journal2->settings->get('config_blog_settings.feed', 1)) {
+            $this->journal2->settings->set('blog_blog_feed_url', $this->url->link('journal2/blog/feed', $category_info ? 'journal_blog_feed_category_id=' . $category_id : ''));
         }
 
         $this->data['heading_title'] = $this->blog_heading_title;
@@ -339,6 +348,22 @@ class ControllerJournal2Blog extends Controller {
             $this->data['allow_comments'] = $this->model_journal2_blog->getCommentsStatus($post_id);
             $this->data['comments'] = $this->model_journal2_blog->getComments($post_id);
 
+            /* default comment fields */
+            $this->load->library('user');
+            if ($this->customer->isLogged()) {
+                $this->load->model('account/customer');
+                $customer_info = $this->model_account_customer->getCustomer($this->customer->getId());
+                $this->data['default_name'] = trim($customer_info['firstname'] . ' ' . $customer_info['lastname']);
+                $this->data['default_email'] = $customer_info['email'];
+            } else if ($this->user->isLogged()) {
+                $admin_info = $this->model_journal2_blog->getAdminInfo($this->user->getId());
+                $this->data['default_name'] = trim($admin_info['firstname'] . ' ' . $admin_info['lastname']);
+                $this->data['default_email'] = $admin_info['email'];
+            } else {
+                $this->data['default_name'] = '';
+                $this->data['default_email'] = '';
+            }
+
             $this->model_journal2_blog->updateViews($post_id);
 
             $this->data['heading_title'] = $this->blog_heading_title;
@@ -433,6 +458,13 @@ class ControllerJournal2Blog extends Controller {
             if ($this->journal2->settings->get('config_blog_settings.auto_approve_comments', '1') === '1') {
                 $data['time'] = date($this->language->get('time_format'), strtotime($data['date']));
                 $data['date'] = date($this->language->get('date_format_short'), strtotime($data['date']));
+                if ($data['website']) {
+                    $data['website'] = trim($data['website']);
+                    $data['website'] = trim($data['website'], '/');
+                    $data['website'] = parse_url($data['website'], PHP_URL_SCHEME) !== null ? $data['website'] : ('http://' . $data['website']);
+                    $data['href']    = $data['website'];
+                    $data['website'] = preg_replace('#^https?://#', '', $data['website']);
+                }
                 $data['avatar'] = Journal2Utils::gravatar($data['email'], '', 70);
 
                 $this->response->setOutput(json_encode(array(
@@ -452,6 +484,56 @@ class ControllerJournal2Blog extends Controller {
                 'errors'    => $errors
             )));
         }
+    }
+
+    public function feed() {
+        if (!$this->journal2->settings->get('config_blog_settings.feed', 1)) {
+            $this->response->redirect('index.php?route=error/not_found');
+            exit();
+        }
+        $output  = '<?xml version="1.0" encoding="UTF-8" ?>';
+        $output .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">';
+        $output .= '<channel>';
+        $output .= '<atom:link href="' . $this->url->link('journal2/blog') . '" rel="self" type="application/rss+xml" />';
+        $output .= '<title>' . $this->blog_title . '</title>';
+        $output .= '<link>' . $this->url->link('journal2/blog') . '</link>';
+        $output .= '<description>' . $this->blog_meta_description . '</description>';
+
+        $data = array(
+            'sort'  => 'newest',
+            'start' => 0,
+            'limit' => PHP_INT_MAX
+        );
+
+        if (isset($this->request->get['journal_blog_feed_category_id'])) {
+            $data['category_id'] = $this->request->get['journal_blog_feed_category_id'];
+        }
+
+        foreach ($this->model_journal2_blog->getPosts($data) as $post) {
+            $output .= '<item>';
+            $output .= '<title>' . htmlspecialchars($post['name']) . '</title>';
+            $output .= '<author>' . $this->model_journal2_blog->getAuthorName($post) . '</author>';
+            $output .= '<pubDate>' . date(DATE_RSS, strtotime($post['date'])) . '</pubDate>';
+            $output .= '<link>' . $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post['post_id']) . '</link>';
+            $output .= '<guid>' . $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post['post_id']) . '</guid>';
+
+            $description = '';
+            if ($post['image']) {
+                $image = Journal2Utils::resizeImage($this->model_tool_image, $post, $this->journal2->settings->get('feed_image_width', 250), $this->journal2->settings->get('feed_image_height', 250), 'crop');
+                $description .= '<p><img src="' . $image . '" /></p>';
+            }
+            $description .= utf8_substr(strip_tags(html_entity_decode($post['description'], ENT_QUOTES, 'UTF-8')), 0, $this->journal2->settings->get('config_blog_settings.description_char_limit', 150)) . '... ';
+            $description .= '<a href="' . $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post['post_id']) . '">' . $this->journal2->settings->get('blog_button_read_more', 'Read More') .'</a>';
+
+            $output .= '<description>' . htmlspecialchars($description). '</description>';
+            $output .= '</item>';
+        }
+
+        $output .= '</channel>';
+        $output .= '</rss>';
+
+        $this->response->addHeader('Content-Type: application/rss+xml');
+        $this->response->setOutput($output);
     }
 
 }

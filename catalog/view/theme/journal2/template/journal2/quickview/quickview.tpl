@@ -66,7 +66,7 @@
                         scrollPerPage:true,
                         navigationText : false,
                         stopOnHover: true,
-                        slideSpeed:400,
+                        paginationSpeed:400,
                         cssAnimation:false,
                         margin:parseInt('<?php echo $this->journal2->settings->get('product_page_additional_spacing', 12) ?>', 10)
             });
@@ -327,8 +327,8 @@
     <?php } ?>
     <div class="wishlist-compare">
       <span class="links">
-          <a onclick="addToWishList('<?php echo $product_id; ?>');"><?php echo $button_wishlist; ?></a>
-          <a onclick="addToCompare('<?php echo $product_id; ?>');"><?php echo $button_compare; ?></a>
+          <a onclick="parent.addToWishList('<?php echo $product_id; ?>');"><?php echo $button_wishlist; ?></a>
+          <a onclick="parent.addToCompare('<?php echo $product_id; ?>');"><?php echo $button_compare; ?></a>
       </span>
     </div>
   <?php if ($this->journal2->settings->get('quickview_description_position') == 'options'): ?>
@@ -413,7 +413,7 @@ $('#button-cart').on('click', function() {
 
 				$('html, body').animate({ scrollTop: 0 }, 'slow');
 
-				$('#cart ul').load('index.php?route=common/cart/info ul li');
+                parent.$('#cart ul').load('index.php?route=common/cart/info ul li');
 			}
 		}
 	});
@@ -485,6 +485,7 @@ $('button[id^=\'button-upload\']').on('click', function() {
     Journal.productPage();
     <?php if($this->journal2->settings->get('product_page_auto_update_price', '1') === '1'): ?>
     Journal.enableProductOptions();
+    Journal.updatePrice = true;
     <?php endif; ?>
     <?php if ($this->journal2->settings->get('quickview_cloud_zoom') === '1'): ?>
     Journal.enableCloudZoom('inner');

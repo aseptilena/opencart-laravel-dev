@@ -144,6 +144,20 @@
                     </span>
                     <a href="#" target="_blank" class="journal-tip"></a>
                 </li>
+                <li>
+                    <span class="module-create-title">Rating Stars Color <small>Opencart 2.0</small></span>
+                        <span class="module-create-option">
+                        <j-opt-color data-ng-model="settings.rating_stars_color" class="journal-number-field"></j-opt-color>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+                <li>
+                    <span class="module-create-title">Rating Stars Outline Color <small>Opencart 2.0</small></span>
+                        <span class="module-create-option">
+                        <j-opt-color data-ng-model="settings.rating_stars_outline_color" class="journal-number-field"></j-opt-color>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
             </ul>
         </accordion-group>
         <!--Product Labels-->

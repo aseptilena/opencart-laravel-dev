@@ -5,10 +5,12 @@ class Journal2Newsletter {
     private $registry;
     private $email;
     private $db;
+    private $config;
 
     public function __construct($registry, $email) {
         $this->registry = $registry;
         $this->db = $registry->get('db');
+        $this->config = $registry->get('config');
         $this->email = $this->db->escape($email);
 
         /* create table if not exists */
@@ -16,6 +18,7 @@ class Journal2Newsletter {
             $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_newsletter` (
                 `email` varchar(128) NOT NULL,
                 `token` varchar(64) NOT NULL,
+                `store_id` INT NOT NULL DEFAULT 0,
                 PRIMARY KEY `pk` (`email`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8;');
         }
@@ -40,7 +43,7 @@ class Journal2Newsletter {
         if ($query->num_rows > 0) {
             $this->db->query('UPDATE ' . DB_PREFIX . 'customer SET newsletter = 1 WHERE customer_id = "' . (int)$query->row['customer_id'] . '"');
         } else {
-            $this->db->query('INSERT INTO ' . DB_PREFIX . 'journal2_newsletter (email, token) VALUES ("' . $this->email . '", "' . sha1(mt_rand()) . '")');
+            $this->db->query('INSERT INTO ' . DB_PREFIX . 'journal2_newsletter (email, token, store_id) VALUES ("' . $this->email . '", "' . sha1(mt_rand()) . '", "' . $this->config->get('config_store_id') . '")');
         }
     }
 

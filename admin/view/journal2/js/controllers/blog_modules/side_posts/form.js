@@ -7,14 +7,22 @@ define(['./../../module', 'underscore'], function (module, _) {
         /* scope vars */
         $scope.module_type = 'blog_side_posts';
         $scope.default_language = Journal2Config.languages.default;
+        $scope.posts = [];
 
         $scope.module_data = {
             general_is_open: true,
             close_others: false,
             module_name: 'New Module',
             module_type: 'newest',
+            posts: [],
             limit: 5
         };
+
+        Rest.getBlog('posts').then(function (response) {
+            $scope.posts = response.posts;
+        }, function (error) {
+            alert(error);
+        });
 
         /* get data */
         if ($scope.module_id) {
@@ -73,6 +81,14 @@ define(['./../../module', 'underscore'], function (module, _) {
             if (value) {
                 $scope.module_data.close_others = false;
             }
+        };
+
+        $scope.addPost = function () {
+            $scope.module_data.posts.push({});
+        };
+
+        $scope.removePost = function ($index) {
+            $scope.module_data.posts.splice($index, 1);
         };
 
     }]);

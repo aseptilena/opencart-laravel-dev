@@ -36,7 +36,6 @@ PRODUCT PAGE
 
   //LEFT SIDE
   .left{
-
     .image {
       padding: 0;
       text-align: left;
@@ -77,6 +76,9 @@ PRODUCT PAGE
           width: 20%;
         }
       }
+    }
+    .product-tabs, .journal-custom-tab{
+      clear: both;
     }
   }
 
@@ -532,6 +534,11 @@ table.option-image {
   }
 }
 
+.left .social{
+  margin-top: 10px;
+  padding: 10px;
+}
+
 .social-loaded{
   background-color: inherit;
   display: table;
@@ -546,12 +553,10 @@ table.option-image {
   thead td, thead tr td:first-child {
     color: #333745;
     font-size: 14px;
-    font-weight: bold;
     background: #f4f4f4;
     text-align: left;
   }
   tr td:first-child {
-    font-weight: bold;
     text-align: center;
     width: 20%;
   }
@@ -598,6 +603,9 @@ input[name='captcha'] {
   display: block;
   margin: 0;
   padding: 0;
+  li:last-of-type{
+    border-radius: inherit;
+  }
   li, a{
     float: left;;
   }
@@ -815,6 +823,11 @@ img.outofstock{
       cursor: auto;
       pointer-events: auto;
     }
+  }
+  td.outofstock > .btn-primary, td img.outofstock{
+    opacity: .4;
+    pointer-events: none;
+    cursor: default;
   }
 }
 
@@ -1107,6 +1120,11 @@ OC2
   &.quickview .tab-content{
     display: block;
   }
+  .product-info .left .tabs-content .journal-custom-tab{
+    border-radius: inherit;
+    border-top-width: inherit;
+    margin-top: 0;
+  }
   #tab-review{
     .form-group{
       font-size: 12px;
@@ -1115,21 +1133,19 @@ OC2
     input[type='checkbox']{
       margin: 4px 0 0;
     }
+    form{
+      table td{
+        > p{
+          margin: 10px 0;
+        }
+        &:first-of-type{
+          width: 50px !important;
+          padding-right: 10px;
+        }
+      }
+    }
+  }
+  .attribute strong{
+    font-weight: inherit;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

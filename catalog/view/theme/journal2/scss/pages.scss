@@ -203,6 +203,9 @@ label {
       }
     }
   }
+  .checkout #accordion{
+    overflow: hidden;
+  }
   .checkout-content{
     background-color: transparent;
     padding: 0;
@@ -265,6 +268,9 @@ label {
     content: "";
     display: table;
     clear: both;
+  }
+  table.radio td:first-child{
+    width: 25px;
   }
   p{
     padding: 10px 0;
@@ -558,6 +564,7 @@ BRANDS
     }
     .col-sm-10{
       width: 75%;
+      margin-bottom: 5px;
     }
     input[name='captcha']{
       margin: 0;
@@ -574,6 +581,11 @@ BRANDS
   address{
     margin-bottom: 20px;
   }
+}
+
+.route-account-return-add fieldset .radio label,
+.route-account-return-add fieldset .radio-inline{
+  width: 100% !important;
 }
 
 

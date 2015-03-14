@@ -71,6 +71,8 @@
             var default_section = '<?php echo $default_section; ?>';
             if (default_section !== '') {
                 $('#cs-<?php echo $module; ?> .box-heading a[data-option-value="section-' + default_section + '"]').click();
+            } else {
+                $('#cs-<?php echo $module; ?> .box-heading a').first().click();
             }
         }());
     </script>

@@ -40,7 +40,7 @@ class Journal2Cache {
             }
         }
 
-        $this->logged_in = (int)$registry->get('customer')->isLogged();
+        $this->logged_in = $registry->get('customer')->isLogged() ? 1 : 0;
         $this->price = ($config->get('config_customer_price') && $registry->get('customer')->isLogged()) || !$config->get('config_customer_price') ? 'price' : 'noprice';
 
         $this->hostname = md5(Journal2Utils::getHostName());

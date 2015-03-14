@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -137,6 +137,8 @@ label {
     margin-bottom: 0; }
   .oc2 .action-area .form-group input[type="text"] {
     max-width: 160px; }
+.oc2 .checkout #accordion {
+  overflow: hidden; }
 .oc2 .checkout-content {
   background-color: transparent;
   padding: 0;
@@ -181,6 +183,8 @@ label {
     content: "";
     display: table;
     clear: both; }
+  .checkout-content table.radio td:first-child {
+    width: 25px; }
   .checkout-content p {
     padding: 10px 0; }
   .checkout-content .left {
@@ -376,7 +380,8 @@ BRANDS
   .oc2 .contact-page .col:first-of-type {
     padding-left: 0; }
 .oc2 .contact-page .col-sm-10 {
-  width: 75%; }
+  width: 75%;
+  margin-bottom: 5px; }
 .oc2 .contact-page input[name='captcha'] {
   margin: 0; }
 .oc2 .contact-page .panel-body {
@@ -387,6 +392,10 @@ BRANDS
   height: auto; }
 .oc2 address {
   margin-bottom: 20px; }
+
+.route-account-return-add fieldset .radio label,
+.route-account-return-add fieldset .radio-inline {
+  width: 100% !important; }
 
 /******************************
  SEARCH PAGE

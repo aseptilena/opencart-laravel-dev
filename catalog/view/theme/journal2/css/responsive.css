@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -328,7 +328,7 @@
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     transition: opacity 0; }
 
-  .p-over, .quickview-button, .gallery-thumb a:before, .gallery-thumb .item-hover, .product-grid-item .image .wishlist, .product-grid-item .image .compare {
+  .p-over, .quickview-button, .gallery-thumb a:before, .gallery-thumb .item-hover {
     display: none; } }
 @media only screen and (max-width: 980px) {
   #container, #header {
@@ -673,7 +673,8 @@ Dropdown
         border-bottom: 1px solid #333745;
         border-left: none;
         border-right: none;
-        left: 0; }
+        left: 0;
+        width: 100%; }
         .mobile-menu-on-tablet .journal-menu .mobile-menu > li .mobile-plus {
           display: none;
           width: 40px;
@@ -734,11 +735,12 @@ Dropdown
 Android/Firefox
 *******************************/
 @media only screen and (max-width: 470px) {
-  .firefox header {
-    display: block;
-    min-height: 320px; }
+  .firefox .sticky-wrapper, .firefox header {
+    display: table; }
   .firefox #top-modules {
-    clear: both; } }
+    clear: both; }
+  .firefox #container > .row {
+    display: table; } }
 /******************************
  PRODUCT PAGE
 *******************************/
@@ -813,7 +815,10 @@ Android/Firefox
 
   .tab-content {
     border-top-left-radius: 0;
-    border-top-right-radius: 0; } }
+    border-top-right-radius: 0; }
+
+  .product-page #tabs li, .product-page #tabs a {
+    float: none; } }
 @media only screen and (max-width: 460px) {
   .product-info .right .cart div .qty {
     width: 100%;
@@ -852,6 +857,8 @@ Android/Firefox
     .product-list-item .image img {
       float: none; }
   .product-list-item .name {
+    margin-left: 0; }
+  .product-list-item .product-details {
     margin-left: 0; } }
 .mobile .product-wrapper, .tablet .product-wrapper {
   box-shadow: none !important;
@@ -940,7 +947,9 @@ SHOPPING CART
 *******************************/
 @media only screen and (max-width: 760px) {
   .cart-info .model, .cart-info .price {
-    display: none; } }
+    display: none; }
+  .cart-info .name a {
+    white-space: normal; } }
 @media only screen and (max-width: 470px) {
   .cart-info .quantity {
     display: none;
@@ -1043,7 +1052,10 @@ SEARCH PAGE
       display: block;
       margin-bottom: 5px; }
       #footer .contacts > div > span.hint--top {
-        display: inline-block; } }
+        display: inline-block; }
+
+  .footer-post-title {
+    white-space: normal; } }
 @media only screen and (max-width: 470px) {
   footer .contacts > div {
     text-align: left; }
@@ -1075,7 +1087,7 @@ EXTENDED LAYOUT
     margin-left: 0; }
   .extended-layout #column-right + #content,
   .extended-layout #column-right + .row #content {
-    padding: 0px 20px 20px 0;
+    padding: 0px 20px 20px 20px;
     margin-right: 0; }
   .extended-layout #column-left + #column-right + #content,
   .extended-layout #column-left + #column-right + .row #content {
@@ -1243,6 +1255,11 @@ NEWSLETTER
     margin-bottom: 10px;
     padding-left: 0; }
   .oc2 .contact-page .col-sm-10 {
+    width: 100%; }
+  .oc2 .form-horizontal .form-group label {
+    width: 100%;
+    float: none; }
+  .oc2 .form-horizontal .form-group label + div {
     width: 100%; }
   .oc2 .action-area .panel-body label {
     display: inline-block;

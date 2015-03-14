@@ -514,6 +514,7 @@ header .links {
         img{
           text-align: left;
           max-width: 50px;
+          height: auto;
         }
       }
       td.name {
@@ -867,10 +868,10 @@ HEADER CENTER
   #cart .content:before{
     content: "\e61e";
     color: white;
-    font-size: 40px;
+    font-size: 19px;
     position: absolute;
-    top: -5px;
-    right: 0px;
+    top: 0px;
+    right: 10px;
   }
 
   //AutoComplete
@@ -1042,7 +1043,7 @@ header{
     margin: 0;
     padding: 0;
     border: 0;
-   > li {
+    > li {
       border-left: 1px solid $dark;
       transition: all 0.2s !important;
       display: table-cell;
@@ -1052,11 +1053,11 @@ header{
         border-top-left-radius: inherit;
         border-bottom-left-radius: inherit;
       }
-     &:last-of-type{
+      &:last-of-type{
        border-top-right-radius: inherit;
        border-bottom-right-radius: inherit;
-     }
-     > a {
+      }
+      > a {
         text-align: center;
         height: 100%;
         font-size: 15px;
@@ -1070,9 +1071,11 @@ header{
         height: 40px;
         white-space: nowrap;
         overflow: hidden;
+        span{
+          display: inline-block;
+        }
         i{
           display: inline-block;
-          //padding-bottom: 3px;
           &:before{
             float: left;
           }
@@ -1408,6 +1411,13 @@ Header Cart
       margin-top: 4px;
     }
   }
+  #cart.visible .content {
+    opacity: 1;
+    visibility: visible;
+  }
+  #search input{
+    height: 40px;
+  }
   .mini-cart-total{
     padding: 0;
     table{
@@ -1415,3 +1425,24 @@ Header Cart
     }
   }
 }
+
+.ie9.oc2{
+  .journal-header-center #cart .heading span{
+    position:relative;
+    right:-35px;
+  }
+  .journal-header-center #cart .heading i{
+    position:absolute;
+    right:0;
+    top:0;
+  }
+  .mini-cart-info table tr td.remove i{
+    position:relative;
+    padding-right: 5px;
+  }
+  .mini-cart-info table tr td.remove i:before{
+    position:relative;
+    padding-top: 1px;
+  }
+}
+

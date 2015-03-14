@@ -47,9 +47,6 @@ class Journal2GoogleFonts {
     }
 
     public function setAllFonts($fonts) {
-        if ($this->fonts) {
-            die('Fonts error!s');
-        }
-        $this->fonts = $fonts;
+        $this->fonts = array_merge($this->fonts, $fonts);
     }
 }

@@ -306,6 +306,16 @@
                             <a href="#" target="_blank" class="journal-tip"> </a>
                         </li>
                         <li>
+                            <span class="module-create-title">Post Title Overflow </span>
+                    <span class="module-create-option">
+                        <switch data-ng-model="settings.footer_post_name_overflow">
+                            <switch-option key="nowrap">ON</switch-option>
+                            <switch-option key="normal">OFF</switch-option>
+                        </switch>
+                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
                             <span class="module-create-title">Post Title Font</span>
                     <span class="module-create-option">
                         <j-opt-font data-ng-model="settings.footer_post_name_font"></j-opt-font>

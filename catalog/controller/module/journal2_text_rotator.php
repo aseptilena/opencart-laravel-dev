@@ -78,6 +78,8 @@ class ControllerModuleJournal2TextRotator extends Controller {
             $this->data['transition_delay'] = Journal2Utils::getProperty($module_data, 'transition_delay', 4000);
             $this->data['bullets_position'] = Journal2Utils::getProperty($module_data, 'bullets_position', 'center');
 
+            $this->data['title'] = Journal2Utils::getProperty($module_data, 'module_title.value.' . $this->config->get('config_language_id'), '');
+
             /* quote options */
             $css = array();
 
@@ -179,22 +181,16 @@ class ControllerModuleJournal2TextRotator extends Controller {
             $sections = Journal2Utils::getProperty($module_data, 'sections', array());
             $sections = Journal2Utils::sortArray($sections);
 
+            $image_width  = Journal2Utils::getProperty($module_data, 'image_width', 150);
+            $image_height = Journal2Utils::getProperty($module_data, 'image_height', 150);
+
             foreach ($sections as $section) {
                 if (!$section['status']) continue;
-                $image = Journal2Utils::getProperty($section, 'image');
-                $width = '';
-                $height = '';
-                if ($image && file_exists(DIR_IMAGE . $image)) {
-                    list($width, $height) = getimagesize(DIR_IMAGE . $image);
-                    $image = Journal2Utils::resizeImage($this->model_tool_image, $image);
-                } else {
-                    $image = false;
-                }
                 $this->data['sections'][] = array(
                     'author'        => Journal2Utils::getProperty($section, 'author'),
-                    'image'         => $image,
-                    'image_width'   => $width,
-                    'image_height'  => $height,
+                    'image'         => $section['image'] ? Journal2Utils::resizeImage($this->model_tool_image, $section, $image_width, $image_height, 'crop') : false,
+                    'image_width'   => $image_width,
+                    'image_height'  => $image_height,
                     'text'          => Journal2Utils::getProperty($section, 'text.value.' . $this->config->get('config_language_id')),
                     'icon'          => Journal2Utils::getIconOptions2(Journal2Utils::getProperty($section, 'icon'))
                 );

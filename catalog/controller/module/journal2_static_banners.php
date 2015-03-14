@@ -103,7 +103,7 @@ class ControllerModuleJournal2StaticBanners extends Controller {
                     $image = Journal2Utils::getProperty($image, $this->config->get('config_language_id'));
                 }
                 if (!$image || !file_exists(DIR_IMAGE . $image)) {
-                    $image = 'no_image.jpg';
+                    $image = Front::$IS_OC2 ? 'no_image.png' : 'no_image.jpg';
                 }
                 list($width, $height) = getimagesize(DIR_IMAGE . $image);
                 $this->data['sections'][] = array(

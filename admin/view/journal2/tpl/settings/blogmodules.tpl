@@ -97,21 +97,28 @@
         </accordion-heading>
             <ul class="module-create-options">
                 <li>
-                    <span class="module-create-title">Module Title Font</span>
+                    <span class="module-create-title">Title Font</span>
                         <span class="module-create-option">
                             <j-opt-font data-ng-model="settings.posts_module_title_font"></j-opt-font>
                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Module Title Border Settings</span>
+                    <span class="module-create-title">Title Background Color</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.posts_module_title_bg"></j-opt-color>
+                                </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
+                <li>
+                    <span class="module-create-title">Title Border Settings</span>
                         <span class="module-create-option">
                             <j-opt-border data-ng-model="settings.posts_module_title_border"></j-opt-border>
                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Module Title Align</span>
+                    <span class="module-create-title">Title Align</span>
                             <span class="module-create-option">
                                 <switch data-ng-model="settings.posts_module_title_align">
                                     <switch-option key="left">Left</switch-option>
@@ -122,7 +129,7 @@
                     <a href="#" target="_blank" class="journal-tip"></a>
                 </li>
                 <li>
-                    <span class="module-create-title">Module Title Overflow <small>Keeps long titles on <br/> the same line.</small></span>
+                    <span class="module-create-title">Title Overflow <small>Keeps long titles on <br/> the same line.</small></span>
                         <span class="module-create-option">
                             <switch data-ng-model="settings.module_title_overflow">
                                 <switch-option key="on">ON</switch-option>

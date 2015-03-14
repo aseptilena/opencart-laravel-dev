@@ -5,6 +5,7 @@ define(['./../module', 'underscore'], function (module, _) {
         $scope.store_id = $routeParams.store_id || Journal2Config.stores[0].store_id;
 
         $scope.blog_settings = {
+            feed: '1',
             posts_per_row: {
                 "range": "1,10",
                 "step": "1",

@@ -32,8 +32,8 @@
         <ul class="col-sm-3"><li><a href="<?php echo $manufacturer['href']; ?>"><?php echo $manufacturer['name']; ?></a></li></ul>
         <?php } ?>
       </div>
-      </div>
       <?php } ?>
+      </div>
       <?php } ?>
       <?php } ?>
       <?php } else { ?>

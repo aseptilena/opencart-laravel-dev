@@ -128,6 +128,7 @@ class ControllerModuleJournal2Popup extends Controller {
                 $this->data['entry_email'] = $this->language->get('entry_email');
                 $this->data['entry_enquiry'] = $this->language->get('entry_enquiry');
                 $this->data['entry_captcha'] = $this->language->get('entry_captcha');
+                $this->data['product_id'] = isset($this->request->get['product_id']) ? $this->request->get['product_id'] : null;
                 $this->data['button_submit'] = $this->getButtonStyle($module_data, 'button_submit', 'Submit');
             } else {
                 $this->data['content'] = Journal2Utils::getProperty($module_data, 'text.' . $this->config->get('config_language_id'), '&nbsp;');
@@ -181,6 +182,10 @@ class ControllerModuleJournal2Popup extends Controller {
             }
             $this->data['global_style'] = array_merge($this->data['global_style'], Journal2Utils::getBackgroundCssProperties(Journal2Utils::getProperty($module_data, 'background')));
 
+            /* timers */
+            $this->data['open_after'] = (int)Journal2Utils::getProperty($module_data, 'open_after', '0');
+            $this->data['close_after'] = (int)Journal2Utils::getProperty($module_data, 'close_after', '0');
+
             /* render*/
             $this->template = $this->config->get('config_template') . '/template/journal2/module/popup.tpl';
 
@@ -226,14 +231,22 @@ class ControllerModuleJournal2Popup extends Controller {
         $data = array();
         $this->language->load('information/contact');
         if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validate()) {
-            $from = PHP_EOL . PHP_EOL . 'Sent from <a href="' . $this->request->post['url'] . '">' . $this->request->post['url'] . '</a>';
+            $from =  '';
+            if (isset($this->request->post['product_id'])) {
+                $from = $this->url->link('product/product', 'product_id=' . $this->request->post['product_id']);
+            } else if (isset($this->request->post['url'])) {
+                $from = $this->request->post['url'];
+            }
+            if ($from) {
+                $from = PHP_EOL . PHP_EOL . 'Sent from <a href="' . $from . '">' . $from . '</a>';
+            }
             if (Front::$IS_OC2) {
                 $mail = new Mail($this->config->get('config_mail'));
                 $mail->setTo($this->config->get('config_email'));
                 $mail->setFrom($this->request->post['email']);
                 $mail->setSender($this->request->post['name']);
-                $mail->setSubject(sprintf($this->language->get('email_subject'), $this->request->post['name']));
-                $mail->setText(strip_tags($this->request->post['enquiry']));
+                $mail->setSubject(html_entity_decode(sprintf($this->language->get('email_subject'), $this->request->post['name']), ENT_QUOTES, 'UTF-8'));
+                $mail->setText(strip_tags(html_entity_decode($this->request->post['enquiry'] . $from, ENT_QUOTES, 'UTF-8')));
                 $mail->send();
             } else {
                 $mail = new Mail();
@@ -262,7 +275,7 @@ class ControllerModuleJournal2Popup extends Controller {
     }
 
     private function validate() {
-        if ((utf8_strlen($this->request->post['name']) < 3) || (utf8_strlen($this->request->post['name']) > 32)) {
+        if (!utf8_strlen($this->request->post['name'])) {
             $this->contact_error['name'] = $this->language->get('error_name');
         }
 
@@ -270,7 +283,7 @@ class ControllerModuleJournal2Popup extends Controller {
             $this->contact_error['email'] = $this->language->get('error_email');
         }
 
-        if ((utf8_strlen($this->request->post['enquiry']) < 10) || (utf8_strlen($this->request->post['enquiry']) > 3000)) {
+        if (!utf8_strlen($this->request->post['enquiry'])) {
             $this->contact_error['enquiry'] = $this->language->get('error_enquiry');
         }
 

@@ -103,6 +103,11 @@ a.tp-caption{
   }
 }
 
+.slidelink.tp-hidden-caption{
+  display: block !important;
+  visibility: visible !important;
+  top:0;
+}
 
 //Bullets
 .tp-bullets.simplebullets.round{
@@ -956,7 +961,7 @@ p{
 .rotator-image{
   margin: 15px;
   display: block;
-  max-width: 200px;
+  max-width: 85%;
   height: auto;
   float: left;
   position: relative;
@@ -1152,18 +1157,15 @@ p{
 
 .oc-module{
   display: table;
-}
-
-.backface{
-  .oc-module *{
-   // -webkit-transform: translateZ(0) scale(1.0, 1.0);
+  &.oc-html{
+    display: block;
   }
 }
+
 
 #top-modules, #bottom-modules{
   .journal-gallery{
     .owl-pagination{
-      //margin: 0;
       padding: 7px 0;
     }
   }
@@ -1553,6 +1555,9 @@ NEWSLETTER
 }
 
 .journal-sf{
+  img{
+    height: auto;
+  }
   .box-content{
     display: block;
     overflow: auto;
@@ -1668,6 +1673,7 @@ NEWSLETTER
             display: block;
             margin: 0;
             width: 100%;
+            height: auto;
           }
           input[type=checkbox] {
             display: none;
@@ -1706,7 +1712,7 @@ NEWSLETTER
 }
 
 .has-popup body{
-  overflow-y: scroll;
+  //overflow-y: scroll;
 }
 
 .mfp-close{
@@ -1738,11 +1744,18 @@ NEWSLETTER
   div.journal-popup-header-content{
     text-align: center;
     border: 0;
+    border-radius: 0;
+    white-space: normal;
+    line-height: 1.4;
+    padding: 9px 0;
   }
   .button-icon-right i{
     float: right;
     margin-right: 0 !important;
     margin-left: 5px;
+  }
+  .journal-popup-header{
+    border-radius: 0;
   }
 }
 
@@ -1809,6 +1822,14 @@ NEWSLETTER
     left: 0;
     margin-top: 9px;
   }
+}
+
+.journal-popup {
+  display: none;
+}
+
+.has-popup .journal-popup {
+  display: block;
 }
 
 /******************************
@@ -1917,9 +1938,9 @@ POPUP FORM
   input[type='email']{
     max-width: 600px;
   }
-  .has-error{
-    border: 1px solid $red;
-  }
+}
+.has-error{
+ //border: 1px solid $red !important;
 }
 .oc2{
   .journal-popup-contact {
@@ -2315,6 +2336,9 @@ BLOG
       position: relative;
     }
   }
+  .user-site{
+    font-size: 13px;
+  }
   .reply-btn{
     position: absolute;
     top: 12px;
@@ -2629,3 +2653,19 @@ BLOG
   }
 }
 
+.journal-blog-feed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 20px;
+  margin-top: 30px;
+  transition: all 0.2s;
+  color: #222;
+  &:before{
+    content: "\e6b4";
+    color: #FF8000;
+    margin-right: 5px;
+    position: relative;
+    top: 1px;
+  }
+}

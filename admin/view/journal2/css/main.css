@@ -1924,7 +1924,7 @@ a.news-export:before {
     overflow: hidden; }
 .oc2 label.close-others input {
   top: 1px; }
-.oc2 .journal-body .collapse {
+.oc2 #journal-body .collapse {
   display: block; }
 .oc2 .accordion-inner ul {
   margin-bottom: 0; }
@@ -2084,3 +2084,13 @@ a.news-export:before {
 .oc2 .pagination-mini ul > li > span {
   padding: 0 6px;
   font-size: 10.5px; }
+.oc2 .multi-lang > span img {
+  right: -8px;
+  top: 7px; }
+.oc2 .multi-lang > span textarea + img {
+  right: -70px; }
+
+html:not(.oc2) #header {
+  display: inline-block;
+  width: 100%;
+  max-height: 85px; }

@@ -590,6 +590,12 @@ TOOLTIPS
   border-left-color: $dark;
 }
 
+.ie9, .ie8{
+  .hint--top:after{
+    left:-50%;
+  }
+}
+
 .hint--top:after,
 .hint--top:focus:after{
   margin: 0;

@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -55,6 +55,8 @@ PRODUCT PAGE
         opacity: .8; }
     .product-info .left .image-additional.image-addtional-grid a {
       width: 20%; }
+  .product-info .left .product-tabs, .product-info .left .journal-custom-tab {
+    clear: both; }
   .product-info .gallery-text {
     text-align: center;
     padding: 10px 0 0 0;
@@ -373,6 +375,10 @@ table.option-image input[type="radio"] + label + br {
     float: left;
     overflow: hidden; }
 
+.left .social {
+  margin-top: 10px;
+  padding: 10px; }
+
 .social-loaded {
   background-color: inherit;
   display: table; }
@@ -385,11 +391,9 @@ table.option-image input[type="radio"] + label + br {
   .attribute thead td, .attribute thead tr td:first-child {
     color: #333745;
     font-size: 14px;
-    font-weight: bold;
     background: #f4f4f4;
     text-align: left; }
   .attribute tr td:first-child {
-    font-weight: bold;
     text-align: center;
     width: 20%; }
   .attribute td {
@@ -427,6 +431,8 @@ input[name='captcha'] {
   display: block;
   margin: 0;
   padding: 0; }
+  #tabs li:last-of-type {
+    border-radius: inherit; }
   #tabs li, #tabs a {
     float: left; }
   #tabs a, #tabs li a {
@@ -588,6 +594,10 @@ img.outofstock {
   opacity: 1;
   cursor: auto;
   pointer-events: auto; }
+.hide-cart td.outofstock > .btn-primary, .hide-cart td img.outofstock {
+  opacity: .4;
+  pointer-events: none;
+  cursor: default; }
 
 .enquiry-button .button i {
   margin-right: 0 !important; }
@@ -794,8 +804,19 @@ OC2
     margin-left: 10px; }
 .oc2.quickview .tab-content {
   display: block; }
+.oc2 .product-info .left .tabs-content .journal-custom-tab {
+  border-radius: inherit;
+  border-top-width: inherit;
+  margin-top: 0; }
 .oc2 #tab-review .form-group {
   font-size: 12px; }
 .oc2 #tab-review input[type='radio'],
 .oc2 #tab-review input[type='checkbox'] {
   margin: 4px 0 0; }
+.oc2 #tab-review form table td > p {
+  margin: 10px 0; }
+.oc2 #tab-review form table td:first-of-type {
+  width: 50px !important;
+  padding-right: 10px; }
+.oc2 .attribute strong {
+  font-weight: inherit; }

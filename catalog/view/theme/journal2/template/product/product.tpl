@@ -15,9 +15,11 @@
     <?php $class = 'col-sm-12'; ?>
     <?php } ?>
     <div id="content" class="product-page-content">
-      <h1 class="heading-title"><?php echo $heading_title; ?></h1>
+      <?php if ($this->journal2->settings->get('product_page_title_position', 'top') === 'top'): ?>
+      <h1 class="heading-title" itemprop="name"><?php echo $heading_title; ?></h1>
+      <?php endif; ?>
       <?php echo $content_top; ?>
-      <div class="row product-info">
+      <div class="row product-info <?php echo $this->journal2->settings->get('split_ratio'); ?>">
         <?php if ($column_left && $column_right) { ?>
         <?php $class = 'col-sm-6'; ?>
         <?php } elseif ($column_left || $column_right) { ?>
@@ -69,7 +71,7 @@
                 navigationText : false,
                 stopOnHover: true,
                 cssAnimation: false,
-                slideSpeed: <?php echo (int)$this->journal2->settings->get('product_page_gallery_carousel_transition_speed', 400) ?>,
+                paginationSpeed: <?php echo (int)$this->journal2->settings->get('product_page_gallery_carousel_transition_speed', 400) ?>,
                 margin:parseInt('<?php echo $this->journal2->settings->get('product_page_additional_spacing', 12) ?>', 10)
               };
             <?php if (!$this->journal2->settings->get('product_page_gallery_carousel_autoplay')): ?>
@@ -125,25 +127,40 @@
           </div>
           <?php endif; ?>
           <div class="product-tabs">
+            <?php if ($this->journal2->settings->get('share_buttons_status') && (!Journal2Cache::$mobile_detect->isMobile() || (Journal2Cache::$mobile_detect->isMobile() && !$this->journal2->settings->get('share_buttons_disable_on_mobile', 1))) && $this->journal2->settings->get('share_buttons_position') === 'bottom' && count($this->journal2->settings->get('config_share_buttons', array()))): ?>
+            <div class="social share-this <?php echo $this->journal2->settings->get('share_buttons_disable_on_mobile', 1) ? 'hide-on-mobile' : ''; ?>">
+              <div class="social-loaded">
+                <script type="text/javascript">var switchTo5x=true;</script>
+                <script type="text/javascript" src="https://ws.sharethis.com/button/buttons.js"></script>
+                <script type="text/javascript">stLight.options({publisher: "<?php echo $this->journal2->settings->get('share_buttons_account_key'); ?>", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+                <?php foreach ($this->journal2->settings->get('config_share_buttons', array()) as $item): ?>
+                <span class="<?php echo $item['class'] . $this->journal2->settings->get('share_buttons_style'); ?>" displayText="<?php echo $this->journal2->settings->get('share_buttons_style') ? $item['name'] : ''; ?>"></span>
+                <?php endforeach; ?>
+              </div>
+            </div>
+            <?php endif; ?>
           <ul id="tabs" class="nav nav-tabs htabs">
-            <li class="active"><a href="#tab-description" data-toggle="tab"><?php echo $tab_description; ?></a></li>
+            <?php $is_active = true; ?>
+            <?php if (!$this->journal2->settings->get('hide_product_description')) { ?>
+            <li <?php if ($is_active) { echo 'class="active"'; $is_active = false; } ;?>><a href="#tab-description" data-toggle="tab"><?php echo $tab_description; ?></a></li>
+            <?php } ?>
             <?php if ($attribute_groups) { ?>
-            <li><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
+            <li <?php if ($is_active) { echo 'class="active"'; $is_active = false; } ;?>><a href="#tab-specification" data-toggle="tab"><?php echo $tab_attribute; ?></a></li>
             <?php } ?>
             <?php if ($review_status) { ?>
-            <li><a href="#tab-review" data-toggle="tab"><?php echo $tab_review; ?></a></li>
+            <li <?php if ($is_active) { echo 'class="active"'; $is_active = false; } ;?>><a href="#tab-review" data-toggle="tab"><?php echo $tab_review; ?></a></li>
             <?php } ?>
             <?php $index = 0; foreach ($this->journal2->settings->get('additional_product_tabs', array()) as $tab): $index++; ?>
-            <li><a href="#additional-product-tab-<?php echo $index; ?>" data-toggle="tab"><?php echo $tab['name']; ?></a></li>
+            <li <?php if ($is_active) { echo 'class="active"'; $is_active = false; } ;?>><a href="#additional-product-tab-<?php echo $index; ?>" data-toggle="tab"><?php echo $tab['name']; ?></a></li>
             <?php endforeach; ?>
           </ul>
           <div class="tabs-content">
-            <?php $index = 0; foreach ($this->journal2->settings->get('additional_product_tabs', array()) as $tab): $index++; ?>
-            <div id="additional-product-tab-<?php echo $index; ?>" class="tab-pane tab-content journal-custom-tab"><?php echo $tab['content']; ?></div>
-            <?php endforeach; ?>
-            <div class="tab-pane tab-content active" id="tab-description"><?php echo $description; ?></div>
+            <?php $is_active = true; ?>
+            <?php if (!$this->journal2->settings->get('hide_product_description')) { ?>
+            <div class="tab-pane tab-content <?php if ($is_active) { echo 'active'; $is_active = false; } ;?>" id="tab-description"><?php echo $description; ?></div>
+            <?php } ?>
             <?php if ($attribute_groups) { ?>
-            <div class="tab-pane tab-content" id="tab-specification">
+            <div class="tab-pane tab-content <?php if ($is_active) { echo 'active'; $is_active = false; } ;?>" id="tab-specification">
               <table class="table table-bordered attribute">
                 <?php foreach ($attribute_groups as $attribute_group) { ?>
                 <thead>
@@ -164,7 +181,7 @@
             </div>
             <?php } ?>
             <?php if ($review_status) { ?>
-            <div class="tab-pane tab-content" id="tab-review">
+            <div class="tab-pane tab-content <?php if ($is_active) { echo 'active'; $is_active = false; } ;?>" id="tab-review">
               <form class="form-horizontal">
                 <div id="review"></div>
                 <h2 id="review-title"><?php echo $text_write; ?></h2>
@@ -218,6 +235,9 @@
               </form>
             </div>
             <?php } ?>
+            <?php $index = 0; foreach ($this->journal2->settings->get('additional_product_tabs', array()) as $tab): $index++; ?>
+              <div id="additional-product-tab-<?php echo $index; ?>" class="tab-pane tab-content journal-custom-tab <?php if ($is_active) { echo 'active'; $is_active = false; } ;?>"><?php echo $tab['content']; ?></div>
+            <?php endforeach; ?>
           </div>
           </div>
         </div>
@@ -229,6 +249,9 @@
         <?php $class = 'col-sm-4'; ?>
         <?php } ?>
         <div class="right">
+          <?php if ($this->journal2->settings->get('product_page_title_position', 'top') === 'right'): ?>
+          <h1 class="heading-title" itemprop="name"><?php echo $heading_title; ?></h1>
+          <?php endif; ?>
           <div id="product" class="product-options">
             <?php foreach ($this->journal2->settings->get('additional_product_description_top', array()) as $tab): ?>
             <div class="journal-custom-tab">
@@ -261,11 +284,11 @@
             <li class="p-brand"><?php echo $text_manufacturer; ?> <a href="<?php echo $manufacturers; ?>"><?php echo $manufacturer; ?></a></li>
             <?php } ?>
             <?php endif; ?>
-            <li class="p-model"><?php echo $text_model; ?></span> <span class="p-model" itemprop="model"><?php echo $model; ?></li>
+            <li class="p-model"><?php echo $text_model; ?> <span class="p-model" itemprop="model"><?php echo $model; ?></span></li>
             <?php if ($reward) { ?>
-            <li class="p-rewards"><?php echo $text_reward; ?></span> <span class="p-rewards"><?php echo $reward; ?></li>
+            <li class="p-rewards"><?php echo $text_reward; ?> <span class="p-rewards"><?php echo $reward; ?></span></li>
             <?php } ?>
-            <li class="p-stock"><?php echo $text_stock; ?></span> <span class="journal-stock <?php echo isset($stock_status) ? $stock_status : ''; ?>"><?php echo $stock; ?></li>
+            <li class="p-stock"><?php echo $text_stock; ?> <span class="journal-stock <?php echo isset($stock_status) ? $stock_status : ''; ?>"><?php echo $stock; ?></span></li>
           </ul>
           <?php if($this->journal2->settings->get('product_sold')): ?>
           <div class="product-sold-count-text"><?php echo $this->journal2->settings->get('product_sold'); ?></div>
@@ -284,8 +307,8 @@
             <li class="product-price" itemprop="price"><?php echo $price; ?></li>
             <?php } else { ?>
             <li class="price-old"><?php echo $price; ?></li>
-            <?php } ?>
             <li class="price-new" itemprop="price"><?php echo $special; ?></li>
+            <?php } ?>
             <?php if ($tax) { ?>
             <li class="price-tax"><?php echo $text_tax; ?> <?php echo $tax; ?></li>
             <?php } ?>
@@ -444,6 +467,7 @@
               <?php foreach ($this->journal2->settings->get('additional_product_enquiry', array()) as $tab): ?>
               <div><?php echo $tab['content']; ?></div>
               <?php endforeach; ?>
+              <input type="hidden" name="product_id" value="<?php echo $product_id; ?>" />
               <?php else: ?>
                 <span class="qty">
               <label class="control-label text-qty" for="input-quantity"><?php echo $entry_qty; ?></label>
@@ -595,7 +619,7 @@
                   <div class="button-group">
                     <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
                     <div class="cart enquiry-button">
-                      <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                      <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $product['product_id']; ?>');" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                     </div>
                     <?php else: ?>
                     <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -642,7 +666,7 @@
             navigation:true,
             scrollPerPage:true,
             navigationText : false,
-            slideSpeed:parseInt('<?php echo $this->journal2->settings->get('related_products_carousel_transition_speed', 400); ?>', 10),
+            paginationSpeed:parseInt('<?php echo $this->journal2->settings->get('related_products_carousel_transition_speed', 400); ?>', 10),
           margin:15
         }
         <?php if (!$this->journal2->settings->get('related_products_carousel_autoplay')): ?>
@@ -739,9 +763,11 @@ $('#button-cart').on('click', function() {
                 }
 
 				$('#cart-total').html(json['total']);
-				
-				$('html, body').animate({ scrollTop: 0 }, 'slow');
-				
+
+          if (Journal.scrollToTop) {
+              $('html, body').animate({ scrollTop: 0 }, 'slow');
+          }
+
 				$('#cart ul').load('index.php?route=common/cart/info ul li');
 			}
 		}
@@ -841,7 +867,7 @@ $('#button-review').on('click', function() {
 			$('.alert-success, .alert-danger').remove();
 			
 			if (json['error']) {
-				$('#review').after('<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
+				$('#review').after('<div class="alert alert-danger warning"><i class="fa fa-exclamation-circle"></i> ' + json['error'] + '</div>');
 			}
 			
 			if (json['success']) {

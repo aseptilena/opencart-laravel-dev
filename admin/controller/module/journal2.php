@@ -1,6 +1,7 @@
 <?php
 require_once DIR_SYSTEM . 'journal2/classes/journal2_cache.php';
 require_once DIR_SYSTEM . 'journal2/lib/Browser.php';
+require_once(DIR_SYSTEM . 'journal2/classes/journal2_db_upgrade.php');
 
 class ControllerModuleJournal2 extends Controller {
 
@@ -12,6 +13,8 @@ class ControllerModuleJournal2 extends Controller {
 
     public function  __construct($registry) {
         parent::__construct($registry);
+
+        Journal2DBUpgrade::check();
 
         if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
             $this->data['base'] = HTTPS_CATALOG;

@@ -124,8 +124,8 @@
                         </switch>
                     </span>
                 </li>
-                <li data-ng-show="module_data.content_type !== 'description'">
-                    <span class="module-create-title">Add Icon</span>
+                <li data-ng-show="module_data.content_type !== 'description'" data-ng-hide="module_data.position === 'tab'">
+                    <span class="module-create-title">Add Block Icon</span>
                     <span class="module-create-option">
                         <switch data-ng-model="module_data.icon_status">
                             <switch-option key="1">ON</switch-option>
@@ -133,26 +133,26 @@
                         </switch>
                     </span>
                 </li>
-                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type !== 'description'">
+                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type !== 'description'" data-ng-hide="module_data.position === 'tab'">
                     <span class="module-create-title">Icon</span>
                     <span class="module-create-option">
                         <icon-select data-ng-model="module_data.icon"></icon-select>
                     </span>
                 </li>
 
-                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'">
+                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'" data-ng-hide="module_data.position === 'tab'">
                     <span class="module-create-title">Icon Container Background</span>
                     <span class="module-create-option">
                         <j-opt-color data-ng-model="module_data.icon_bg_color"></j-opt-color>
                     </span>
                 </li>
-                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'">
+                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'" data-ng-hide="module_data.position === 'tab'">
                     <span class="module-create-title">Icon Container Border</span>
                     <span class="module-create-option">
                         <j-opt-border data-ng-model="module_data.icon_border"></j-opt-border>
                     </span>
                 </li>
-                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'">
+                <li data-ng-show="module_data.icon_status == 1 && module_data.content_type == 'custom'" data-ng-hide="module_data.position === 'tab'">
                     <span class="module-create-title">Icon Container Dimensions</span>
                     <span class="module-create-option">
                         <input type="text" class="journal-number-field" data-ng-model="module_data.icon_width" /> x <input type="text" class="journal-number-field" data-ng-model="module_data.icon_height" />

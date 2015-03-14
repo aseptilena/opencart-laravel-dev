@@ -63,6 +63,15 @@
                 <li><a href="<?php echo $contact; ?>"><?php echo $text_contact; ?></a></li>
               </ul>
             </li>
+            <?php if ($this->journal2->settings->get('blog_sitemap')): ?>
+            <li><a href="<?php echo $this->journal2->settings->get('blog_href', 'index.php?route=journal2/blog'); ?>"><?php echo $this->journal2->settings->get('blog_name', 'Blog'); ?></a>
+              <ul>
+                <?php foreach ($this->journal2->settings->get('blog_categories', array()) as $category) { ?>
+                <li><a href="<?php echo $category['href']; ?>"><?php echo $category['name']; ?></a></li>
+                <?php } ?>
+              </ul>
+            </li>
+            <?php endif; ?>
           </ul>
         </div>
       </div>

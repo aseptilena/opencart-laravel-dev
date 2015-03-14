@@ -187,7 +187,7 @@
 
 <div class="journal-loading"><span>Loading...</span></div>
 <div class="border-top"> </div>
-<div class="journal-body" data-ng-view>
+<div class="journal-body" id="journal-body" data-ng-view>
 <div></div>
 </div>
 

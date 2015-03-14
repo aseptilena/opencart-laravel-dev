@@ -375,6 +375,71 @@
                                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
+                <accordion-group is-open="false">
+                    <accordion-heading>
+                        <div class="accordion-bar bar-level-1">Update / Remove Buttons <span>Opencart 2.x only</span></div>
+                    </accordion-heading>
+                    <ul class="module-create-options">
+                        <li>
+                            <span class="module-create-title">Update Icon Color</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.update_button_icon_color"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Update Background Color</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.update_button_bg_color"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Update Icon Hover</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.update_button_icon_hover"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Update Background Hover</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.update_button_bg_hover"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Delete Icon Color</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.delete_button_icon_color"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Delete Background Color</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.delete_button_bg_color"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Delete Icon Hover</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.delete_button_icon_hover"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Delete Background Hover</span>
+                                <span class="module-create-option">
+                                    <j-opt-color data-ng-model="settings.delete_button_bg_hover"></j-opt-color>
+                                </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                    </ul>
+                </accordion-group>
 
             </ul>
         </accordion-group>
@@ -405,7 +470,13 @@
                                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
-
+                <li>
+                    <span class="module-create-title">Heading Font Hover <small>Opencart 2.x</small></span>
+                                    <span class="module-create-option">
+                                        <j-opt-color data-ng-model="settings.checkout_heading_font_hover"></j-opt-color>
+                                    </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
                 <li>
                     <span class="module-create-title">Heading Background Color</span>
                                         <span class="module-create-option">
@@ -414,14 +485,21 @@
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Heading Divider Color</span>
+                    <span class="module-create-title">Heading Background Hover <small>Opencart 2.x</small></span>
+                                        <span class="module-create-option">
+                                            <j-opt-color data-ng-model="settings.checkout_heading_bg_hover"></j-opt-color>
+                                        </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
+                <li>
+                    <span class="module-create-title">Heading Divider Color <small>Opencart 1.5.x</small></span>
                                         <span class="module-create-option">
                                             <j-opt-color data-ng-model="settings.checkout_heading_divider_color"></j-opt-color>
                                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Heading Divider Type</span>
+                    <span class="module-create-title">Heading Divider Type  <small>Opencart 1.5.x</small></span>
                     <span class="module-create-option">
                         <switch data-ng-model="settings.checkout_heading_divider_type">
                             <switch-option key="solid">Solid</switch-option>
@@ -432,9 +510,9 @@
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Checkout Border Settings</span>
+                    <span class="module-create-title">Checkout Border Radius</span>
                                         <span class="module-create-option">
-                                            <j-opt-border data-ng-model="settings.checkout_border"></j-opt-border>
+                                            <j-opt-border data-ng-model="settings.checkout_border" editor="hide-style"></j-opt-border>
                                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
@@ -462,14 +540,14 @@
                 </li>
 
                 <li>
-                    <span class="module-create-title">Colorbox Text Color <small>Popups for Terms and Conditions, etc.</small></span>
+                    <span class="module-create-title">Colorbox Text Color  <small>Opencart 1.5.x</small></span>
                                         <span class="module-create-option">
                                             <j-opt-color data-ng-model="settings.colorbox_text_color"></j-opt-color>
                                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
-                    <span class="module-create-title">Modify Link Font</span>
+                    <span class="module-create-title">Modify Link Font   <small>Opencart 1.5.x</small></span>
                                         <span class="module-create-option">
                                             <j-opt-font data-ng-model="settings.checkout_modify_font"></j-opt-font>
                                         </span>
@@ -477,7 +555,7 @@
                 </li>
 
                 <li>
-                    <span class="module-create-title">Modify Link Font Hover</span>
+                    <span class="module-create-title">Modify Link Font Hover   <small>Opencart 1.5.x</small></span>
                                         <span class="module-create-option">
                                             <j-opt-color data-ng-model="settings.checkout_modify_font_hover"></j-opt-color>
                                         </span>

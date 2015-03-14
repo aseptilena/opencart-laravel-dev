@@ -24,7 +24,7 @@
     <accordion id="main-accordion" close-others="accordion.close_others">
         <accordion-group is-open="accordion.accordions[0]">
             <accordion-heading>
-                <div class="accordion-bar bar-level-0">Photo Gallery</div>
+                <div class="accordion-bar bar-level-0">General</div>
             </accordion-heading>
             <ul class="module-create-options">
 

@@ -6,12 +6,12 @@
     <div class="box-content">
     <?php $index = 0; foreach ($images as $image): ?>
         <div class="gallery-thumb <?php echo !$carousel ? $grid_classes : ''; ?>">
-            <a href="<?php echo $image['image']; ?>" style="<?php echo $image_border; ?>; <?php echo !$carousel && $index >= $thumb_limit ? 'display: none' : ''; ?>" data-thumb="<?php echo $image['thumb']; ?>" class="swipebox" title="<?php echo $image['name']; ?>">
+            <a href="<?php echo $image['image']; ?>" style="<?php echo $image_border; ?>; <?php echo !$carousel && $index >= $thumbs_limit ? 'display: none' : ''; ?>" data-thumb="<?php echo $image['thumb']; ?>" class="swipebox" title="<?php echo $image['name']; ?>">
                 <div class="item-hover"></div>
                 <?php if ($carousel): ?>
-                <img class="lazyOwl" width="<?php echo $thumb_width; ?>" height="<?php echo $thumb_height; ?>" data-src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['name']; ?>" />
+                <img class="lazyOwl" width="<?php echo $thumbs_width; ?>" height="<?php echo $thumbs_height; ?>" data-src="<?php echo $image['thumb']; ?>" alt="<?php echo $image['name']; ?>" />
                 <?php else: ?>
-                <img src="<?php echo $image['thumb']; ?>" width="<?php echo $thumb_width; ?>" height="<?php echo $thumb_height; ?>" alt="<?php echo $image['name']; ?>" />
+                <img src="<?php echo $image['thumb']; ?>" width="<?php echo $thumbs_width; ?>" height="<?php echo $thumbs_height; ?>" alt="<?php echo $image['name']; ?>" />
                 <?php endif; ?>
             </a>
         </div>
@@ -41,7 +41,7 @@
                 navigation:true,
                 scrollPerPage:true,
                 navigationText : false,
-                slideSpeed: <?php echo $slide_speed; ?>,
+                paginationSpeed: <?php echo $slide_speed; ?>,
                 margin:15
             });
             <?php if ($arrows === 'side'): ?>

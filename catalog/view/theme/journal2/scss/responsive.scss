@@ -121,7 +121,7 @@
       transition: opacity 0;
     }
   }
-  .p-over, .quickview-button, .gallery-thumb a:before, .gallery-thumb .item-hover, .product-grid-item .image .wishlist, .product-grid-item .image .compare {
+  .p-over, .quickview-button, .gallery-thumb a:before, .gallery-thumb .item-hover {
     display: none;
   }
 }
@@ -650,6 +650,7 @@ Dropdown
           border-left: none;
           border-right: none;
           left: 0;
+          width: 100%;
           .mobile-plus {
             display: none;
             width: 40px;
@@ -748,15 +749,19 @@ Android/Firefox
 
 @media only screen and (max-width: 470px) {
   .firefox {
-    header {
-      display: block;
-      min-height: 320px;
+    .sticky-wrapper, header{
+      display: table;
     }
     #top-modules {
       clear: both;
     }
+    #container > .row{
+      display:table;
+    }
   }
 }
+
+
 
 
 /******************************
@@ -873,6 +878,9 @@ Android/Firefox
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+  .product-page #tabs li, .product-page #tabs a{
+    float: none;
+  }
 }
 
 @media only screen and (max-width: 460px) {
@@ -928,6 +936,9 @@ Android/Firefox
       }
     }
     .name{
+      margin-left: 0;
+    }
+    .product-details{
       margin-left: 0;
     }
   }
@@ -1074,6 +1085,7 @@ CAROUSEL
 /******************************
  WISHLIST
 *******************************/
+
 @media only screen and (max-width: 460px) {
   .wishlist-info {
     .model, .stock{
@@ -1090,6 +1102,9 @@ SHOPPING CART
   .cart-info {
     .model, .price{
       display: none;
+    }
+    .name a{
+      white-space: normal;
     }
   }
 }
@@ -1177,6 +1192,7 @@ CHECKOUT
 /******************************
 SEARCH PAGE
 *******************************/
+
 @media only screen and (max-width: 980px) {
   #content.search-page{
     h2{
@@ -1262,6 +1278,9 @@ SEARCH PAGE
       }
     }
   }
+  .footer-post-title{
+    white-space:normal;
+  }
 }
 
 
@@ -1319,7 +1338,7 @@ EXTENDED LAYOUT
     }
     #column-right + #content,
     #column-right + .row #content{
-      padding: 0px 20px 20px 0;
+      padding: 0px 20px 20px 20px;
       margin-right: 0;
     }
     #column-left + #column-right + #content,
@@ -1596,6 +1615,13 @@ NEWSLETTER
       .col-sm-10{
         width: 100%;
       }
+    }
+    .form-horizontal .form-group label{
+      width: 100%;
+      float: none;
+    }
+    .form-horizontal .form-group label + div{
+      width: 100%;
     }
     .action-area{
       .panel-body{

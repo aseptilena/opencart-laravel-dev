@@ -1,6 +1,6 @@
 <?php
 /* version */
-define('JOURNAL_VERSION', '2.4.3');
+define('JOURNAL_VERSION', '2.4.8');
 
 
 /* check if journal should be loaded */
@@ -32,6 +32,40 @@ if ($load_theme) {
         if (defined('J2ENV')) {
             global $config;
             $config->set('config_template', 'journal2_oc2');
+        }
+
+        /* check if DIR_CATALOG is defined */
+        if (defined('DIR_CATALOG')) {
+            echo '
+                <h3>Opencart OCMod config.php error detected. </h3>
+                <p>Your config.php file creates a conflict with OCMod, probably caused by 1-click Opencart installers.</p>
+                <p><strong>Solution:</strong> Edit config.php from your Opencart root installation and replace all lines of code found after: <pre>//DIR</pre> and before: <pre>//DB</pre> with the following:</p>
+                <pre>
+// DIR
+define(\'DIR_ROOT\'           , \'' . realpath(dirname(__FILE__)  . '/../../') .'/\');
+define(\'DIR_APPLICATION\'    , DIR_ROOT . \'catalog/\');
+define(\'DIR_SYSTEM\'         , DIR_ROOT . \'system/\');
+define(\'DIR_LANGUAGE\'       , DIR_ROOT . \'catalog/language/\');
+define(\'DIR_TEMPLATE\'       , DIR_ROOT . \'catalog/view/theme/\');
+define(\'DIR_CONFIG\'         , DIR_ROOT . \'system/config/\');
+define(\'DIR_IMAGE\'          , DIR_ROOT . \'image/\');
+define(\'DIR_CACHE\'          , DIR_ROOT . \'system/cache/\');
+define(\'DIR_DOWNLOAD\'       , DIR_ROOT . \'system/download/\');
+define(\'DIR_UPLOAD\'         , DIR_ROOT . \'system/upload/\');
+define(\'DIR_LOGS\'           , DIR_ROOT . \'system/logs/\');
+define(\'DIR_MODIFICATION\'   , DIR_ROOT . \'system/modification/\');
+                </pre>
+            ';
+            exit();
+        }
+
+        /* check if DIR_MODIFICATION is writable */
+        if (!is_writable(DIR_MODIFICATION)) {
+            echo '
+                <h3>Journal Installation Error</h3>
+                <p><b>' . DIR_MODIFICATION . '</b> is not writable. Contact your hosting provider for more information.</p>
+            ';
+            exit();
         }
 
         /* check oc modifications */
@@ -107,6 +141,10 @@ if ($load_theme) {
     /* Utils */
     require_once(DIR_SYSTEM . 'journal2/classes/journal2_utils.php');
 
+    /* DB Upgrade */
+    require_once(DIR_SYSTEM . 'journal2/classes/journal2_db_upgrade.php');
+    Journal2DBUpgrade::check();
+
     /* Load journal2 class */
     $journal2 = new Journal2();
     $this->registry->set('journal2', $journal2);
@@ -146,10 +184,6 @@ if ($load_theme) {
     require_once(DIR_SYSTEM . 'journal2/classes/journal2_google_fonts.php');
     $journal2->google_fonts = new Journal2GoogleFonts();
 
-    /* Route Parser */
-    require_once(DIR_SYSTEM . 'journal2/classes/journal2_page.php');
-    $journal2->page = new Journal2Page($this->registry, $journal2->html_classes);
-
     /* Controllers */
     if ($current_route === 'module/journal2_popup/show') {
         $this->execute(new Action('module/journal2_popup/show'));
@@ -168,7 +202,19 @@ if ($load_theme) {
         }
     }
 
-    if (!in_array($current_route, array('module/journal2_side_blocks/load', 'journal2/assets/js', 'journal2/assets/css', 'journal2/assets/outofstock', 'product/product/captcha', 'information/contact/captcha'))) {
+    /* Blog sitemap */
+    if ($current_route === 'information/sitemap') {
+        $this->execute(new Action('journal2/settings/sitemap'));
+    }
+
+    /* Route Parser */
+    require_once(DIR_SYSTEM . 'journal2/classes/journal2_page.php');
+    $journal2->page = new Journal2Page($this->registry, $journal2->html_classes);
+
+    /* Calculate columns */
+    $this->execute(new Action('journal2/settings/columns'));
+
+    if (!in_array($current_route, array('module/journal2_side_blocks/load', 'journal2/assets/js', 'journal2/assets/css', 'journal2/assets/outofstock', 'product/product/captcha', 'information/contact/captcha', 'tool/captcha'))) {
         $this->execute(new Action('journal2/product_tabs'));
         $this->execute(new Action('journal2/product_tabs/enquiry'));
         $this->execute(new Action('journal2/modules'));

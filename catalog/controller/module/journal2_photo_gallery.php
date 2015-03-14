@@ -109,16 +109,17 @@ class ControllerModuleJournal2PhotoGallery extends Controller {
             $images = Journal2Utils::sortArray($images);
 
             /* generate images */
-            $this->data['thumb_limit'] = Journal2Utils::getProperty($module_data, 'thumbs_limit', PHP_INT_MAX);
-            $this->data['thumb_width'] = 200;
-            $this->data['thumb_height'] = 200;
+            $this->data['thumbs_limit']  = Journal2Utils::getProperty($module_data, 'thumbs_limit', PHP_INT_MAX);
+            $this->data['thumbs_width']  = Journal2Utils::getProperty($module_data, 'thumbs_width', 200);
+            $this->data['thumbs_height'] = Journal2Utils::getProperty($module_data, 'thumbs_height', 200);
+            $this->data['thumbs_type']   = Journal2Utils::getProperty($module_data, 'thumbs_type', 'crop');
             $this->data['images'] = array();
             foreach ($images as $image) {
                 if (isset($image['status']) && !$image['status']) continue;
                 $this->data['images'][] = array(
                     'name'      => Journal2Utils::getProperty($image, 'name.value.' . $this->config->get('config_language_id'), ''),
                     'image'     => Journal2Utils::resizeImage($this->model_tool_image, $image),
-                    'thumb'     => Journal2Utils::resizeImage($this->model_tool_image, $image, $this->data['thumb_width'], $this->data['thumb_height'], 'crop'),
+                    'thumb'     => Journal2Utils::resizeImage($this->model_tool_image, $image, $this->data['thumbs_width'], $this->data['thumbs_height'], $this->data['thumbs_type']),
                 );
             }
 

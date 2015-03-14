@@ -174,5 +174,21 @@
                 </li>
             </ul>
         </accordion-group>
+        <accordion-group is-open="accordion.stores_is_open">
+            <accordion-heading>
+                <div class="accordion-bar bar-level-0">Stores</div>
+            </accordion-heading>
+            <ul class="module-create-options">
+                <li data-ng-repeat="store in stores">
+                    <span class="module-create-title">{{store.name}} Store</span>
+                    <span class="module-create-option">
+                        <switch data-ng-model="post_data.stores['s_' + store.store_id]">
+                            <switch-option key="1">ON</switch-option>
+                            <switch-option key="0">OFF</switch-option>
+                        </switch>
+                    </span>
+                </li>
+            </ul>
+        </accordion-group>
     </accordion>
 </div>

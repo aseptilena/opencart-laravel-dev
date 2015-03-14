@@ -132,8 +132,19 @@
         <tr>
           <td></td>
           <?php foreach ($products as $product) { ?>
-          <td><button type="button" value="<?php echo $button_cart; ?>" onclick="cart.add('<?php echo $product['product_id']; ?>');" data-toggle="tooltip" title="<?php echo $button_cart; ?>" class="btn btn-primary"><i class="fa fa-shopping-cart"></i></button>
-            <a href="<?php echo $product['remove']; ?>" data-toggle="tooltip" title="<?php echo $button_remove; ?>" class="btn btn-danger"><i class="fa fa-times"></i></a></td>
+          <td>
+            <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
+            <div class="cart enquiry-button">
+              <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top compare-enquire" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                <a href="<?php echo $product['remove']; ?>" class="btn btn-danger btn-block button compare-remove"><?php echo $button_remove; ?></a>
+            </div>
+            <?php else: ?>
+            <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
+              <a onclick="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top compare-add-to-cart" data-hint="<?php echo $button_cart; ?>"><i class="button-left-icon"></i><span class="button-cart-text"><?php echo $button_cart; ?></span><i class="button-right-icon"></i></a>
+                <a href="<?php echo $product['remove']; ?>" class="btn btn-danger btn-block button compare-remove"><?php echo $button_remove; ?></a>
+            </div>
+            <?php endif; ?>
+          </td>
           <?php } ?>
         </tr>
       </table>

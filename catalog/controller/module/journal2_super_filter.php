@@ -112,6 +112,10 @@ class ControllerModuleJournal2SuperFilter extends Controller {
         $this->data['text_price'] = trim($this->language->get('text_price'), ': ');
         $this->data['text_tags']  = trim($this->language->get('text_tags'), ': ');
 
+        /* image width / height */
+        $this->data['image_width'] = self::$IMG_WIDTH;
+        $this->data['image_height'] = self::$IMG_HEIGHT;
+
         $data = array();
 
         if ($ajax) {
@@ -188,7 +192,7 @@ class ControllerModuleJournal2SuperFilter extends Controller {
                 $this->data['categories'][] = array(
                     'category_id'	=> $result['category_id'],
                     'name'		    => trim($result['name']) . ( $show_product_count ? ' (' . $result['total'] . ')' : ''),
-                    'image'         => $this->model_tool_image->resize($result['image'] ? $result['image'] : 'no_image.jpg', self::$IMG_WIDTH, self::$IMG_HEIGHT),
+                    'image'         => $this->model_tool_image->resize($result['image'] ? $result['image'] : (Front::$IS_OC2 ? 'placeholder.png' : 'no_image.jpg'), self::$IMG_WIDTH, self::$IMG_HEIGHT),
                     'keyword'		=> $this->keyword($result['name'])
                 );
             }
@@ -212,7 +216,7 @@ class ControllerModuleJournal2SuperFilter extends Controller {
                 $this->data['manufacturers'][] = array(
                     'manufacturer_id'	=> $result['manufacturer_id'],
                     'name'			    => trim($result['name']) . ( $show_product_count ? ' (' . $result['total'] . ')' : ''),
-                    'image'             => $this->model_tool_image->resize($result['image'] ? $result['image'] : 'no_image.jpg', self::$IMG_WIDTH, self::$IMG_HEIGHT),
+                    'image'             => $this->model_tool_image->resize($result['image'] ? $result['image'] : (Front::$IS_OC2 ? 'placeholder.png' : 'no_image.jpg'), self::$IMG_WIDTH, self::$IMG_HEIGHT),
                     'keyword'			=> $this->keyword($result['name'])
                 );
             }
@@ -267,7 +271,7 @@ class ControllerModuleJournal2SuperFilter extends Controller {
                 $values[] = array(
                     'option_value_id'	=> $value['option_value_id'],
                     'option_value_name'	=> trim($value['option_value_name']) . ( $show_product_count ? ' (' . $value['total'] . ')' : ''),
-                    'image'				=> $this->model_tool_image->resize($value['image'] ? $value['image'] : 'no_image.jpg', self::$IMG_WIDTH, self::$IMG_HEIGHT),
+                    'image'				=> $this->model_tool_image->resize($value['image'] ? $value['image'] : (Front::$IS_OC2 ? 'placeholder.png' : 'no_image.jpg'), self::$IMG_WIDTH, self::$IMG_HEIGHT),
                     'keyword'			=> $this->keyword($result['option_name'] . " " .$value['option_value_name'])
                 );
             }
@@ -594,14 +598,14 @@ class ControllerModuleJournal2SuperFilter extends Controller {
             if ($result['image']) {
                 $image = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
             } else {
-                $image = false;
+                $image = $this->model_tool_image->resize(Front::$IS_OC2 ? 'placeholder.png' : 'no_image.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
             }
 
             $image2 = false;
 
             $results = $this->model_catalog_product->getProductImages($result['product_id']);
             if (count($results) > 0) {
-                $image2 = $this->model_tool_image->resize($results[0]['image'] ? $results[0]['image'] : 'data/journal2/no_image_large.jpg', $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+                $image2 = $this->model_tool_image->resize($results[0]['image'] ? $results[0]['image'] : (Front::$IS_OC2 ? 'placeholder.png' : 'no_image.jpg'), $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
             }
 
             if (($this->config->get('config_customer_price') && $this->customer->isLogged()) || !$this->config->get('config_customer_price')) {

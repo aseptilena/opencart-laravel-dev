@@ -32,13 +32,13 @@
                 <li>
                     <span class="module-create-title">Page Split Ratio <small>Left Side / Right Side</small></span>
                         <span class="module-create-option">
-                <switch data-ng-model="settings.split_ratio">
-                    <switch-option key="split-70-30">70/30</switch-option>
-                    <switch-option key="split-60-40">60/40</switch-option>
-                    <switch-option key="split-50-50">50/50</switch-option>
-                    <switch-option key="split-40-60">40/60</switch-option>
-                    <switch-option key="split-30-70">30/70</switch-option>
-                </switch>
+                            <switch data-ng-model="settings.split_ratio">
+                                <switch-option key="split-70-30">70/30</switch-option>
+                                <switch-option key="split-60-40">60/40</switch-option>
+                                <switch-option key="split-50-50">50/50</switch-option>
+                                <switch-option key="split-40-60">40/60</switch-option>
+                                <switch-option key="split-30-70">30/70</switch-option>
+                            </switch>
                         </span>
                     <a href="#" target="_blank" class="journal-tip"></a>
                 </li>
@@ -49,6 +49,16 @@
                         <div class="accordion-bar bar-level-1">Page Title</div>
                     </accordion-heading>
                     <ul>
+                        <li>
+                            <span class="module-create-title">Page Title Position</span>
+                            <span class="module-create-option">
+                                <switch data-ng-model="settings.product_page_title_position">
+                                    <switch-option key="top">Top</switch-option>
+                                    <switch-option key="right">Right</switch-option>
+                                </switch>
+                            </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
 
                 <li>
                     <span class="module-create-title">Page Title Font</span>
@@ -167,7 +177,7 @@
                         </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
-                <li>
+                <li data-ng-show="settings.product_page_cloud_zoom == '1'">
                     <span class="module-create-title">Inner Zoom</span>
                         <span class="module-create-option">
                             <switch data-ng-model="settings.product_page_cloud_zoom_inner">
@@ -943,6 +953,33 @@
                         </accordion-heading>
                         <ul class="module-create-options">
                             <li>
+                                <span class="module-create-title">Status</span>
+                                    <span class="module-create-option">
+                                        <switch data-ng-model="settings.product_page_qty_status">
+                                            <switch-option key="on">ON</switch-option>
+                                            <switch-option key="off">OFF</switch-option>
+                                        </switch>
+                                    </span>
+                                <a href="#" target="_blank" class="journal-tip"> </a>
+                            </li>
+
+                            <li>
+                                <span class="module-create-title">Quantity Number Font</span>
+                                        <span class="module-create-option">
+                                            <j-opt-font data-ng-model="settings.product_page_qty_font"></j-opt-font>
+                                        </span>
+                                <a href="#" target="_blank" class="journal-tip"></a>
+                            </li>
+
+                            <li>
+                                <span class="module-create-title">Input Background Color</span>
+                                    <span class="module-create-option">
+                                        <j-opt-color data-ng-model="settings.product_page_qty_input_color"></j-opt-color>
+                                    </span>
+                                <a href="#" target="_blank" class="journal-tip"></a>
+                            </li>
+
+                            <li>
                                 <span class="module-create-title">Buttons Color</span>
                                     <span class="module-create-option">
                                         <j-opt-color data-ng-model="settings.product_page_qty_color"></j-opt-color>
@@ -1239,7 +1276,7 @@
                 <!--Tabs-->
 
                 <li>
-                    <span class="module-create-title">Tabs Position</span>
+                    <span class="module-create-title">Tabs Position <small>Opencart 2.0 only</small></span>
                         <span class="module-create-option">
                             <switch data-ng-model="settings.product_page_tabs_position">
                                 <switch-option key="on">Image</switch-option>
@@ -1393,6 +1430,17 @@
                                 <a href="#" target="_blank" class="journal-tip"></a>
                             </li>
                             <li>
+                                <span class="module-create-title">Specification Title Align</span>
+                                    <span class="module-create-option">
+                                        <switch data-ng-model="settings.product_page_spec_title_align">
+                                            <switch-option key="left">Left</switch-option>
+                                            <switch-option key="center">Center</switch-option>
+                                            <switch-option key="right">Right</switch-option>
+                                        </switch>
+                                    </span>
+                                <a href="#" target="_blank" class="journal-tip"></a>
+                            </li>
+                            <li>
                                 <span class="module-create-title">Specification Value Align</span>
                                     <span class="module-create-option">
                                         <switch data-ng-model="settings.product_page_spec_align">
@@ -1464,7 +1512,7 @@
                                 <a href="#" target="_blank" class="journal-tip"></a>
                             </li>
                             <li>
-                                <span class="module-create-title">Review Border Color</span>
+                                <span class="module-create-title">Review Border Color <small>Opencart 1.5.x</small></span>
                                     <span class="module-create-option">
                                         <j-opt-color data-ng-model="settings.product_page_review_border"></j-opt-color>
                                     </span>
@@ -1478,13 +1526,6 @@
                                     </span>
                                 <a href="#" target="_blank" class="journal-tip"></a>
                             </li>
-                            <li>
-                                <span class="module-create-title">Heading Font <small>Write a review</small></span>
-                                    <span class="module-create-option">
-                                        <j-opt-color data-ng-model="settings.product_page_review_heading_bg"></j-opt-color>
-                                    </span>
-                                <a href="#" target="_blank" class="journal-tip"></a>
-                            </li>
 
                             <li>
                                 <span class="module-create-title">Tab Content Background</span>
@@ -1493,7 +1534,21 @@
                                     </span>
                                 <a href="#" target="_blank" class="journal-tip"></a>
                             </li>
+                            <li>
+                                <span class="module-create-title">Note Text Color <small>Opencart 2.0</small></span>
+                                    <span class="module-create-option">
+                                        <j-opt-color data-ng-model="settings.review_tex_danger_color"></j-opt-color>
+                                    </span>
+                                <a href="#" target="_blank" class="journal-tip"></a>
+                            </li>
 
+                            <li>
+                                <span class="module-create-title">Note Text Background <small>Opencart 2.0</small></span>
+                                    <span class="module-create-option">
+                                        <j-opt-color data-ng-model="settings.review_text_danger_color_bg"></j-opt-color>
+                                    </span>
+                                <a href="#" target="_blank" class="journal-tip"></a>
+                            </li>
                         </ul>
                     </accordion-group>
                 </accordion>

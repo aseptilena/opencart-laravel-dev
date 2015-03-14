@@ -18,6 +18,8 @@ header *, #container *, footer *, #top-modules *, #bottom-modules * {box-sizing:
   font-family:'journal-icons';
   position: relative;
   font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
   color: inherit;
   font-size: inherit;
   display: inline-block;
@@ -125,7 +127,6 @@ body{
 
 #container{
   max-width: $sitewidth;
-  //height: 100%;
   position: relative;
   margin: 0 auto;
   background-color:transparent;
@@ -211,7 +212,7 @@ button{
 .button {
   cursor: pointer;
   font-size: 14px;
-  transition: all .2s;
+  transition: color .2s, background-color .2s;
   padding: 0 12px;
   border: 0;
   line-height: 32px;
@@ -308,6 +309,7 @@ ul.breadcrumb{
     }
     &:before{
       content: "»";
+      float: left;
     }
     &:first-of-type {
       a{
@@ -437,12 +439,12 @@ select {
   border: 1px solid $e4;
   padding: 5px;
   margin: 5px;
+  max-width: 100%;
 }
 
 label {
   cursor: pointer;
   padding-right: $margin;
-  font-weight: bold;
 }
 
 span.error,
@@ -684,9 +686,6 @@ OC 2
   }
   .fa {
     font-size: 14px;
-    &.fa-calendar {
-      //color: $dark;
-    }
     &:before {
       font-family: 'FontAwesome';
     }
@@ -697,15 +696,27 @@ OC 2
       margin-left: 25%;
     }
   }
-  input[name='captcha'] {
-    //width: 100%;
-  }
   .alert {
     button {
       font-size: 15px;
       position: absolute;
       right: 10px;
       cursor: pointer;
+    }
+  }
+}
+.oc2.route-account-register{
+  .form-horizontal {
+    .radio {
+      padding-top: 0;
+      label {
+        width: auto;
+        float: none;
+        padding-top: 0;
+      }
+    }
+    label.radio-inline{
+      width: auto;
     }
   }
 }

@@ -6818,6 +6818,7 @@ define('controllers/footer/menu',['./../module', 'underscore'], function (module
                 items_limit: 4,
                 module_type: 'featured',
                 posts_type: 'newest',
+                posts: [],
                 status: '1',
                 disable_mobile: '0'
             };
@@ -7208,6 +7209,16 @@ define('controllers/footer/menu',['./../module', 'underscore'], function (module
         $scope.removeProduct = function (section, $index) {
             section.products.splice($index, 1);
         };
+
+        /* add post */
+        $scope.addPost = function (column) {
+            column.posts.push({ });
+        };
+
+        /* remove product */
+        $scope.removeProduct = function (column, $index) {
+            column.posts.splice($index, 1);
+        };
     });
 
 });
@@ -7319,6 +7330,7 @@ define('controllers/blog/settings',['./../module', 'underscore'], function (modu
         $scope.store_id = $routeParams.store_id || Journal2Config.stores[0].store_id;
 
         $scope.blog_settings = {
+            feed: '1',
             posts_per_row: {
                 "range": "1,10",
                 "step": "1",
@@ -7540,7 +7552,8 @@ define('controllers/blog/categories/form',['./../../module', 'underscore'], func
         $scope.stores = Journal2Config.stores || [];
 
         $scope.category_data = {
-            layouts: { }
+            layouts: { },
+            stores: { }
         };
 
         if ($scope.category_id) {
@@ -7549,12 +7562,21 @@ define('controllers/blog/categories/form',['./../../module', 'underscore'], func
                 if (angular.isArray($scope.category_data.layouts)) {
                     $scope.category_data.layouts = { };
                 }
+                _.each(Journal2Config.stores, function (store) {
+                    $scope.category_data.stores['s_' + store.store_id] = '0';
+                });
+                _.each(response.store_ids, function (store) {
+                    $scope.category_data.stores['s_' + store] = '1';
+                });
                 Spinner.hide();
             }, function (error) {
                 Spinner.hide();
                 alert(error);
             });
         } else {
+            _.each(Journal2Config.stores, function (store) {
+                $scope.category_data.stores['s_' + store.store_id] = '1';
+            });
             Spinner.hide();
         }
 
@@ -7602,6 +7624,7 @@ define('controllers/blog/categories/form',['./../../module', 'underscore'], func
         $scope.accordion = {
             general_is_open: true,
             layouts_is_open: true,
+            stores_is_open: true,
             close_others: false
         };
 
@@ -7610,6 +7633,7 @@ define('controllers/blog/categories/form',['./../../module', 'underscore'], func
         $scope.toggleAccordion = function (value) {
             $scope.accordion.general_is_open = value;
             $scope.accordion.layouts_is_open = value;
+            $scope.accordion.stores_is_open = value;
             if (value) {
                 $scope.accordion.close_others = false;
             }
@@ -7663,9 +7687,11 @@ define('controllers/blog/posts/form',['./../../module', 'underscore'], function 
 
         $scope.post_data = {
             layouts: { },
+            stores: { },
             author_id: Journal2Config.user_id,
             comments: 2
         };
+
         $scope.categories = [];
         $scope.authors = [];
 
@@ -7687,12 +7713,21 @@ define('controllers/blog/posts/form',['./../../module', 'underscore'], function 
                 if (angular.isArray($scope.post_data.layouts)) {
                     $scope.post_data.layouts = { };
                 }
+                _.each(Journal2Config.stores, function (store) {
+                    $scope.post_data.stores['s_' + store.store_id] = '0';
+                });
+                _.each(response.store_ids, function (store) {
+                    $scope.post_data.stores['s_' + store] = '1';
+                });
                 Spinner.hide();
             }, function (error) {
                 Spinner.hide();
                 alert(error);
             });
         } else {
+            _.each(Journal2Config.stores, function (store) {
+                $scope.post_data.stores['s_' + store.store_id] = '1';
+            });
             Spinner.hide();
         }
 
@@ -7744,6 +7779,7 @@ define('controllers/blog/posts/form',['./../../module', 'underscore'], function 
             data_is_open: true,
             links_is_open: true,
             layouts_is_open: true,
+            stores_is_open: true,
             close_others: false
         };
 
@@ -7755,6 +7791,7 @@ define('controllers/blog/posts/form',['./../../module', 'underscore'], function 
             $scope.accordion.data_is_open = value;
             $scope.accordion.links_is_open = value;
             $scope.accordion.layouts_is_open = value;
+            $scope.accordion.stores_is_open = value;
             if (value) {
                 $scope.accordion.close_others = false;
             }
@@ -8586,14 +8623,22 @@ define('controllers/blog_modules/side_posts/form',['./../../module', 'underscore
         /* scope vars */
         $scope.module_type = 'blog_side_posts';
         $scope.default_language = Journal2Config.languages.default;
+        $scope.posts = [];
 
         $scope.module_data = {
             general_is_open: true,
             close_others: false,
             module_name: 'New Module',
             module_type: 'newest',
+            posts: [],
             limit: 5
         };
+
+        Rest.getBlog('posts').then(function (response) {
+            $scope.posts = response.posts;
+        }, function (error) {
+            alert(error);
+        });
 
         /* get data */
         if ($scope.module_id) {
@@ -8652,6 +8697,14 @@ define('controllers/blog_modules/side_posts/form',['./../../module', 'underscore
             if (value) {
                 $scope.module_data.close_others = false;
             }
+        };
+
+        $scope.addPost = function () {
+            $scope.module_data.posts.push({});
+        };
+
+        $scope.removePost = function ($index) {
+            $scope.module_data.posts.splice($index, 1);
         };
 
     }]);
@@ -8777,6 +8830,7 @@ define('controllers/blog_modules/posts/form',['./../../module', 'underscore'], f
         /* scope vars */
         $scope.module_type = 'blog_posts';
         $scope.default_language = Journal2Config.languages.default;
+        $scope.posts = [];
 
         $scope.module_data = {
             general_is_open: true,
@@ -8790,6 +8844,7 @@ define('controllers/blog_modules/posts/form',['./../../module', 'underscore'], f
             margin_top: '',
             margin_bottom: '',
             module_type: 'newest',
+            posts: [],
             display: 'grid',
             items_per_row: {
                 "range": "1,10",
@@ -8870,6 +8925,12 @@ define('controllers/blog_modules/posts/form',['./../../module', 'underscore'], f
             disable_mobile: '0'
         };
 
+        Rest.getBlog('posts').then(function (response) {
+            $scope.posts = response.posts;
+        }, function (error) {
+            alert(error);
+        });
+
         /* get data */
         if ($scope.module_id) {
             Rest.getModule($scope.module_id).then(function (response) {
@@ -8927,6 +8988,14 @@ define('controllers/blog_modules/posts/form',['./../../module', 'underscore'], f
             if (value) {
                 $scope.module_data.close_others = false;
             }
+        };
+
+        $scope.addPost = function () {
+            $scope.module_data.posts.push({});
+        };
+
+        $scope.removePost = function ($index) {
+            $scope.module_data.posts.splice($index, 1);
         };
 
     }]);
@@ -11180,6 +11249,9 @@ define('controllers/photo_gallery/form',['./../module', 'underscore'], function 
             module_name: 'New Module',
             gallery_name: {},
             thumbs_limit: '',
+            thumbs_width: '',
+            thumbs_height: '',
+            thumbs_type: 'crop',
             items_per_row: {
                 "range": "1,10",
                 "step": "1",
@@ -11458,6 +11530,7 @@ define('controllers/text_rotator/form',['./../module', 'underscore'], function (
 
         $scope.module_data = {
             module_name: 'New Module',
+            module_title: {},
             transition_delay: '4000',
             pause_on_hover: '1',
             text_align: 'center',

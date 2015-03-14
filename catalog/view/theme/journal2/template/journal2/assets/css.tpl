@@ -5,6 +5,7 @@
 <?php endif; ?>
 <?php endforeach; endif; ?>
 
+
 /* Swipebox Loader */
 <?php if ($this->journal2->settings->get('ajax_loader')): ?>
 #swipebox-slider .slide {
@@ -15,15 +16,24 @@
   background-repeat: no-repeat;
   background-position: center;
 }
-
 .social{
   background-image: url('image/<?php echo $this->journal2->settings->get('ajax_loader'); ?>');
 }
 <?php endif; ?>
 
+
 <?php if ($this->journal2->settings->get('leading_element')): ?>
 .home-page #container:before{
   content: url('image/<?php echo $this->journal2->settings->get('leading_element'); ?>');
+}
+<?php endif; ?>
+
+<?php if($this->journal2->settings->get('product_page_qty_status', 'on') === 'off'): ?>
+.product-info .right .cart div .qty{
+display:none;
+}
+.product-info .right .cart div .button{
+width:100%;
 }
 <?php endif; ?>
 
@@ -51,6 +61,17 @@
 
 <?php if($this->journal2->settings->get('product_page_title_overflow', 'on') === 'off'): ?>
 .product-page .heading-title{
+    white-space:normal;
+    height:auto;
+    min-height:40px;
+    line-height:100%;
+    padding-bottom:12px;
+    padding-top:12px;
+}
+<?php endif; ?>
+
+<?php if($this->journal2->settings->get('category_page_title_overflow', 'on') === 'off'): ?>
+.category-page .heading-title{
     white-space:normal;
     height:auto;
     min-height:40px;
@@ -241,7 +262,6 @@ text-align:right;
   box-shadow: none;
 }
 <?php endif; ?>
-
 
 
 
@@ -844,6 +864,11 @@ table.list td{
   opacity:1;
 }
 <?php endif; ?>
+<?php if($this->journal2->settings->get('label_latest_status', 'always') === 'never'): ?>
+  .label-latest{
+  display:none !important;
+  }
+<?php endif; ?>
 <?php if($this->journal2->settings->get('label_special_status', 'always') === 'hover'): ?>
 .label-sale{
   visibility:hidden;
@@ -1010,18 +1035,21 @@ header .top-menu-link{
   border-right-style:<?php echo $this->journal2->settings->get('lang_divider_type');?>;
 }
 
-
 #search ::-webkit-input-placeholder {
   color:<?php echo $this->journal2->settings->get('search_placeholder_color');?>;
+  font-family: inherit;
 }
 #search :-moz-placeholder {
   color:<?php echo $this->journal2->settings->get('search_placeholder_color');?>;
+  font-family: inherit;
 }
 #search ::-moz-placeholder {
   color:<?php echo $this->journal2->settings->get('search_placeholder_color');?>;
+  font-family: inherit;
 }
 #search :-ms-input-placeholder {
   color:<?php echo $this->journal2->settings->get('search_placeholder_color');?>;
+  font-family: inherit;
 }
 
 .button-search{

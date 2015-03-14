@@ -59,6 +59,16 @@
                         <input type="text" class="journal-input journal-sort" data-ng-model="module_data.thumbs_limit" />
                     </span>
                 </li>
+                <li data-ng-show="module_data.carousel == '0'">
+                    <span class="module-create-title">Thumbs Dimensions</span>
+                    <span class="module-create-option">
+                        <input type="text" class="journal-number-field" data-ng-model="module_data.thumbs_width" /> x <input type="text" class="journal-number-field" data-ng-model="module_data.thumbs_height" />
+                        <switch data-ng-model="module_data.thumbs_type">
+                            <switch-option key="fit">Fit</switch-option>
+                            <switch-option key="crop">Crop &nbsp;&nbsp;</switch-option>
+                        </switch>
+                    </span>
+                </li>
                 <li data-ng-show="module_data.carousel == '1'">
                     <span class="module-create-title">Carousel Arrows</span>
                     <span class="module-create-option">

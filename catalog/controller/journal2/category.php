@@ -20,8 +20,8 @@ class ControllerJournal2Category extends Controller {
 
             $categories = $this->model_catalog_category->getCategories($category_id);
 
-            $image_width = $this->journal2->settings->get('refine_image_width', 100);
-            $image_height = $this->journal2->settings->get('refine_image_height', 100);
+            $image_width = $this->journal2->settings->get('refine_image_width', 175);
+            $image_height = $this->journal2->settings->get('refine_image_height', 175);
             $image_type = $this->journal2->settings->get('refine_image_type', 'fit');
 
             $data = array();

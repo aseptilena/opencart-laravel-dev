@@ -36,10 +36,8 @@ class ControllerJournal2Menu extends Controller {
     }
 
     public function header($menu) {
-        $wishlist = isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0;
-        $compare = isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0;
         $cache_property = 'config_' . $menu;
-        $cache = $wishlist || $compare ? null : $this->journal2->cache->get($cache_property);
+        $cache = $this->journal2->cache->get($cache_property);
 
         if ($cache === null || self::$CACHEABLE !== true) {
             $items = $this->journal2->settings->get('config_' . $menu . '.items', array());
@@ -47,19 +45,18 @@ class ControllerJournal2Menu extends Controller {
             $this->template = $this->config->get('config_template') . '/template/journal2/menu/header.tpl';
 
             $cache = $this->render();
-            if (!$wishlist && !$compare && self::$CACHEABLE === true) {
+            if (self::$CACHEABLE === true) {
                 $this->journal2->cache->set($cache_property, $cache);
             }
         }
 
+        $cache = $this->model_journal2_menu->replaceCacheVars($cache);
         $this->journal2->settings->set('config_' . $menu, $cache);
     }
 
     public function footer($menu) {
-        $wishlist = isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0;
-        $compare = isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0;
         $cache_property = 'config_' . $menu;
-        $cache = $wishlist || $compare ? null : $this->journal2->cache->get($cache_property);
+        $cache = $this->journal2->cache->get($cache_property);
         $has_random_products = false;
 
         if ($cache === null || self::$CACHEABLE !== true) {
@@ -286,11 +283,37 @@ class ControllerJournal2Menu extends Controller {
                                     $limit = Journal2Utils::getProperty($column, 'items_limit', 5);
                                     $module_type = Journal2Utils::getProperty($column, 'posts_type', 5);
 
-                                    $posts = $this->model_journal2_blog->getPosts(array(
-                                        'sort'          => $module_type,
-                                        'start'         => 0,
-                                        'limit'         => $limit
-                                    ));
+                                    switch ($module_type) {
+                                        case 'newest':
+                                        case 'comments':
+                                        case 'views':
+                                            $posts = $this->model_journal2_blog->getPosts(array(
+                                                'sort'          => $module_type,
+                                                'start'         => 0,
+                                                'limit'         => $limit
+                                            ));
+                                            break;
+                                        case 'related':
+                                            if (isset($this->request->get['route']) && $this->request->get['route'] === 'product/product' && isset($this->request->get['product_id'])) {
+                                                $posts = $this->model_journal2_blog->getRelatedPosts($this->request->get['product_id'], $limit);
+                                            }
+                                            break;
+                                        case 'custom':
+                                            $custom_posts = Journal2Utils::getProperty($column, 'posts', array());
+                                            $custom_posts_ids = array();
+                                            foreach ($custom_posts as $custom_post) {
+                                                $post_id = (int)Journal2Utils::getProperty($custom_post, 'data.id', 0);
+                                                if ($post_id) {
+                                                    $custom_posts_ids[$post_id] = $post_id;
+                                                }
+                                            }
+                                            if ($custom_posts_ids) {
+                                                $posts = $this->model_journal2_blog->getPosts(array(
+                                                    'post_ids' => implode(',', $custom_posts_ids)
+                                                ));
+                                            }
+                                            break;
+                                    }
 
                                     $this->data['image_width'] = $this->journal2->settings->get('footer_post_image_width', 35);
                                     $this->data['image_height'] = $this->journal2->settings->get('footer_post_image_height', 35);
@@ -341,19 +364,18 @@ class ControllerJournal2Menu extends Controller {
             $this->template = $this->config->get('config_template') . '/template/journal2/menu/footer.tpl';
 
             $cache = $this->render();
-            if (!$wishlist && !$compare && self::$CACHEABLE === true && !$has_random_products) {
+            if (self::$CACHEABLE === true && !$has_random_products) {
                 $this->journal2->cache->set($cache_property, $cache);
             }
         }
 
+        $cache = $this->model_journal2_menu->replaceCacheVars($cache);
         $this->journal2->settings->set('config_' . $menu, $cache);
     }
 
     public function mega($menu_name) {
-        $wishlist = isset($this->session->data['wishlist']) ? count($this->session->data['wishlist']) : 0;
-        $compare = isset($this->session->data['compare']) ? count($this->session->data['compare']) : 0;
         $cache_property = 'config_' . $menu_name;
-        $cache = $wishlist || $compare ? null : $this->journal2->cache->get($cache_property);
+        $cache = $this->journal2->cache->get($cache_property);
 
         if ($cache === null || self::$CACHEABLE !== true) {
             $menu_items = $this->journal2->settings->get('config_' . $menu_name . '.items', array());
@@ -433,11 +455,12 @@ class ControllerJournal2Menu extends Controller {
             $this->template = $this->config->get('config_template') . '/template/journal2/menu/main.tpl';
 
             $cache = $this->render();
-            if (!$wishlist && !$compare && self::$CACHEABLE === true && !$this->mega_has_random_products) {
+            if (self::$CACHEABLE === true && !$this->mega_has_random_products) {
                 $this->journal2->cache->set($cache_property, $cache);
             }
         }
 
+        $cache = $this->model_journal2_menu->replaceCacheVars($cache);
         $this->journal2->settings->set('config_' . $menu_name, $cache);
     }
 
@@ -488,7 +511,7 @@ class ControllerJournal2Menu extends Controller {
                     switch ($item['menu']['menu_item']['page']) {
                         case 'login':
                             $item['menu']['menu_item']['page'] = $this->customer->isLogged() ? 'account/account' : 'account/login';
-                            $customer_name = $this->customer->getFirstName();
+                            $customer_name = $this->customer->isLogged() ? '{{_customer_}}' : null;
                             break;
                         case 'register':
                             $item['menu']['menu_item']['page'] = $this->customer->isLogged() ? 'account/logout' : 'account/register';
@@ -956,7 +979,7 @@ class ControllerJournal2Menu extends Controller {
                         switch (Journal2Utils::getProperty($menu_item, 'custom.top.menu_item.page')) {
                             case 'login':
                                 $menu_item['custom']['top']['menu_item']['page'] = $this->customer->isLogged() ? 'account/account' : 'account/login';
-                                $customer_name = $this->customer->getFirstName();
+                                $customer_name = $this->customer->isLogged() ? '{{_customer_}}' : null;
                                 break;
                             case 'register':
                                 $menu_item['custom']['top']['menu_item']['page'] = $this->customer->isLogged() ? 'account/logout' : 'account/register';

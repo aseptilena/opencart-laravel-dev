@@ -633,6 +633,17 @@
                             <a href="#" target="_blank" class="journal-tip"> </a>
                         </li>
                         <li>
+                            <span class="module-create-title">Product Price Status</span>
+                            <span class="module-create-option">
+                                 <switch data-ng-model="settings.autosuggest_price_status">
+                                     <switch-option key="block">ON</switch-option>
+                                     <switch-option key="none">OFF</switch-option>
+                                 </switch>
+                            </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
                             <span class="module-create-title">Image Border Settings</span>
                             <span class="module-create-option">
                                 <j-opt-border data-ng-model="settings.autosuggest_image_border"></j-opt-border>

@@ -6,9 +6,9 @@
             <?php if ($manufacturer_display_mode === 'list'): ?>
             <li><label><input data-keyword="<?php echo $manufacturer['keyword']?>" type="checkbox" name="manufacturer" value="<?php echo $manufacturer['manufacturer_id']; ?>"><span class="sf-name"><?php echo $manufacturer['name']; ?> </span></label></li>
             <?php elseif ($manufacturer_display_mode === 'image'): ?>
-            <li><label><input data-keyword="<?php echo $manufacturer['keyword']?>" type="checkbox" name="manufacturer" value="<?php echo $manufacturer['manufacturer_id']; ?>"><img data-hint="<?php echo $manufacturer['name']; ?>" src="<?php echo $manufacturer['image']; ?>" alt="<?php echo $manufacturer['name']; ?>" title="<?php echo $manufacturer['name']; ?>"/></label></li>
+            <li><label><input data-keyword="<?php echo $manufacturer['keyword']?>" type="checkbox" name="manufacturer" value="<?php echo $manufacturer['manufacturer_id']; ?>"><img width="<?php echo $image_width; ?>" height="<?php echo $image_height; ?>" data-hint="<?php echo $manufacturer['name']; ?>" src="<?php echo $manufacturer['image']; ?>" alt="<?php echo $manufacturer['name']; ?>" title="<?php echo $manufacturer['name']; ?>"/></label></li>
             <?php else: ?>
-            <li><label><input data-keyword="<?php echo $manufacturer['keyword']?>" type="checkbox" name="manufacturer" value="<?php echo $manufacturer['manufacturer_id']; ?>"><img src="<?php echo $manufacturer['image']; ?>" alt="<?php echo $manufacturer['name']; ?>"/><span class="sf-name"><?php echo $manufacturer['name']; ?></span> </label></li>
+            <li><label><input data-keyword="<?php echo $manufacturer['keyword']?>" type="checkbox" name="manufacturer" value="<?php echo $manufacturer['manufacturer_id']; ?>"><img width="<?php echo $image_width; ?>" height="<?php echo $image_height; ?>" src="<?php echo $manufacturer['image']; ?>" alt="<?php echo $manufacturer['name']; ?>"/><span class="sf-name"><?php echo $manufacturer['name']; ?></span> </label></li>
             <?php endif; ?>
             <?php } ?>
         </ul>

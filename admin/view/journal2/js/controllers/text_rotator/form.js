@@ -10,6 +10,7 @@ define(['./../module', 'underscore'], function (module, _) {
 
         $scope.module_data = {
             module_name: 'New Module',
+            module_title: {},
             transition_delay: '4000',
             pause_on_hover: '1',
             text_align: 'center',

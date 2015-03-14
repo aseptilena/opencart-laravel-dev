@@ -2765,7 +2765,9 @@
             "value": {
                 "border_rounded": "px"
             }
-        }
+        },
+        "product_page_title_overflow": "on",
+        "product_page_tabs_position": "off"
     },
     "general": {
         "body_font": {
@@ -4744,7 +4746,9 @@
             "value": {
                 "color": ""
             }
-        }
+        },
+        "product_grid_show_ratings": "block",
+        "product_grid_description": "none"
     },
     "category": {
         "product_view": "grid",
@@ -5236,7 +5240,15 @@
             }
         },
         "refine_carousel_autoplay": "1",
-        "refine_carousel_touchdrag": "1"
+        "refine_carousel_touchdrag": "1",
+        "category_page_title_align": "left",
+        "refine_image_type": "fit",
+        "refine_carousel_pause_on_hover": "1",
+        "category_page_title_border": {
+            "value": {
+                "border_rounded": "px"
+            }
+        }
     },
     "moduleslider": {
         "slider_timer_size": {
@@ -9375,7 +9387,8 @@
             "value": {
                 "text": "20"
             }
-        }
+        },
+        "post_title_overflow": "on"
     },
     "bloglanguage": {
         "blog_button_read_more": {

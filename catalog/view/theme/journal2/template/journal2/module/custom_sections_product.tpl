@@ -66,7 +66,7 @@
                         <hr>
                         <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
                         <div class="cart enquiry-button">
-                            <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                            <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $product['product_id']; ?>');" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                         </div>
                         <?php else: ?>
                         <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -118,6 +118,8 @@
             var default_section = '<?php echo $default_section; ?>';
             if (default_section !== '') {
                 $('#cs-<?php echo $module; ?> .box-heading a[data-option-value="section-' + default_section + '"]').click();
+            } else {
+                $('#cs-<?php echo $module; ?> .box-heading a').first().click();
             }
 
             <?php /* enable countdown */ ?>

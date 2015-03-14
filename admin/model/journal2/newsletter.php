@@ -6,6 +6,7 @@ class ModelJournal2Newsletter extends Model{
 
     private $post_data;
     private $get_data;
+    private $stores;
 
     public function __construct($registry) {
         parent::__construct($registry);
@@ -16,8 +17,17 @@ class ModelJournal2Newsletter extends Model{
             $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_newsletter` (
                 `email` varchar(128) NOT NULL,
                 `token` varchar(64) NOT NULL,
+                `store_id` INT NOT NULL DEFAULT 0,
                 PRIMARY KEY `pk` (`email`)
             ) ENGINE=MyISAM DEFAULT CHARSET=utf8;');
+        }
+
+        $this->load->model('setting/store');
+
+        $this->stores = array(0 => $this->config->get('config_name'));
+
+        foreach ($this->model_setting_store->getStores() as $store) {
+            $this->stores[$store['store_id']] = $store['name'];
         }
     }
 
@@ -30,7 +40,7 @@ class ModelJournal2Newsletter extends Model{
     }
 
     public function getSubscribers($data = array()) {
-        $sql = 'SELECT email, status FROM ((SELECT email, 1 as status FROM ' . DB_PREFIX . 'customer WHERE newsletter = 1) UNION (SELECT email, 0 as status FROM ' . DB_PREFIX . 'journal2_newsletter)) TEMP';
+        $sql = 'SELECT email, status, store_id FROM ((SELECT email, 1 as status, store_id FROM ' . DB_PREFIX . 'customer WHERE newsletter = 1) UNION (SELECT email, 0 as status, store_id FROM ' . DB_PREFIX . 'journal2_newsletter)) TEMP';
 
         if (isset($data['start']) || isset($data['limit'])) {
             if ($data['start'] < 0) {
@@ -45,6 +55,10 @@ class ModelJournal2Newsletter extends Model{
         }
 
         $query = $this->db->query($sql);
+
+        foreach ($query->rows as &$row) {
+            $row['store'] = isset($this->stores[$row['store_id']]) ? $this->stores[$row['store_id']] : $this->stores[0];
+        }
 
         return $query->rows;
     }
@@ -94,8 +108,11 @@ class ModelJournal2Newsletter extends Model{
         header('Content-Disposition: attachment; filename=' . date('Y-m-d_H-i-s', time()).'_newsletter_list.csv');
         header('Content-Transfer-Encoding: binary');
 
+        echo 'Name,Customer,Store' . PHP_EOL;
+
         foreach ($this->getSubscribers() as $subscriber) {
-            echo $subscriber['email'] . PHP_EOL;
+            $status = $subscriber['status'] ? 'yes' : 'no';
+            echo "{$subscriber['email']},{$status},{$subscriber['store']}" . PHP_EOL;
         }
 
         exit();

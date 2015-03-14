@@ -40,10 +40,23 @@
                             <switch-option key="comments">Most Commented&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</switch-option>
                             <switch-option key="views">Most Viewed</switch-option>
                             <switch-option key="related">Related</switch-option>
+                            <switch-option key="custom">Custom</switch-option>
                         </switch>
                     </span>
                 </li>
-                <li>
+                <li data-ng-show="module_data.module_type === 'custom'">
+                    <span class="module-create-title">Posts</span>
+                    <span class="module-create-option">
+                        <ul class="simple-list">
+                            <li data-ng-repeat="post in module_data.posts">
+                                <blog-post-search model="post.data"></blog-post-search>
+                                <a class="btn red delete" href="javascript:;" data-ng-click="removePost($index)">X</a>
+                            </li>
+                        </ul>
+                        <a href="javascript:;" data-ng-click="addPost()" class="btn blue add-product">Add</a>
+                    </span>
+                </li>
+                <li data-ng-show="module_data.module_type !== 'custom'">
                     <span class="module-create-title">Posts Limit</span>
                     <span class="module-create-option">
                         <input type="text" class="journal-input journal-sort" data-ng-model="module_data.limit" />

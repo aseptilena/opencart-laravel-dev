@@ -545,6 +545,36 @@
         </operation>
     </file>
 
+    <file path="catalog/controller/product/compare.php">
+        <operation>
+            <search><![CDATA[$this->load->model('catalog/product');]]></search>
+            <add position="after"><![CDATA[
+                $this->load->model('journal2/product');
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA['thumb'        => $image,]]></search>
+            <add position="after"><![CDATA[
+                'labels'        => $this->model_journal2_product->getLabels($product_info['product_id']),
+            ]]></add>
+        </operation>
+    </file>
+
+    <file path="catalog/controller/account/wishlist.php">
+        <operation>
+            <search><![CDATA[$this->load->model('catalog/product');]]></search>
+            <add position="after"><![CDATA[
+                $this->load->model('journal2/product');
+            ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA['thumb'      => $image,]]></search>
+            <add position="after"><![CDATA[
+                'labels'        => $this->model_journal2_product->getLabels($product_info['product_id']),
+            ]]></add>
+        </operation>
+    </file>
+
     <file path="catalog/controller/{module,product}/{category,search,special,manufacturer,bestseller,latest,special}.php">
         <operation>
             <search><![CDATA[$this->load->model('catalog/product');]]></search>
@@ -650,6 +680,32 @@
 
     -->
 
+    <file path="catalog/controller/feed/google_sitemap.php">
+        <operation>
+            <search><![CDATA[$output .= '</urlset>';]]></search>
+            <add position="before"><![CDATA[
+            $this->load->model('journal2/blog');
+
+			foreach ($this->model_journal2_blog->getCategories() as $category) {
+				$output .= '<url>';
+				$output .= '<loc>' . $this->url->link('journal2/blog', 'journal_blog_category_id=' . $category['category_id']) . '</loc>';
+				$output .= '<changefreq>weekly</changefreq>';
+				$output .= '<priority>1</priority>';
+				$output .= '</url>';
+
+				foreach ($this->model_journal2_blog->getPosts(array('category_id' => $category['category_id'])) as $post) {
+					$output .= '<url>';
+					$output .= '<loc>' . $this->url->link('journal2/blog/post', 'journal_blog_category_id=' . $category['category_id'] . '&journal_blog_post_id=' . $post['post_id']) . '</loc>';
+					$output .= '<changefreq>weekly</changefreq>';
+					$output .= '<priority>1</priority>';
+					$output .= '</url>';
+				}
+
+			}
+            ]]></add>
+        </operation>
+    </file>
+
     <file path="catalog/controller/common/seo_url.php">
         <operation>
             <search><![CDATA[if ($query->num_rows) {]]></search>
@@ -682,14 +738,21 @@
             <add position="before"><![CDATA[
                     if ($url[0] == 'journal_blog_post_id') {
                         $this->request->get['journal_blog_post_id'] = $url[1];
-                        $this->request->get['route'] = 'journal2/blog/post';
-                        break;
                     }
 
                     if ($url[0] == 'journal_blog_category_id') {
                         $this->request->get['journal_blog_category_id'] = $url[1];
+                    }
+            ]]></add>
+        </operation>
+
+        <operation>
+            <search><![CDATA[if (!isset($this->request->get['route'])) {]]></search>
+            <add position="before"><![CDATA[
+                    if (isset($this->request->get['journal_blog_post_id'])) {
+                        $this->request->get['route'] = 'journal2/blog/post';
+			        } else if (isset($this->request->get['journal_blog_category_id'])) {
                         $this->request->get['route'] = 'journal2/blog';
-                        break;
                     }
             ]]></add>
         </operation>
@@ -772,6 +835,10 @@
 				continue;
 			}
             ]]></add>
+        </operation>
+        <operation>
+            <search><![CDATA[} elseif (is_file($image)) {]]></search>
+            <add position="after"><![CDATA[$image = trim($image, '/');]]></add>
         </operation>
     </file>
 

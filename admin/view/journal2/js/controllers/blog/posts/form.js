@@ -8,9 +8,11 @@ define(['./../../module', 'underscore'], function (module, _) {
 
         $scope.post_data = {
             layouts: { },
+            stores: { },
             author_id: Journal2Config.user_id,
             comments: 2
         };
+
         $scope.categories = [];
         $scope.authors = [];
 
@@ -32,12 +34,21 @@ define(['./../../module', 'underscore'], function (module, _) {
                 if (angular.isArray($scope.post_data.layouts)) {
                     $scope.post_data.layouts = { };
                 }
+                _.each(Journal2Config.stores, function (store) {
+                    $scope.post_data.stores['s_' + store.store_id] = '0';
+                });
+                _.each(response.store_ids, function (store) {
+                    $scope.post_data.stores['s_' + store] = '1';
+                });
                 Spinner.hide();
             }, function (error) {
                 Spinner.hide();
                 alert(error);
             });
         } else {
+            _.each(Journal2Config.stores, function (store) {
+                $scope.post_data.stores['s_' + store.store_id] = '1';
+            });
             Spinner.hide();
         }
 
@@ -89,6 +100,7 @@ define(['./../../module', 'underscore'], function (module, _) {
             data_is_open: true,
             links_is_open: true,
             layouts_is_open: true,
+            stores_is_open: true,
             close_others: false
         };
 
@@ -100,6 +112,7 @@ define(['./../../module', 'underscore'], function (module, _) {
             $scope.accordion.data_is_open = value;
             $scope.accordion.links_is_open = value;
             $scope.accordion.layouts_is_open = value;
+            $scope.accordion.stores_is_open = value;
             if (value) {
                 $scope.accordion.close_others = false;
             }

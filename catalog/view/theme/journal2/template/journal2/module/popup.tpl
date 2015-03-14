@@ -37,6 +37,7 @@
             <a onclick="Journal.contact($('#journal-popup-<?php echo $module; ?>'))" class="button button-icon-<?php echo $button_submit['icon_position']; ?>" style="<?php echo $button_submit['style']; ?>"><?php echo $button_submit['icon']; ?><?php echo $button_submit['text']; ?></a>
         </div>
     </div>
+    <script>$('head').append('<style>.journal-popup-footer-content  .button:hover { <?php echo $button_submit['hover_style']; ?>}</style>');</script>
     <?php endif; ?>
 
     <?php if ($footer && $type === 'text'): ?>
@@ -80,24 +81,35 @@
         $('<style>#journal-popup-<?php echo $module; ?> .button-2:hover { <?php echo $button_2['hover_style']; ?> }</style>').appendTo($('head'));
         <?php endif; ?>
 
-        $.magnificPopup.open({
-            items: {
-                src: '#journal-popup-<?php echo $module; ?>',
-                type: 'inline'
-            },
-            showCloseBtn: <?php echo $close_button ? 'true' : 'false'; ?>,
-            closeOnContentClick: false,
-            closeOnBgClick: false,
-            removalDelay: 200,
-            callbacks: {
-                close: function () {
-                    $('html').removeClass('has-popup');
+        var open_after = parseInt('<?php echo $open_after; ?>', 10);
+        var close_after = parseInt('<?php echo $close_after; ?>', 10);
+
+        setTimeout(function () {
+            $.magnificPopup.open({
+                items: {
+                    src: '#journal-popup-<?php echo $module; ?>',
+                    type: 'inline'
                 },
-                open: function () {
-                    $('html').addClass('has-popup');
+                showCloseBtn: <?php echo $close_button ? 'true' : 'false'; ?>,
+                closeOnContentClick: false,
+                closeOnBgClick: false,
+                removalDelay: 200,
+                callbacks: {
+                    close: function () {
+                        $('html').removeClass('has-popup');
+                    },
+                    open: function () {
+                        $('html').addClass('has-popup');
+                    }
                 }
+            });
+
+            if (close_after > 0) {
+                setTimeout(function () {
+                    $.magnificPopup.close();
+                }, close_after);
             }
-        });
+        }, open_after);
 
         $('#journal-popup-<?php echo $module; ?> .dont-show-me').change(function () {
             if ($(this).is(':checked')) {

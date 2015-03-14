@@ -136,6 +136,21 @@ class ControllerModuleJournal2BlogPosts extends Controller {
                         $posts = $this->model_journal2_blog->getRelatedPosts($this->request->get['product_id'], $limit);
                     }
                     break;
+                case 'custom':
+                    $custom_posts = Journal2Utils::getProperty($module_data, 'module_data.posts', array());
+                    $custom_posts_ids = array();
+                    foreach ($custom_posts as $custom_post) {
+                        $post_id = (int)Journal2Utils::getProperty($custom_post, 'data.id', 0);
+                        if ($post_id) {
+                            $custom_posts_ids[$post_id] = $post_id;
+                        }
+                    }
+                    if ($custom_posts_ids) {
+                        $posts = $this->model_journal2_blog->getPosts(array(
+                            'post_ids' => implode(',', $custom_posts_ids)
+                        ));
+                    }
+                    break;
             }
 
             if (!$posts) return;

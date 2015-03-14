@@ -20,6 +20,27 @@ class ModelJournal2Blog extends Model{
 
     public function isInstalled() {
         $query = $this->db->query('show tables like "' . DB_PREFIX . 'journal2_blog%"');
+
+        if ($query->num_rows >= 9 && $query->num_rows < 11) {
+            /* create table */
+            $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_category_to_store` (
+                `category_id` int(11),
+                `store_id` int(11)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
+            /* assign current categories to the default store */
+            $this->db->query('INSERT INTO `' . DB_PREFIX . 'journal2_blog_category_to_store` (category_id, store_id) SELECT category_id, 0 as store_id FROM `' . DB_PREFIX . 'journal2_blog_category`');
+
+            /* create table */
+            $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_store` (
+                `post_id` int(11),
+                `store_id` int(11)
+            ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
+            /* assign current posts to the default store */
+            $this->db->query('INSERT INTO `' . DB_PREFIX . 'journal2_blog_post_to_store` (post_id, store_id) SELECT post_id, 0 as store_id FROM `' . DB_PREFIX . 'journal2_blog_post`');
+        }
+
         return $query->num_rows >= 9;
     }
 
@@ -107,6 +128,13 @@ class ModelJournal2Blog extends Model{
             WHERE category_id = {$category_id}
         ");
 
+        $query4 = $this->db->query("
+            SELECT
+                store_id
+            FROM `{$this->db_prefix}journal2_blog_category_to_store`
+            WHERE category_id = {$category_id}
+        ");
+
         $result = array(
             'name'          => array(
                 'value'     => array()
@@ -128,7 +156,8 @@ class ModelJournal2Blog extends Model{
             'image'         => $query1->row['image'],
             'status'        => $query1->row['status'],
             'sort_order'    => $query1->row['sort_order'],
-            'layouts'       => array()
+            'layouts'       => array(),
+            'store_ids'     => array()
         );
 
         foreach ($query2->rows as $row) {
@@ -142,6 +171,10 @@ class ModelJournal2Blog extends Model{
 
         foreach ($query3->rows as $row) {
             $result['layouts']['s_' . $row['store_id']] = $row['layout_id'];
+        }
+
+        foreach ($query4->rows as $row) {
+            $result['store_ids'][] = $row['store_id'];
         }
 
         return $result;
@@ -200,6 +233,7 @@ class ModelJournal2Blog extends Model{
     private function edit_category_data($category_id) {
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_description` WHERE category_id = {$category_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_to_layout` WHERE category_id = {$category_id}");
+        $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_to_store` WHERE category_id = {$category_id}");
 
         $languages = $this->model_localisation_language->getLanguages();
 
@@ -229,6 +263,18 @@ class ModelJournal2Blog extends Model{
                     ({$category_id}, {$store_id}, {$layout_id})
             ");
         }
+
+        foreach (Journal2Utils::getProperty($this->post_data, 'stores', array()) as $store_id => $value) {
+            if ((int)$value) {
+                $store_id   = (int)str_replace('s_', '', $store_id);
+                $this->db->query("
+                    INSERT INTO `{$this->db_prefix}journal2_blog_category_to_store`
+                        (category_id, store_id)
+                    VALUES
+                        ({$category_id}, {$store_id})
+                ");
+            }
+        }
     }
 
     public function delete_category() {
@@ -241,6 +287,7 @@ class ModelJournal2Blog extends Model{
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category` WHERE category_id = {$category_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_description` WHERE category_id = {$category_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_to_layout` WHERE category_id = {$category_id}");
+        $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_category_to_store` WHERE category_id = {$category_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_category` WHERE category_id = {$category_id}");
 
         return null;
@@ -351,6 +398,13 @@ class ModelJournal2Blog extends Model{
             WHERE post_id = {$post_id}
         ");
 
+        $query6 = $this->db->query("
+            SELECT
+                store_id
+            FROM `{$this->db_prefix}journal2_blog_post_to_store`
+            WHERE post_id = {$post_id}
+        ");
+
         $result = array(
             'name'          => array(
                 'value'     => array()
@@ -379,7 +433,8 @@ class ModelJournal2Blog extends Model{
             'author_id'     => $query1->row['author_id'],
             'categories'    => array(),
             'products'      => array(),
-            'layouts'       => array()
+            'layouts'       => array(),
+            'store_ids'     => array()
         );
 
         foreach ($query2->rows as $row) {
@@ -409,6 +464,10 @@ class ModelJournal2Blog extends Model{
 
         foreach ($query5->rows as $row) {
             $result['layouts']['s_' . $row['store_id']] = $row['layout_id'];
+        }
+
+        foreach ($query6->rows as $row) {
+            $result['store_ids'][] = $row['store_id'];
         }
 
         return $result;
@@ -479,6 +538,7 @@ class ModelJournal2Blog extends Model{
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_category` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_product` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_layout` WHERE post_id = {$post_id}");
+        $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_store` WHERE post_id = {$post_id}");
 
         $languages = $this->model_localisation_language->getLanguages();
 
@@ -516,6 +576,18 @@ class ModelJournal2Blog extends Model{
                 VALUES
                     ({$post_id}, {$category_id})
             ");
+        }
+
+        foreach (Journal2Utils::getProperty($this->post_data, 'stores', array()) as $store_id => $value) {
+            if ((int)$value) {
+                $store_id   = (int)str_replace('s_', '', $store_id);
+                $this->db->query("
+                    INSERT INTO `{$this->db_prefix}journal2_blog_post_to_store`
+                        (post_id, store_id)
+                    VALUES
+                        ({$post_id}, {$store_id})
+                ");
+            }
         }
 
         /* products */
@@ -561,6 +633,7 @@ class ModelJournal2Blog extends Model{
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_description` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_category` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_layout` WHERE post_id = {$post_id}");
+        $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_store` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_post_to_product` WHERE post_id = {$post_id}");
         $this->db->query("DELETE FROM `{$this->db_prefix}journal2_blog_comments` WHERE post_id = {$post_id}");
 
@@ -734,6 +807,11 @@ class ModelJournal2Blog extends Model{
             KEY (`layout_id`)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
 
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_category_to_store` (
+            `category_id` int(11),
+            `store_id` int(11)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
         $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_post` (
             `post_id` int(11) NOT NULL AUTO_INCREMENT,
             `author_id` int(11),
@@ -772,6 +850,11 @@ class ModelJournal2Blog extends Model{
             `layout_id` int(11),
             PRIMARY KEY (`post_id`, `store_id`),
             KEY (`layout_id`)
+        ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
+        $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_store` (
+            `post_id` int(11),
+            `store_id` int(11)
         ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
 
         $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_product` (
@@ -830,11 +913,13 @@ class ModelJournal2Blog extends Model{
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_comments`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_product`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_layout`');
+        $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_store`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_category`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post_description`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_post`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_category_description`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_category_to_layout`');
+        $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_category_to_store`');
         $this->db->query('DROP TABLE IF EXISTS `' . DB_PREFIX . 'journal2_blog_category`');
 //        $this->db->query('DELETE FROM `' . DB_PREFIX . 'setting` WHERE `group` like "journal2_blog_%"');
     }

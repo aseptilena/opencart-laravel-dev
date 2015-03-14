@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -490,7 +490,8 @@ header .links {
         width: 1px; }
         .mini-cart-info table tr td.image img {
           text-align: left;
-          max-width: 50px; }
+          max-width: 50px;
+          height: auto; }
       .mini-cart-info table tr td.name {
         padding-left: 5px; }
         .mini-cart-info table tr td.name div {
@@ -723,10 +724,10 @@ HEADER CENTER
   .journal-header-center #cart .content:before {
     content: "\e61e";
     color: white;
-    font-size: 40px;
+    font-size: 19px;
     position: absolute;
-    top: -5px;
-    right: 0px; }
+    top: 0px;
+    right: 10px; }
   .journal-header-center .autocomplete2-suggestions {
     top: 54px;
     border-top: none;
@@ -846,6 +847,8 @@ header {
       height: 40px;
       white-space: nowrap;
       overflow: hidden; }
+      .super-menu > li > a span {
+        display: inline-block; }
       .super-menu > li > a i {
         display: inline-block; }
         .super-menu > li > a i:before {
@@ -1066,7 +1069,26 @@ Header Cart
     right: 10px; }
 .oc2 #cart .heading i:before {
   margin-top: 4px; }
+.oc2 #cart.visible .content {
+  opacity: 1;
+  visibility: visible; }
+.oc2 #search input {
+  height: 40px; }
 .oc2 .mini-cart-total {
   padding: 0; }
   .oc2 .mini-cart-total table {
     padding: 5px 10px 3px 0; }
+
+.ie9.oc2 .journal-header-center #cart .heading span {
+  position: relative;
+  right: -35px; }
+.ie9.oc2 .journal-header-center #cart .heading i {
+  position: absolute;
+  right: 0;
+  top: 0; }
+.ie9.oc2 .mini-cart-info table tr td.remove i {
+  position: relative;
+  padding-right: 5px; }
+.ie9.oc2 .mini-cart-info table tr td.remove i:before {
+  position: relative;
+  padding-top: 1px; }

@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -77,6 +77,11 @@ a.tp-caption {
   .tp-bullets .tp-rightarrow.round:before {
     font-size: 20px;
     top: -3px; }
+
+.slidelink.tp-hidden-caption {
+  display: block !important;
+  visibility: visible !important;
+  top: 0; }
 
 .tp-bullets.simplebullets.round .bullet {
   background-color: transparent;
@@ -702,7 +707,7 @@ p img {
 .rotator-image {
   margin: 15px;
   display: block;
-  max-width: 200px;
+  max-width: 85%;
   height: auto;
   float: left;
   position: relative; }
@@ -825,6 +830,8 @@ p img {
 
 .oc-module {
   display: table; }
+  .oc-module.oc-html {
+    display: block; }
 
 #top-modules .journal-gallery .owl-pagination, #bottom-modules .journal-gallery .owl-pagination {
   padding: 7px 0; }
@@ -1121,6 +1128,8 @@ NEWSLETTER
 
 .journal-sf {
   position: relative; }
+  .journal-sf img {
+    height: auto; }
   .journal-sf .box-content {
     display: block;
     overflow: auto; }
@@ -1197,7 +1206,8 @@ NEWSLETTER
       .journal-sf .sf-image .box-content ul label img {
         display: block;
         margin: 0;
-        width: 100%; }
+        width: 100%;
+        height: auto; }
       .journal-sf .sf-image .box-content ul label input[type=checkbox] {
         display: none; }
     .journal-sf .sf-image .box-content ul.hide-checkbox label input[type=checkbox] {
@@ -1216,9 +1226,6 @@ NEWSLETTER
 .mfp-removing.mfp-bg {
   opacity: 0;
   transition: all 0.2s ease-in-out; }
-
-.has-popup body {
-  overflow-y: scroll; }
 
 .mfp-close {
   opacity: 1;
@@ -1242,11 +1249,17 @@ NEWSLETTER
     box-sizing: border-box; }
   .journal-popup div.journal-popup-header-content {
     text-align: center;
-    border: 0; }
+    border: 0;
+    border-radius: 0;
+    white-space: normal;
+    line-height: 1.4;
+    padding: 9px 0; }
   .journal-popup .button-icon-right i {
     float: right;
     margin-right: 0 !important;
     margin-left: 5px; }
+  .journal-popup .journal-popup-header {
+    border-radius: 0; }
 
 .journal-popup-content {
   overflow: hidden;
@@ -1295,6 +1308,12 @@ NEWSLETTER
     position: absolute;
     left: 0;
     margin-top: 9px; }
+
+.journal-popup {
+  display: none; }
+
+.has-popup .journal-popup {
+  display: block; }
 
 /******************************
 MOBILE POPUP
@@ -1373,8 +1392,6 @@ POPUP FORM
 .journal-popup-contact input[type='text'],
 .journal-popup-contact input[type='email'] {
   max-width: 600px; }
-.journal-popup-contact .has-error {
-  border: 1px solid #EA2E49; }
 
 .oc2 .journal-popup-contact .form-horizontal .form-group label {
   width: 100%;
@@ -1663,6 +1680,8 @@ BLOG
   .comments .user-time:before {
     margin-right: 3px;
     position: relative; }
+  .comments .user-site {
+    font-size: 13px; }
   .comments .reply-btn {
     position: absolute;
     top: 12px;
@@ -1899,3 +1918,18 @@ BLOG
   padding: 3px 0 0 0; }
   .footer-post .comment-date span:before {
     font-size: 12px; }
+
+.journal-blog-feed {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 20px;
+  margin-top: 30px;
+  transition: all 0.2s;
+  color: #222; }
+  .journal-blog-feed:before {
+    content: "\e6b4";
+    color: #FF8000;
+    margin-right: 5px;
+    position: relative;
+    top: 1px; }

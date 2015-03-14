@@ -80,6 +80,14 @@ class ControllerModuleJournal2SideProducts extends Controller {
                         case 'people-also-bought':
                             $products = $this->model_journal2_product->getPeopleAlsoBought($product_id);
                             break;
+                        case 'most-viewed':
+                            $products = $this->model_journal2_product->getMostViewed($limit);
+                            $this->has_random_products = true;
+                            break;
+                        case 'recently-viewed':
+                            $products = $this->model_journal2_product->getRecentlyViewed($limit);
+                            $this->has_random_products = true;
+                            break;
                     }
                     break;
                 case 'category':

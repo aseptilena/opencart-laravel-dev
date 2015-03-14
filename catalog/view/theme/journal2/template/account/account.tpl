@@ -18,7 +18,7 @@
     <?php } ?>
     <div id="content" class="<?php echo $class; ?>"><?php echo $content_top; ?>
       <h2 class="secondary-title"><?php echo $text_my_account; ?></h2>
-      <div class="content">
+      <div class="content my-account">
       <ul class="list-unstyled">
         <li><a href="<?php echo $edit; ?>"><?php echo $text_edit; ?></a></li>
         <li><a href="<?php echo $password; ?>"><?php echo $text_password; ?></a></li>
@@ -27,7 +27,7 @@
       </ul>
       </div>
       <h2 class="secondary-title"><?php echo $text_my_orders; ?></h2>
-      <div class="content">
+      <div class="content my-orders">
       <ul class="list-unstyled">
         <li><a href="<?php echo $order; ?>"><?php echo $text_order; ?></a></li>
         <li><a href="<?php echo $download; ?>"><?php echo $text_download; ?></a></li>
@@ -40,7 +40,7 @@
       </ul>
       </div>
       <h2 class="secondary-title"><?php echo $text_my_newsletter; ?></h2>
-      <div class="content">
+      <div class="content my-newsletter">
       <ul class="list-unstyled">
         <li><a href="<?php echo $newsletter; ?>"><?php echo $text_newsletter; ?></a></li>
       </ul>

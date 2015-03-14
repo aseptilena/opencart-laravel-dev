@@ -20,6 +20,13 @@ class ControllerJournal2ProductTabs extends Controller {
 
         $product_id = $this->journal2->page->getId();
 
+        /* recently viewed */
+        $recently_viewed = isset($this->request->cookie['jrv']) && $this->request->cookie['jrv'] ? explode(',', $this->request->cookie['jrv']) : array();
+        $recently_viewed = array_diff($recently_viewed, array($product_id));
+        array_unshift($recently_viewed, $product_id);
+        $recently_viewed = array_splice($recently_viewed, 0, 10);
+        setcookie('jrv', implode(',', $recently_viewed), time() + 60 * 60 * 24 * 30, '/', $this->request->server['HTTP_HOST']);
+
         $tabs = $this->model_journal2_module->getProductTabs($product_id);
         $tabs = Journal2Utils::sortArray($tabs);
 
@@ -67,7 +74,7 @@ class ControllerJournal2ProductTabs extends Controller {
                 case 'enquiry':
                     $position = 'enquiry';
                     $this->journal2->settings->set('hide_add_to_cart_button', true);
-                    $href = "javascript:Journal.openPopup('" . (int)Journal2Utils::getProperty($tab, 'popup') . "')";
+                    $href = "javascript:Journal.openPopup('" . (int)Journal2Utils::getProperty($tab, 'popup') . "', '" . $product_id . "')";
                     $content = "<a class=\"button enquiry-button\" href=\"{$href}\">{$icon}{$name}</a>";
                     break;
             }

@@ -12,6 +12,9 @@ define(['./../module', 'underscore'], function (module, _) {
             module_name: 'New Module',
             gallery_name: {},
             thumbs_limit: '',
+            thumbs_width: '',
+            thumbs_height: '',
+            thumbs_type: 'crop',
             items_per_row: {
                 "range": "1,10",
                 "step": "1",

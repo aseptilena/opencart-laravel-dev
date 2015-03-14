@@ -49,7 +49,9 @@ class ControllerJournal2Settings extends Controller {
         }
 
         $this->journal2->cache->setDeveloperMode($developer_mode);
-        $this->journal2->minifier->setMinifyCss((bool)$this->journal2->settings->get('config_system_settings.minify_css'));
+        if (!$this->journal2->html_classes->hasClass('ie9')) {
+            $this->journal2->minifier->setMinifyCss((bool)$this->journal2->settings->get('config_system_settings.minify_css'));
+        }
         $this->journal2->minifier->setMinifyJs((bool)$this->journal2->settings->get('config_system_settings.minify_js'));
 
         $this->journal2->cache->setSkinId($skin_id);
@@ -173,6 +175,49 @@ class ControllerJournal2Settings extends Controller {
             $this->journal2->minifier->addScript('catalog/view/theme/journal2/lib/respond/respond.js', 'footer');
             $this->journal2->minifier->addScript('catalog/view/theme/journal2/lib/image-zoom/jquery.imagezoom.min.js', 'header');
             $this->journal2->minifier->addScript('catalog/view/theme/journal2/lib/sticky/jquery.sticky.js', 'footer');
+        }
+
+        // category image width/height
+        $this->journal2->settings->set('config_image_width', $this->config->get('config_image_product_width'), 250);
+        $this->journal2->settings->set('config_image_height', $this->config->get('config_image_product_height'), 250);
+    }
+
+    public function columns() {
+        $cols = 0;
+        if ($this->journal2->page->hasModules('column_left')) {
+            $cols ++;
+        }
+        if ($this->journal2->page->hasModules('column_right')) {
+            $cols ++;
+        }
+        if ($cols == 1){
+            $this->journal2->html_classes->addClass('one-column');
+        }
+        if ($cols == 2){
+            $this->journal2->html_classes->addClass('two-columns');
+        }
+        $this->journal2->settings->set('config_columns_count', $cols);
+        $this->journal2->settings->set('product_grid_classes', Journal2Utils::getProductGridClasses($this->journal2->settings->get('category_page_products_per_row'), $this->journal2->settings->get('site_width', 1024), $cols));
+        if (!$this->journal2->settings->get('related_products_carousel')) {
+            $this->journal2->settings->set('related_products_grid_classes', Journal2Utils::getProductGridClasses($this->journal2->settings->get('related_products_items_per_row'), $this->journal2->settings->get('site_width', 1024), $cols));
+        }
+
+        // product views
+        if (($this->journal2->page->getType() === 'product' || $this->journal2->page->getType() === 'quickview')) {
+            $this->load->model('journal2/product');
+            if ($this->journal2->settings->get('product_page_options_views')) {
+                $this->journal2->settings->set('product_views', $this->model_journal2_product->getProductViews($this->journal2->page->getId()));
+            }
+            if ($this->journal2->settings->get('product_page_options_sold')) {
+                $text = $this->journal2->settings->get('product_page_options_sold_text', ' Product(s) Sold');
+                $count = '<span>' . $this->model_journal2_product->getProductSoldCount($this->journal2->page->getId()) . '</span>';
+                if (strpos($text, '%s') !== FALSE) {
+                    $text = sprintf($text, $count);
+                } else {
+                    $text = $count . $text;
+                }
+                $this->journal2->settings->set('product_sold', $text);
+            }
         }
     }
 
@@ -414,25 +459,6 @@ class ControllerJournal2Settings extends Controller {
         }
         $this->journal2->html_classes->addClass('backface');
 
-        $cols = 0;
-        if ($this->journal2->page->hasModules('column_left')) {
-            $cols ++;
-        }
-        if ($this->journal2->page->hasModules('column_right')) {
-            $cols ++;
-        }
-        if ($cols == 1){
-            $this->journal2->html_classes->addClass('one-column');
-        }
-        if ($cols == 2){
-            $this->journal2->html_classes->addClass('two-columns');
-        }
-        $this->journal2->settings->set('config_columns_count', $cols);
-        $this->journal2->settings->set('product_grid_classes', Journal2Utils::getProductGridClasses($this->journal2->settings->get('category_page_products_per_row'), $this->journal2->settings->get('site_width', 1024), $cols));
-        if (!$this->journal2->settings->get('related_products_carousel')) {
-            $this->journal2->settings->set('related_products_grid_classes', Journal2Utils::getProductGridClasses($this->journal2->settings->get('related_products_items_per_row'), $this->journal2->settings->get('site_width', 1024), $cols));
-        }
-
         /* second images */
         if (!Journal2Cache::$mobile_detect->isMobile() && $this->journal2->settings->get('product_grid_second_image') === '1') {
             $this->journal2->html_classes->addClass('product-grid-second-image');
@@ -444,24 +470,6 @@ class ControllerJournal2Settings extends Controller {
             $this->journal2->html_classes->addClass('product-list-second-image');
         } else {
             $this->journal2->html_classes->addClass('product-list-no-second-image');
-        }
-
-        // product views
-        if (($this->journal2->page->getType() === 'product' || $this->journal2->page->getType() === 'quickview')) {
-            $this->load->model('journal2/product');
-            if ($this->journal2->settings->get('product_page_options_views')) {
-                $this->journal2->settings->set('product_views', $this->model_journal2_product->getProductViews($this->journal2->page->getId()));
-            }
-            if ($this->journal2->settings->get('product_page_options_sold')) {
-                $text = $this->journal2->settings->get('product_page_options_sold_text', ' Product(s) Sold');
-                $count = '<span>' . $this->model_journal2_product->getProductSoldCount($this->journal2->page->getId()) . '</span>';
-                if (strpos($text, '%s') !== FALSE) {
-                    $text = sprintf($text, $count);
-                } else {
-                    $text = $count . $text;
-                }
-                $this->journal2->settings->set('product_sold', $text);
-            }
         }
 
         // push options
@@ -501,9 +509,9 @@ class ControllerJournal2Settings extends Controller {
         $width = '';
         $height = '';
         foreach ($payments as $payment) {
-            $image = Journal2Utils::getProperty($payment, 'image', 'no_image.jpg');
-            if (!file_exists(DIR_IMAGE . $image)) {
-                $image = 'no_image.jpg';
+            $image = Journal2Utils::getProperty($payment, 'image');
+            if (!$image || !file_exists(DIR_IMAGE . $image)) {
+                $image = Front::$IS_OC2 ? 'no_image.png' : 'no_image.jpg';
             }
             list($width, $height) = getimagesize(DIR_IMAGE . $image);
             $payment_methods[] = array(
@@ -525,6 +533,28 @@ class ControllerJournal2Settings extends Controller {
         if (!$copyright_text) $classes[] = 'no-copyright';
         if (!$payment_methods) $classes[] = 'no-payments';
         $this->journal2->settings->set('config_footer_classes', implode(' ', $classes));
+    }
+
+    public function sitemap() {
+        $this->load->model('journal2/blog');
+
+        if (!$this->model_journal2_blog->isEnabled()) {
+            return;
+        }
+
+        $blog_categories = array();
+        $categories = $this->model_journal2_blog->getCategories();
+        foreach ($categories as $category) {
+            $blog_categories[] = array(
+                'name'  => $category['name'],
+                'href'  => $this->url->link('journal2/blog', 'journal_blog_category_id=' . $category['category_id'])
+            );
+        }
+
+        $this->journal2->settings->set('blog_sitemap', '1');
+        $this->journal2->settings->set('blog_name', $this->journal2->settings->get('config_blog_settings.title.value.' . $this->config->get('config_language_id'), 'Journal Blog'));
+        $this->journal2->settings->set('blog_href', $this->url->link('journal2/blog'));
+        $this->journal2->settings->set('blog_categories', $blog_categories);
     }
 
 }

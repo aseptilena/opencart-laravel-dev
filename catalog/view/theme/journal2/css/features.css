@@ -1,6 +1,6 @@
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -454,6 +454,9 @@ TOOLTIPS
 
 .hint--left:before {
   border-left-color: #333745; }
+
+.ie9 .hint--top:after, .ie8 .hint--top:after {
+  left: -50%; }
 
 .hint--top:after,
 .hint--top:focus:after {

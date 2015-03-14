@@ -48,7 +48,7 @@
                 navigation: true,
                 scrollPerPage: true,
                 navigationText: false,
-                slideSpeed: <?php echo $slide_speed; ?>,
+                paginationSpeed: <?php echo $slide_speed; ?>,
                 margin: 20
             });
 

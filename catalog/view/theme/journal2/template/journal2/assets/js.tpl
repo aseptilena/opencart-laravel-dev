@@ -2,6 +2,8 @@ Journal.notificationTimer = parseInt('<?php echo $this->journal2->settings->get(
 
 Journal.quickviewText = '<?php echo $this->journal2->settings->get('quickview_button_text'); ?>';
 
+Journal.scrollToTop = parseInt('<?php echo $this->journal2->settings->get('scroll_to_top', '1'); ?>', 10);
+
 Journal.BASE_HREF = 'url(' + $('base').attr('href') + ')';
 
 $(document).ready(function () {
@@ -53,21 +55,6 @@ Journal.productPageGallery();
 $('.product-info .image a').css('cursor','default').click(function(){
     return false;
 });
-<?php endif; ?>
-
-<?php /* enable infinite scrolling */ ?>
-<?php if ($this->journal2->settings->get('product_infinite_scroll') === '1'): ?>
-Journal.infiniteScroll({
-    loader: 'image/<?php echo $this->journal2->settings->get('infinite_scroll_loader'); ?>',
-    loadingText: '<?php echo $this->journal2->settings->get('product_infinite_scroll_loading_text'); ?>',
-    finishedText: '<?php echo $this->journal2->settings->get('product_infinite_scroll_finished_text'); ?>'
-});
-<?php if ($this->journal2->settings->get('product_infinite_scroll_auto_trigger') !== '1'): ?>
-$(window).unbind('.infscr');
-$('#load-more-btn a').click(function() {
-    $(document).trigger('retrieve.infscr');
-});
-<?php endif; ?>
 <?php endif; ?>
 
 <?php if($this->journal2->settings->get('product_grid_wishlist_icon_position', 'button') === 'image'): ?>

@@ -385,6 +385,20 @@
                     <a href="#" target="_blank" class="journal-tip"> </a>
                 </li>
                 <li>
+                    <span class="module-create-title">Active Link Font</span>
+                    <span class="module-create-option">
+                        <j-opt-font data-ng-model="settings.breadcrumb_active_font"></j-opt-font>
+                    </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
+                <li>
+                    <span class="module-create-title">Active Link Font Hover</span>
+                    <span class="module-create-option">
+                        <j-opt-color data-ng-model="settings.breadcrumb_active_hover"></j-opt-color>
+                    </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
+                <li>
                     <span class="module-create-title">Background Color</span>
                     <span class="module-create-option">
                         <j-opt-color data-ng-model="settings.breadcrumb_bg_color"></j-opt-color>
@@ -457,6 +471,17 @@
             </accordion-heading>
             <ul class="module-create-options">
                 <li>
+                    <span class="module-create-title">Scroll to Top when Adding to Cart/Wishlist/Compare</span>
+                    <span class="module-create-option">
+                        <switch data-ng-model="settings.scroll_to_top">
+                            <switch-option key="1">ON</switch-option>
+                            <switch-option key="0">OFF</switch-option>
+                        </switch>
+                    </span>
+                    <a href="#" target="_blank" class="journal-tip"> </a>
+                </li>
+
+                <li>
                     <span class="module-create-title">Scroll to Top Button</span>
                                 <span class="module-create-option">
                                     <switch data-ng-model="settings.scroll_top">
@@ -481,7 +506,8 @@
                                     <j-opt-color data-ng-model="settings.scroll_top_icon_hover"></j-opt-color>
                                 </span>
                     <a href="#" target="_blank" class="journal-tip"> </a>
-                </li>                        </ul>
+                </li>
+            </ul>
         </accordion-group>
         <!--Leading Element-->
         <accordion-group is-open="false">

@@ -1,4 +1,7 @@
 <div class="journal-rotator box text-rotator <?php echo $hide_on_mobile_class; ?> bullets-<?php echo $bullets_position; ?> align-<?php echo $text_align; ?> bullets-<?php echo $bullets ? 'on' : 'off'; ?>" id="journal-rotator-<?php echo $module; ?>" style="<?php echo $rotator_css; ?>; <?php echo isset($css) ? $css : ''; ?>">
+    <?php if ($title): ?>
+    <div class="box-heading"><?php echo $title; ?></div>
+    <?php endif; ?>
     <?php foreach ($sections as $section): ?>
     <div class="quote" style="<?php echo $quote_css; ?>">
         <?php if ($section['image']): ?>

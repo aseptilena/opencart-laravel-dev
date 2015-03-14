@@ -71,6 +71,7 @@
                     <tr data-ng-repeat="subscriber in $data">
                         <td data-title="'Email'">{{ subscriber.email }}</td>
                         <td data-title="'Customer'">{{ subscriber.status == 1 ? 'Yes':'No' }}</td>
+                        <td data-title="'Store'">{{ subscriber.store }}</td>
                         <td data-title="'Action'"><a class="btn blue" data-ng-click="unsubscribe(subscriber.email)">Unsubscribe</a></td>
                     </tr>
                 </table>

@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /*
   Journal - Advanced Opencart Theme Framework
-  Version 2.4.0
+  Version 2.4.5
   Copyright (c) 2014 Digital Atelier
   http://journal.digital-atelier.com/
 */
@@ -39,6 +39,8 @@ header *, #container *, footer *, #top-modules *, #bottom-modules * {
   font-family: 'journal-icons';
   position: relative;
   font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
   color: inherit;
   font-size: inherit;
   display: inline-block;
@@ -271,7 +273,7 @@ button {
 .button {
   cursor: pointer;
   font-size: 14px;
-  transition: all .2s;
+  transition: color .2s, background-color .2s;
   padding: 0 12px;
   border: 0;
   line-height: 32px;
@@ -351,7 +353,8 @@ ul.breadcrumb {
     ul.breadcrumb li a {
       margin: 0 4px; }
     ul.breadcrumb li:before {
-      content: "»"; }
+      content: "»";
+      float: left; }
     ul.breadcrumb li:first-of-type a {
       margin-left: 0; }
     ul.breadcrumb li:first-of-type:before {
@@ -455,12 +458,12 @@ select {
   background: #f4f4f4;
   border: 1px solid #E4E4E4;
   padding: 5px;
-  margin: 5px; }
+  margin: 5px;
+  max-width: 100%; }
 
 label {
   cursor: pointer;
-  padding-right: 20px;
-  font-weight: bold; }
+  padding-right: 20px; }
 
 span.error,
 .text-danger {
@@ -649,3 +652,12 @@ OC 2
   position: absolute;
   right: 10px;
   cursor: pointer; }
+
+.oc2.route-account-register .form-horizontal .radio {
+  padding-top: 0; }
+  .oc2.route-account-register .form-horizontal .radio label {
+    width: auto;
+    float: none;
+    padding-top: 0; }
+.oc2.route-account-register .form-horizontal label.radio-inline {
+  width: auto; }

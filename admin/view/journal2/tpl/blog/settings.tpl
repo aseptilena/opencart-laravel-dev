@@ -30,6 +30,15 @@
                     </span>
                 </li>
                 <li data-ng-show="blog_settings.status == 1">
+                    <span class="module-create-title">Blog Feed Status</span>
+                    <span class="module-create-option">
+                        <switch data-ng-model="blog_settings.feed">
+                            <switch-option key="1">ON</switch-option>
+                            <switch-option key="0">OFF</switch-option>
+                        </switch>
+                    </span>
+                </li>
+                <li data-ng-show="blog_settings.status == 1">
                     <span class="module-create-title">Blog Page Title</span>
                     <span class="module-create-option">
                         <j-opt-text-lang data-ng-model="blog_settings.title"></j-opt-text-lang>
@@ -41,7 +50,7 @@
                         <j-opt-text-lang data-ng-model="blog_settings.keyword"></j-opt-text-lang>
                     </span>
                 </li>
-                <li>
+                <li data-ng-show="blog_settings.status == 1">
                     <span class="module-create-title">Author Name</span>
                     <span class="module-create-option">
                         <switch data-ng-model="blog_settings.author_name">

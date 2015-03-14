@@ -76,6 +76,80 @@
                     <a href="#" target="_blank" class="journal-tip"></a>
                 </li>
 
+                <!--Product Page Title-->
+                <accordion-group is-open="false">
+                    <accordion-heading>
+                        <div class="accordion-bar bar-level-1">Page Title</div>
+                    </accordion-heading>
+                    <ul>
+
+                        <li>
+                            <span class="module-create-title">Page Title Font</span>
+                                    <span class="module-create-option">
+                                        <j-opt-font data-ng-model="settings.category_page_title_font"></j-opt-font>
+                                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Page Title Background</span>
+                                    <span class="module-create-option">
+                                        <j-opt-color data-ng-model="settings.category_page_title_bg"></j-opt-color>
+                                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Border Settings</span>
+                                    <span class="module-create-option">
+                                        <j-opt-border data-ng-model="settings.category_page_title_border"></j-opt-border>
+                                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Line Height <small>Vertical Centering</small></span>
+                                    <span class="module-create-option">
+                                        <j-opt-text data-ng-model="settings.category_page_title_line_height" class="journal-number-field"></j-opt-text>
+                                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Padding <small>Left - Right</small></span>
+                            <span class="module-create-option">
+                                <j-opt-text data-ng-model="settings.category_page_title_padding_left" class="journal-sort"></j-opt-text> -
+                                <j-opt-text data-ng-model="settings.category_page_title_padding_right" class="journal-sort"></j-opt-text>
+                            </span>
+                            <a href="#" target="_blank" class="journal-tip"></a>
+                        </li>
+                        <li>
+                            <span class="module-create-title">Title Overflow <small>Keep long names on the same line</small></span>
+                            <span class="module-create-option">
+                                <switch data-ng-model="settings.category_page_title_overflow">
+                                    <switch-option key="on">ON</switch-option>
+                                    <switch-option key="off">OFF</switch-option>
+                                </switch>
+                            </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                        <li>
+                            <span class="module-create-title">Title Align</span>
+                                    <span class="module-create-option">
+                                        <switch data-ng-model="settings.category_page_title_align">
+                                            <switch-option key="left">Left</switch-option>
+                                            <switch-option key="center">Center</switch-option>
+                                            <switch-option key="right">Right</switch-option>
+                                        </switch>
+                                    </span>
+                            <a href="#" target="_blank" class="journal-tip"> </a>
+                        </li>
+
+                    </ul>
+                </accordion-group>
+
+
             </ul>
         </accordion-group>
         <accordion-group is-open="accordion.accordions[1]">

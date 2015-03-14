@@ -7,6 +7,7 @@ Journal.notificationTimer = 1700;
 Journal.quickviewText = 'Quickview';
 Journal.BASE_HREF = null;
 Journal.updatePrice = false;
+Journal.scrollToTop = true;
 
 Journal.init = function () {
     /* firefox dropdown menu width fix */
@@ -605,10 +606,11 @@ Journal.enableSelectOptionAsButtonsList = function () {
     });
 };
 
-Journal.openPopup = function (module_id) {
+Journal.openPopup = function (module_id, product_id) {
+    product_id = product_id || undefined;
     $.magnificPopup.open({
         items: {
-            src: 'index.php?route=module/journal2_popup/show&module_id=' + module_id
+            src: 'index.php?route=module/journal2_popup/show&module_id=' + module_id + (product_id ? '&product_id=' + product_id : '')
         },
         closeOnContentClick: false,
         closeOnBgClick: false,
@@ -622,11 +624,13 @@ Journal.openPopup = function (module_id) {
             open: function(item) {
                 var scrollTop = ($('html').scrollTop()) ? $('html').scrollTop() : $('body').scrollTop();
                 $('html').addClass('noscroll').css('top',-scrollTop);
+                $('html').addClass('has-popup');
             },
             close: function(item) {
                 var scrollTop = parseInt($('html').css('top'));
                 $('html').removeClass('noscroll');
                 $('html,body').scrollTop(-scrollTop);
+                $('html').removeClass('has-popup');
             }
         }
     }, 0);
@@ -661,11 +665,12 @@ Journal.contact = function ($module) {
         name: 'url',
         value: document.URL
     });
+    $form.find('img').css('opacity', '0.2');
     $.post('index.php?route=module/journal2_popup/contact', data, function (response) {
         $button.removeClass('disabled');
         if (response.status === 'error') {
             $form.find('input[name="captcha"]').val('');
-            $form.find('img').attr('src', Journal.isOC2 ? 'index.php?route=tool/captcha' : 'index.php?route=information/contact/captcha');
+            $form.find('img').attr('src', Journal.isOC2 ? 'index.php?route=tool/captcha' : 'index.php?route=information/contact/captcha').css('opacity', '1');
             $form.find('.has-error').removeClass('has-error');
             $.each(response.error, function (key) {
                 $form.find('[name="' + key +'"]').addClass('has-error');
@@ -710,7 +715,9 @@ if (Journal.isOC2) {
 
                     $('#cart-total').html(json['total']);
 
-                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    if (Journal.scrollToTop) {
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    }
 
                     $('#cart ul').load('index.php?route=common/cart/info ul li');
                 }
@@ -791,7 +798,13 @@ function addToCart(product_id, quantity) {
                 if (!Journal.showNotification(json['success'], json['image'])) {
                     $('#notification').html('<div class="success" style="display: none;">' + json['success'] + '<img src="catalog/view/theme/default/image/close.png" alt="" class="close" /></div>');
                 }
+
                 $('.success').fadeIn('slow');
+
+                if (Journal.scrollToTop) {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
+
                 $('#cart-total').html(json['total']);
             }
         }
@@ -824,7 +837,9 @@ if (Journal.isOC2) {
                     $('.wishlist-total .product-count').html(json['total'].match(/\(\d+\)/g)[0].replace('(', '').replace(')', ''));
                 } catch (e) { }
 
-				$('html, body').animate({ scrollTop: 0 }, 'slow');
+				if (Journal.scrollToTop) {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
 			}
 		});
 	}
@@ -852,6 +867,10 @@ function addToWishList(product_id) {
                 try {
                     $('.wishlist-total .product-count').html(json['total'].match(/\(\d+\)/g)[0].replace('(', '').replace(')', ''));
                 } catch (e) { }
+
+                if (Journal.scrollToTop) {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
             }
         }
     });
@@ -873,8 +892,11 @@ if (Journal.isOC2) {
                     }
 
 					$('#compare-total').html(json['total']);
+                    $('.compare-total .product-count').html(json['total'].match(/\(\d+\)/g)[0].replace('(', '').replace(')', ''));
 
-					$('html, body').animate({ scrollTop: 0 }, 'slow');
+					if (Journal.scrollToTop) {
+                        $('html, body').animate({ scrollTop: 0 }, 'slow');
+                    }
 				}
 			}
 		});
@@ -904,6 +926,10 @@ function addToCompare(product_id) {
                     $('#compare-total').html(json['total']);
                     $('.compare-total .product-count').html(json['total'].match(/\(\d+\)/g)[0].replace('(', '').replace(')', ''));
                 } catch (e) { }
+
+                if (Journal.scrollToTop) {
+                    $('html, body').animate({ scrollTop: 0 }, 'slow');
+                }
             }
         }
     });
@@ -1058,9 +1084,6 @@ Journal.SuperFilter.doFilter = function ($parent, url) {
     if ($("input#description").length) {
         data.description  = $("input#description").is(':checked') ? 1 : 0;
     };
-
-    /* set data for infinite scroll */
-    window.J2FilterData = data;
 
     /* hide pagination */
     $('.pagination').addClass('hide');
@@ -1358,7 +1381,15 @@ Journal.gridView = function () {
     });
     $('.product-thumb').addClass('product-wrapper');
     Journal.equalHeight($(".product-thumb.product-wrapper"), '.description');
+    $('.display .grid-view').addClass('active');
+    $('.display .list-view').removeClass('active');
     localStorage.setItem('display', 'grid');
+    $(".main-products img.lazy").lazy({
+        bind: 'event',
+        visibleOnly: false,
+        effect: "fadeIn",
+        effectTime: 250
+    });
 };
 
 Journal.listView = function () {
@@ -1367,20 +1398,30 @@ Journal.listView = function () {
         $(this).attr('class','product-list-item xs-100 sm-100 md-100 lg-100 xl-100');
     });
     $('.product-thumb').removeClass('product-wrapper');
+    $('.display .grid-view').removeClass('active');
+    $('.display .list-view').addClass('active');
     localStorage.setItem('display', 'list');
+    $(".main-products img.lazy").lazy({
+        bind: 'event',
+        visibleOnly: false,
+        effect: "fadeIn",
+        effectTime: 250
+    });
 };
 
-Journal.applyView = function () {
+Journal.applyView = function (default_view) {
     if (Journal.isOC2) {
-        if (localStorage.getItem('display') == 'list') {
+        var current_view = localStorage.getItem('display') || default_view;
+        if (current_view == 'list') {
             Journal.listView();
         } else {
             Journal.gridView();
         }
         $('ul.pagination').removeClass('pagination');
     } else {
-        display($.totalStorage('display'));
+        display($.totalStorage('display') || default_view);
     }
+    Journal.equalHeight($(".main-products .product-wrapper"), '.name');
 };
 
 //Add sequential classes to menu items

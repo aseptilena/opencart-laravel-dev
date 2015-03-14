@@ -67,7 +67,7 @@ class ModelJournal2Optimisations extends Model{
     }
 
     private function getTableColumns($table_name) {
-        $query = $this->db->query('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "' . $this->db->escape(DB_DATABASE) . '" AND TABLE_NAME = "' . $this->db->escape($table_name) . '"');
+        $query = $this->db->query('SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = "' . $this->db->escape(DB_DATABASE) . '" AND TABLE_NAME = "' . $this->db->escape($table_name) . '" AND LCASE(DATA_TYPE) NOT IN ("blob", "text")');
         $columns = array();
         foreach ($query->rows as $column) {
             $columns[] = $column['COLUMN_NAME'];

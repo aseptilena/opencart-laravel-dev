@@ -2897,7 +2897,9 @@
             "value": {
                 "border_rounded": "px"
             }
-        }
+        },
+        "product_page_title_overflow": "on",
+        "product_page_tabs_position": "off"
     },
     "general": {
         "body_font": {

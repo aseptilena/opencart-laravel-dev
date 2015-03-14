@@ -77,7 +77,7 @@
                 <div class="button-group">
                     <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
                     <div class="cart enquiry-button">
-                        <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                        <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $product['product_id']; ?>');" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                     </div>
                     <?php else: ?>
                     <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -92,9 +92,6 @@
     </div>
     <?php } ?>
 </div>
-<?php if ($this->journal2->settings->get('product_infinite_scroll') === '1' && $this->journal2->settings->get('product_infinite_scroll_auto_trigger') !== '1'): ?>
-<span id="load-more-btn"><a class="button"><?php echo $this->journal2->settings->get('product_infinite_scroll_button_text'); ?></a></span>
-<?php endif; ?>
 <div class="row pagination">
     <div class="col-sm-6 text-left links"><?php echo $pagination; ?></div>
     <div class="col-sm-6 text-right results"><?php echo $results; ?></div>

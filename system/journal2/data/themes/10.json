@@ -2654,7 +2654,9 @@
             "value": {
                 "border_rounded": "px"
             }
-        }
+        },
+        "product_page_title_overflow": "on",
+        "product_page_tabs_position": "off"
     },
     "general": {
         "body_font": {
@@ -6334,7 +6336,13 @@
                 "border_rounded": "px"
             }
         },
-        "checkout_heading_divider_type": "dotted"
+        "checkout_heading_divider_type": "dotted",
+        "info_page_title_align": "left",
+        "info_page_title_border": {
+            "value": {
+                "border_rounded": "px"
+            }
+        }
     },
     "notification": {
         "notification_status": "block",

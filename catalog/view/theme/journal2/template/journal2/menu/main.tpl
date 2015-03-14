@@ -110,7 +110,7 @@
                         <hr>
                         <?php if (Journal2Utils::isEnquiryProduct($this, $submenu_item['product_id'])): ?>
                         <div class="cart enquiry-button">
-                            <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $submenu_item['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                            <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $submenu_item['product_id']; ?>');" data-clk="addToCart('<?php echo $submenu_item['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                         </div>
                         <?php else: ?>
                         <div class="cart <?php echo isset($submenu_item['labels']) && is_array($submenu_item['labels']) && isset($submenu_item['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -275,7 +275,7 @@
                                 <hr>
                                 <?php if (Journal2Utils::isEnquiryProduct($this, $submenu_item['product_id'])): ?>
                                 <div class="cart enquiry-button">
-                                    <a href="<?php $this->journal2->settings->get('enquiry_popup_code'); ?>" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                                    <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $submenu_item['product_id']; ?>');" data-clk="addToCart('<?php echo $submenu_item['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                                 </div>
                                 <?php else: ?>
                                 <div class="cart <?php echo isset($submenu_item['labels']) && is_array($submenu_item['labels']) && isset($submenu_item['labels']['outofstock']) ? 'outofstock' : ''; ?>">

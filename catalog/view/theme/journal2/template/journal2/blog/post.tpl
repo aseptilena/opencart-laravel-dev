@@ -58,7 +58,7 @@
 
             <div class="main-comment">
                 <div class="user-name"><?php echo $comment['name']; ?>:</div>
-                <div class="user-date"><?php echo date($date_format_short, strtotime($comment['date'])); ?>, <span class="user-time"><?php echo date($time_format, strtotime($comment['date'])); ?></span></div>
+                <div class="user-date"><?php echo date($date_format_short, strtotime($comment['date'])); ?>, <span class="user-time"><?php echo date($time_format, strtotime($comment['date'])); ?></span><?php if ($comment['website']): ?>, <span class="user-site"><a href="<?php echo $comment['website']; ?>" target="_blank"><?php echo preg_replace('#^https?://#', '', $comment['website']); ?></a></span><?php endif; ?></div>
                 <a class="button reply-btn"><?php echo $this->journal2->settings->get('blog_reply_button', 'Reply'); ?></a>
                 <p><?php echo $comment['comment']; ?></p>
             </div>
@@ -82,8 +82,8 @@
             <div class="comment-form">
                 <form>
                     <div>
-                        <input type="text" name="name" placeholder="<?php echo $this->journal2->settings->get('blog_form_name', 'Name'); ?>"/>
-                        <input type="text" name="email" placeholder="<?php echo $this->journal2->settings->get('blog_form_email', 'Email'); ?>"/>
+                        <input type="text" name="name" placeholder="<?php echo $this->journal2->settings->get('blog_form_name', 'Name'); ?>" value="<?php echo $default_name; ?>" />
+                        <input type="text" name="email" placeholder="<?php echo $this->journal2->settings->get('blog_form_email', 'Email'); ?>" value="<?php echo $default_email; ?>" />
                         <input type="text" name="website" placeholder="<?php echo $this->journal2->settings->get('blog_form_website', 'Website'); ?>"/>
                     </div>
                     <div>
@@ -149,7 +149,7 @@
                             <hr>
                             <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
                             <div class="cart enquiry-button">
-                                <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                                <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $product['product_id']; ?>');" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                             </div>
                             <?php else: ?>
                             <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -186,7 +186,7 @@
             navigation:true,
             scrollPerPage:true,
             navigationText : false,
-            slideSpeed:parseInt('<?php echo $this->journal2->settings->get('related_products_carousel_transition_speed', 400); ?>', 10),
+            paginationSpeed:parseInt('<?php echo $this->journal2->settings->get('related_products_carousel_transition_speed', 400); ?>', 10),
             margin:15
         }
         <?php if (!$this->journal2->settings->get('related_products_carousel_autoplay')): ?>
@@ -227,7 +227,11 @@
                     html += response.data.avatar;
                     html += '<div class="main-comment">';
                     html += '<div class="user-name">' + response.data.name + ':</div>';
-                    html += '<div class="user-date">' + response.data.date + ', <span class="user-time">' + response.data.time + '</span></div>';
+                    html += '<div class="user-date">' + response.data.date + ', <span class="user-time">' + response.data.time + '</span>';
+                    if (response.data.website) {
+                        html += ', <span class="user-site"><a href="' + response.data.href + '" target="_blank">' + response.data.website + '</a></span>';
+                    }
+                    html += '</div>';
                     html += '<a class="button reply-btn"><?php echo $this->journal2->settings->get('blog_reply_button', 'Reply'); ?></a>';
                     html += '<p>' + response.data.comment + '</p>';
                     html += '</div>';

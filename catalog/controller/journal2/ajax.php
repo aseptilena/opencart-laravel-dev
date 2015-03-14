@@ -58,9 +58,9 @@ class ControllerJournal2Ajax extends Controller {
                     if ($option_id == $option_value['product_option_value_id']) {
                         $quantity = min($quantity, (int)$option_value['quantity']);
                         if ($option_value['price_prefix'] === '+') {
-                            $extra += $option_value['price'];
+                            $extra += (float)$option_value['price'];
                         } else {
-                            $extra -= $option_value['price'];
+                            $extra -= (float)$option_value['price'];
                         }
                     }
                 }

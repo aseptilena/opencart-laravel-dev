@@ -19,7 +19,7 @@
       <?php if ($thumb || $description) { ?>
       <div class="category-info">
         <?php if ($thumb) { ?>
-        <div class="image"><img src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" /></div>
+        <div class="image"><img width="<?php echo $this->journal2->settings->get('config_image_width'); ?>" height="<?php echo $this->journal2->settings->get('config_image_height'); ?>" src="<?php echo $thumb; ?>" alt="<?php echo $heading_title; ?>" /></div>
         <?php } ?>
         <?php if ($description) { ?>
         <?php echo $description; ?>
@@ -30,7 +30,7 @@
       <div class="refine-images">
         <?php foreach ($this->journal2->settings->get('refine_category_images', array()) as $category): ?>
         <div class="refine-image <?php echo Journal2Utils::getProductGridClasses($this->journal2->settings->get('refine_category_images_per_row'), $this->journal2->settings->get('site_width', 1024), $this->journal2->settings->get('config_columns_count')); ?>">
-          <a href="<?php echo $category['href']; ?>"><img style="display: block" src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>"/><span class="refine-category-name"><?php echo $category['name']; ?></span></a>
+          <a href="<?php echo $category['href']; ?>"><img style="display: block" width="<?php echo $this->journal2->settings->get('refine_image_width', 175); ?>" height="<?php echo $this->journal2->settings->get('refine_image_height', 175); ?>" src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>"/><span class="refine-category-name"><?php echo $category['name']; ?></span></a>
         </div>
         <?php endforeach; ?>
         <script>
@@ -42,7 +42,7 @@
       <div id="refine-images" class="owl-carousel">
         <?php foreach ($this->journal2->settings->get('refine_category_images', array()) as $category): ?>
         <div class="refine-image">
-          <a href="<?php echo $category['href']; ?>"><img style="display: block" src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>"/><span class="refine-category-name"><?php echo $category['name']; ?></span></a>
+          <a href="<?php echo $category['href']; ?>"><img style="display: block" width="<?php echo $this->journal2->settings->get('refine_image_width', 175); ?>" height="<?php echo $this->journal2->settings->get('refine_image_height', 175); ?>" src="<?php echo $category['thumb']; ?>" alt="<?php echo $category['name']; ?>"/><span class="refine-category-name"><?php echo $category['name']; ?></span></a>
         </div>
         <?php endforeach; ?>
       </div>
@@ -67,7 +67,7 @@
           navigation:true,
                   scrollPerPage:true,
                   navigationText : false,
-                  slideSpeed:400,
+                  paginationSpeed:400,
                   margin:13
         });
         Journal.equalHeight($("#refine-images .refine-image"), '.refine-category-name');
@@ -125,7 +125,7 @@
           <div class="product-thumb">
             <div class="image">
               <a href="<?php echo $product['href']; ?>" <?php if(isset($product['thumb2']) && $product['thumb2']): ?> class="has-second-image" style="background: url('<?php echo $product['thumb2']; ?>') no-repeat;" <?php endif; ?>>
-                  <img class="lazy first-image" src="<?php echo $this->journal2->settings->get('product_dummy_image'); ?>" data-src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>" />
+                  <img class="lazy first-image" width="<?php echo $this->journal2->settings->get('config_image_width'); ?>" height="<?php echo $this->journal2->settings->get('config_image_height'); ?>" src="<?php echo $this->journal2->settings->get('product_dummy_image'); ?>" data-src="<?php echo $product['thumb']; ?>" title="<?php echo $product['name']; ?>" alt="<?php echo $product['name']; ?>" />
               </a>
               <?php if (isset($product['labels']) && is_array($product['labels'])): ?>
               <?php foreach ($product['labels'] as $label => $name): ?>
@@ -172,7 +172,7 @@
               <div class="button-group">
                 <?php if (Journal2Utils::isEnquiryProduct($this, $product['product_id'])): ?>
                 <div class="cart enquiry-button">
-                  <a href="<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
+                  <a href="javascript:Journal.openPopup('<?php echo $this->journal2->settings->get('enquiry_popup_code'); ?>', '<?php echo $product['product_id']; ?>');" data-clk="addToCart('<?php echo $product['product_id']; ?>');" class="button hint--top" data-hint="<?php echo $this->journal2->settings->get('enquiry_button_text'); ?>"><?php echo $this->journal2->settings->get('enquiry_button_icon') . '<span class="button-cart-text">' . $this->journal2->settings->get('enquiry_button_text') . '</span>'; ?></a>
                 </div>
                 <?php else: ?>
                 <div class="cart <?php echo isset($product['labels']) && is_array($product['labels']) && isset($product['labels']['outofstock']) ? 'outofstock' : ''; ?>">
@@ -200,7 +200,7 @@
       <?php } ?>
       <?php echo $content_bottom; ?></div>
     </div>
-    <script>Journal.applyView();</script>
+    <script>Journal.applyView('<?php echo $this->journal2->settings->get("product_view", "grid"); ?>');</script>
     <?php if ($this->journal2->settings->get('show_countdown', 'never') !== 'never'): ?>
     <script>Journal.enableCountdown();</script>
     <?php endif; ?>

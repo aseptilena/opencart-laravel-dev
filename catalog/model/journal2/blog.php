@@ -15,12 +15,32 @@ class ModelJournal2Blog extends Model {
         parent::__construct($registry);
         $this->db_prefix = $this->db->escape(DB_PREFIX);
         $this->language_id = (int)$this->config->get('config_language_id');
+        $this->store_id = (int)$this->config->get('config_store_id');
     }
 
     public function isEnabled() {
         if (self::$is_installed === null) {
             $query = $this->db->query('show tables like "' . DB_PREFIX . 'journal2_blog%"');
             self::$is_installed = $query->num_rows >= 9;
+            if ($query->num_rows >= 9 && $query->num_rows < 11) {
+                /* create table */
+                $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_category_to_store` (
+                    `category_id` int(11),
+                    `store_id` int(11)
+                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
+                /* assign current categories to the default store */
+                $this->db->query('INSERT INTO `' . DB_PREFIX . 'journal2_blog_category_to_store` (category_id, store_id) SELECT category_id, 0 as store_id FROM `' . DB_PREFIX . 'journal2_blog_category`');
+
+                /* create table */
+                $this->db->query('CREATE TABLE IF NOT EXISTS `' . DB_PREFIX . 'journal2_blog_post_to_store` (
+                    `post_id` int(11),
+                    `store_id` int(11)
+                ) ENGINE=MyISAM  DEFAULT CHARSET=utf8');
+
+                /* assign current posts to the default store */
+                $this->db->query('INSERT INTO `' . DB_PREFIX . 'journal2_blog_post_to_store` (post_id, store_id) SELECT post_id, 0 as store_id FROM `' . DB_PREFIX . 'journal2_blog_post`');
+            }
         }
 
         if (self::$is_installed !== true) {
@@ -82,7 +102,9 @@ class ModelJournal2Blog extends Model {
                 cd.name
             FROM `{$this->db_prefix}journal2_blog_category` c
             LEFT JOIN `{$this->db_prefix}journal2_blog_category_description` cd ON c.category_id = cd.category_id
-            WHERE cd.language_id = {$this->language_id} AND c.status = 1
+            LEFT JOIN `{$this->db_prefix}journal2_blog_category_to_store` c2s ON c.category_id = c2s.category_id
+            WHERE cd.language_id = {$this->language_id} AND c.status = 1 AND c2s.store_id = {$this->store_id}
+            ORDER BY c.sort_order
         ");
 
         return $query->rows;
@@ -179,8 +201,9 @@ class ModelJournal2Blog extends Model {
 
         $sql .= "
             LEFT JOIN `{$this->db_prefix}journal2_blog_post_description` pd ON p.post_id = pd.post_id
+            LEFT JOIN `{$this->db_prefix}journal2_blog_post_to_store` p2s ON p.post_id = p2s.post_id
             LEFT JOIN `{$this->db_prefix}user` a ON p.author_id = a.user_id
-            WHERE pd.language_id = {$this->language_id}
+            WHERE pd.language_id = {$this->language_id} AND p2s.store_id = {$this->store_id}
         ";
 
         if (isset($data['category_id']) && $data['category_id']) {
@@ -205,6 +228,10 @@ class ModelJournal2Blog extends Model {
             if ($temp_1) {
                 $sql .= ' AND ((' . implode(" AND ", $temp_1) . ') OR (' . implode(" AND ", $temp_2) . '))';
             }
+        }
+
+        if (isset($data['post_ids'])) {
+            $sql .= ' AND p.post_id IN (' . $data['post_ids'] . ')';
         }
 
         $sql .= ' AND p.status = 1';
@@ -289,7 +316,8 @@ class ModelJournal2Blog extends Model {
 
         $sql .= "
             LEFT JOIN `{$this->db_prefix}journal2_blog_post_description` pd ON p.post_id = pd.post_id
-            WHERE pd.language_id = {$this->language_id}
+            LEFT JOIN `{$this->db_prefix}journal2_blog_post_to_store` p2s ON p.post_id = p2s.post_id
+            WHERE pd.language_id = {$this->language_id} AND p2s.store_id = {$this->store_id}
         ";
 
         if (isset($data['category_id']) && $data['category_id']) {
@@ -431,6 +459,11 @@ class ModelJournal2Blog extends Model {
         }
 
         foreach ($comments as &$comment) {
+            if ($comment['website']) {
+                $comment['website'] = trim($comment['website']);
+                $comment['website'] = trim($comment['website'], '/');
+                $comment['website'] = parse_url($comment['website'], PHP_URL_SCHEME) !== null ? $comment['website'] : ('http://' . $comment['website']);
+            }
             $comment['replies'] = isset($replies[$comment['comment_id']]) ? $replies[$comment['comment_id']] : array();
         }
 
@@ -443,6 +476,7 @@ class ModelJournal2Blog extends Model {
         $query = $this->db->query("
             SELECT
                 comment_id,
+                website,
                 name,
                 email,
                 comment,
@@ -460,7 +494,8 @@ class ModelJournal2Blog extends Model {
                 pd.tags as tags
             FROM `{$this->db_prefix}journal2_blog_post` p
             LEFT JOIN `{$this->db_prefix}journal2_blog_post_description` pd ON p.post_id = pd.post_id
-            WHERE pd.language_id = {$this->language_id} and p.status = 1
+            LEFT JOIN `{$this->db_prefix}journal2_blog_post_to_store` p2s ON p.post_id = p2s.post_id
+            WHERE pd.language_id = {$this->language_id} AND p.status = 1 AND p2s.store_id = {$this->store_id}
         ";
         $query = $this->db->query($sql);
         $tags = array();
@@ -492,7 +527,8 @@ class ModelJournal2Blog extends Model {
             FROM `{$this->db_prefix}journal2_blog_comments` bc
             LEFT JOIN `{$this->db_prefix}journal2_blog_post_description` pd ON bc.post_id = pd.post_id
             LEFT JOIN `{$this->db_prefix}journal2_blog_post` p ON p.post_id = bc.post_id
-            WHERE pd.language_id = {$this->language_id} AND bc.parent_id = 0 AND bc.status = 1 AND p.status = 1
+            LEFT JOIN `{$this->db_prefix}journal2_blog_post_to_store` p2s ON p.post_id = p2s.post_id
+            WHERE pd.language_id = {$this->language_id} AND bc.parent_id = 0 AND bc.status = 1 AND p.status = 1 AND p2s.store_id = {$this->store_id}
             ORDER BY date desc
             LIMIT {$limit}
         ");
@@ -534,6 +570,11 @@ class ModelJournal2Blog extends Model {
             $author = $data['username'];
         }
         return $author;
+    }
+
+    public function getAdminInfo($user_id) {
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "user WHERE user_id = '" . (int)$user_id . "' AND status = '1'");
+        return $query->row;
     }
 
 }

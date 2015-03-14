@@ -95,6 +95,16 @@
                         </span>
                     <a href="#" target="_blank" class="journal-tip"></a>
                 </li>
+                <li>
+                    <span class="module-create-title">Show Rating Stars</span>
+                        <span class="module-create-option">
+                            <switch data-ng-model="settings.product_list_show_ratings">
+                                <switch-option key="block">ON</switch-option>
+                                <switch-option key="none">OFF</switch-option>
+                            </switch>
+                        </span>
+                    <a href="#" target="_blank" class="journal-tip"></a>
+                </li>
             </ul>
         </accordion-group>
         <!--Product Labels-->
