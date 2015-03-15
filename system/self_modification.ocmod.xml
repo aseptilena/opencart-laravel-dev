@@ -251,4 +251,40 @@ $upload = $hook->getUpload($account_custom_field[$custom_field['custom_field_id'
 			</add>
 		</operation>
 	</file>
+	<file path="catalog/model/account/signup.php">
+		<operation>
+			<search><![CDATA[
+			$user_id = $this->db->getLastId();
+			]]></search>
+			<add position="after"><![CDATA[
+$this->db->query("UPDATE " . DB_PREFIX . "customer SET user_id = '" . (int)$user_id . "' WHERE user_id = '" . (int)$this->customer->getId() . "'");
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/controller/common/header.php">
+		<operation>
+			<search><![CDATA[
+			$data['title'] = $this->document->getTitle();
+			]]></search>
+			<add position="before"><![CDATA[
+if (!$this->customer->isLogged()) {
+	$data['apply_state'] = 1;
+}
+else {
+	$this->load->model('catalog/hook');
+	$can_apply = $this->model_catalog_hook->customerCanApply();
+	if ($can_apply) {
+		$data['apply_state'] = 2;
+		$data['apply_url'] = $this->url->link('account/apply_vendor', '', 'SSL');
+	}
+	else {
+		$data['apply_state'] = 3;
+		$data['apply_url'] = $this->url->link('account/login_vendor', '', 'SSL');
+	}
+}
+				]]>
+			</add>
+		</operation>
+	</file>
 </modification>

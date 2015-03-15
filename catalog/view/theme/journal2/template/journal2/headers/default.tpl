@@ -34,6 +34,13 @@
                 <?php echo $currency; ?>
             </div>
             <div class="journal-secondary">
+                <!-- SELF_MODIFICATION_START -->
+                <?php if ($apply_state == 2) { ?>
+                <a href="<?php echo $apply_url; ?>"><span class="top-menu-link">我要開店</span></a>
+                <?php } else if ($apply_state == 3) { ?>
+                <a href="<?php echo $apply_url; ?>"><span class="top-menu-link">進入我的商店</span></a>
+                <?php } ?>
+                <!-- SELF_MODIFICATION_END -->
                 <?php echo $this->journal2->settings->get('config_secondary_menu'); ?>
             </div>
         </div>

@@ -5,8 +5,8 @@ class ModelAccountSignUp extends Model {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "user` SET username = '" . $this->db->escape($data['username']) . "', password = '" . $this->db->escape(md5($data['password'])) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', user_group_id = '50', date_added = NOW()");
 		$user_id = $this->db->getLastId();
 		
-		if ($this->request->post['singup_plan']) {
-			$singup_plan = explode(':',$this->request->post['singup_plan']);	
+		if ($data['singup_plan']) {
+			$singup_plan = explode(':',$data['singup_plan']);	
 			$this->db->query("INSERT INTO " . DB_PREFIX . "vendors SET user_id = '" . (int)$user_id . "', vendor_name = '" . $this->db->escape($data['company']) . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', commission_id = '" . (int)$singup_plan[0] . "', product_limit_id = '" . (int)$singup_plan[2] . "', fax = '" . $this->db->escape($data['fax']) . "', email = '" . $this->db->escape($data['email']) . "', bank_name = '" . $this->db->escape($data['bank_name']) . "', iban = '" . $this->db->escape($data['iban']) . "', swift_bic = '" . $this->db->escape($data['swift_bic']) . "', tax_id = '" . $this->db->escape($data['tax_id']) . "', bank_address = '" . $this->db->escape($data['bank_address']) . "', company_id = '" . $this->db->escape($data['company_id']) . "', paypal_email = '" . $this->db->escape($data['paypal']) . "', vendor_description = '" . $this->db->escape($data['store_description']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', store_url = '" . $this->db->escape($data['store_url']) . "', sort_order = '0'");
 			$vendor_id = $this->db->getLastId();
 			
@@ -63,8 +63,8 @@ class ModelAccountSignUp extends Model {
 			$message .= '<a href="' . HTTP_SERVER . 'admin' . '">' . HTTP_SERVER . 'admin' . "</a><br><br>";
 			
 			$message .= $this->language->get('text_signup_information') . "<br>" ;
-			$message .= $this->language->get('text_signup_username') . $this->request->post['username'] . "<br>";
-			$message .= '<font >' . $this->language->get('text_signup_plan') . $this->request->post['hsignup_plan'] . "<br>";
+			$message .= $this->language->get('text_signup_username') . $data['username'] . "<br>";
+			$message .= '<font >' . $this->language->get('text_signup_plan') . $data['hsignup_plan'] . "<br>";
 			$message .= $this->language->get('text_signup_date') . date('Y-m-d') . "<br>";
 			
 			if ($singup_plan[1] == '4') {
@@ -92,7 +92,7 @@ class ModelAccountSignUp extends Model {
 			$mail->send();
 
 		} else {
-			$singup_plan = $this->request->post['singup_plan'];	
+			$singup_plan = $data['singup_plan'];	
 			$this->db->query("INSERT INTO " . DB_PREFIX . "vendors SET user_id = '" . (int)$user_id . "', vendor_name = '" . $this->db->escape($data['company']) . "', company = '" . $this->db->escape($data['company']) . "', firstname = '" . $this->db->escape($data['firstname']) . "', lastname = '" . $this->db->escape($data['lastname']) . "', telephone = '" . $this->db->escape($data['telephone']) . "', commission_id = '1', product_limit_id = '1', fax = '" . $this->db->escape($data['fax']) . "', email = '" . $this->db->escape($data['email']) . "', bank_name = '" . $this->db->escape($data['bank_name']) . "', iban = '" . $this->db->escape($data['iban']) . "', swift_bic = '" . $this->db->escape($data['swift_bic']) . "', tax_id = '" . $this->db->escape($data['tax_id']) . "', bank_address = '" . $this->db->escape($data['bank_address']) . "', company_id = '" . $this->db->escape($data['company_id']) . "', paypal_email = '" . $this->db->escape($data['paypal']) . "', vendor_description = '" . $this->db->escape($data['store_description']) . "', address_1 = '" . $this->db->escape($data['address_1']) . "', address_2 = '" . $this->db->escape($data['address_2']) . "', city = '" . $this->db->escape($data['city']) . "', postcode = '" . $this->db->escape($data['postcode']) . "', country_id = '" . (int)$data['country_id'] . "', zone_id = '" . (int)$data['zone_id'] . "', store_url = '" . $this->db->escape($data['store_url']) . "', sort_order = '0'");
 			$vendor_id = $this->db->getLastId();
 		
@@ -117,8 +117,8 @@ class ModelAccountSignUp extends Model {
 			$message .= '<a href="' . HTTP_SERVER . 'admin' . '">' . HTTP_SERVER . 'admin' . "</a><br><br>";
 			
 			$message .= $this->language->get('text_signup_information') . "<br>" ;
-			$message .= $this->language->get('text_signup_username') . $this->request->post['username'] . "<br>";
-			$message .= '<font >' . $this->language->get('text_signup_plan') . $this->request->post['hsignup_plan'] . "<br>";
+			$message .= $this->language->get('text_signup_username') . $data['username'] . "<br>";
+			$message .= '<font >' . $this->language->get('text_signup_plan') . $data['hsignup_plan'] . "<br>";
 			$message .= $this->language->get('text_signup_date') . date('Y-m-d') . "<br>";
 			
 			if (($singup_plan[1] == '4' || $singup_plan[1] == '5') && ($data['payment_method'] == '0')) {

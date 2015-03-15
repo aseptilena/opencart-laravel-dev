@@ -21,6 +21,10 @@ class Customer extends Model
 	{
 		return $this->belongsTo('App\Eloquent\Address');
 	}
+	public function user()
+	{
+		return $this->belongsTo('App\Eloquent\User');
+	}
 	public function ntree()
 	{
 		return $this->hasOne('App\Eloquent\Ntree');
