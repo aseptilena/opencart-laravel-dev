@@ -309,4 +309,72 @@ $data['suggestion'] = $this->url->link('catalog/suggestion', 'token=' . $this->s
 			</add>
 		</operation>
 	</file>
+	<file path="catalog/view/theme/journal2/template/product/product.tpl">
+		<operation>
+			<search><![CDATA[
+			<?php if ($price) { ?>
+			]]></search>
+			<add position="before"><![CDATA[
+<button type="button" id="button-promo" class="button" data-toggle="modal" href="#sharepromo_modal"><span class="button-promo-text">分享商品賺取回饋</span></button>
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+			$('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
+			]]></search>
+			<add position="before" offset="1"><![CDATA[
+			<div id="sharepromo_modal" class="modal fade" tabindex="-1" data-width="760" style="display:none;overflow-y:hidden">
+			  <div class="modal-header" id="sharepromo-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" style="font-weight:bold">分享商品給朋友</h4>
+			  </div>
+			  <div class="modal-header" id="pi-header">
+				<h5 class="modal-title">如果你的朋友購買你分享的商品，你將會得到購物回饋</h5>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="input-promo-link"><h4>連結</h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <input type="text" name="pi-promo-link" id="pi-promo-link" value="" placeholder="" onClick="this.select();" class="form-control" />
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			  </div>
+			</div>
+<script type="text/javascript">
+function removeParameter(url, parameter){
+  var urlparts= url.split('?');
+
+  if (urlparts.length>=2)
+  {
+      var urlBase=urlparts.shift(); 
+      var queryString=urlparts.join("?"); 
+
+      var prefix = encodeURIComponent(parameter)+'=';
+      var pars = queryString.split(/[&;]/g);
+      for (var i= pars.length; i-->0;)
+          if (pars[i].lastIndexOf(prefix, 0)!==-1)
+              pars.splice(i, 1);
+      url = urlBase+'?'+pars.join('&');
+  }
+  return url;
+}
+(function() {
+  var url = document.URL;
+  if (url.indexOf("promo=") > -1) {
+    url = removeParameter(url, 'promo');
+  }
+  url += '&promo=ADE';
+  $('#pi-promo-link').val(url);
+})();
+</script>
+		   ]]></add>
+		</operation>
+	</file>
 </modification>
