@@ -45,3 +45,6 @@
 
 .DS_Store
 !.keep
+
+system/modification/
+journal-cache/
