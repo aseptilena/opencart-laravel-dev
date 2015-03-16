@@ -1770,8 +1770,8 @@ function total_cost() {
 	}
 }
 getVendors();
-<?php } ?>
 //--></script>
+<?php } ?>
 <!--mvde-->
 <script type="text/javascript"><!--
 $('#language a:first').tab('show');
