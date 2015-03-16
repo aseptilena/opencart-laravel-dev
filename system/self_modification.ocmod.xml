@@ -242,9 +242,12 @@ $data['hook'] = $this->model_tool_hook;
 			<search><![CDATA[<input type="hidden" name="custom_field[<?php echo $custom_field['custom_field_id']; ?>]" value="<?php echo (isset($account_custom_field[$custom_field['custom_field_id']]) ? $account_custom_field[$custom_field['custom_field_id']] : ''); ?>" />]]></search>
 			<add position="after"><![CDATA[
 <?php if (isset($account_custom_field[$custom_field['custom_field_id']])) {
-$upload = $hook->getUpload($account_custom_field[$custom_field['custom_field_id']]);
-	if ($upload->isImage()) {
-		echo '<img id="cooperation_image" src="'.$upload->filepath().'" style="width:200px;">';
+	$acf = $account_custom_field[$custom_field['custom_field_id']];
+	if ($acf != '') {
+		$upload = $hook->getUpload($acf);
+		if ($upload->isImage()) {
+			echo '<img id="cooperation_image" src="'.$upload->filepath().'" style="width:200px;">';
+		}
 	}
 } ?>
 				]]>
