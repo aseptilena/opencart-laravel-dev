@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+	<name>Multi Vendor/Dropshipper Product Inquiry  - Coded by waabay.com</name>
+	<code>default</code>
+	<version>1.0.0</version>
+	<author>waabay</author>
+	<link>http://www.waabay.com</link>
+	<file path="catalog/controller/product/product.php">	
+		<operation>
+			<search><![CDATA[
+			$data['heading_title'] = $product_info['name'];
+			]]></search>
+			<add position="before"><![CDATA[
+			$this->document->addStyle('catalog/view/javascript/bootstrap/css/bootstrap-modal-bs3patch.css');
+			$this->language->load('product/ask_seller');
+			$data['text_pi_name'] = $this->language->get('text_pi_name');
+			$data['text_pi_pname'] = $this->language->get('text_pi_pname');
+			$data['text_pi_email'] = $this->language->get('text_pi_email');
+			$data['text_pi_question'] = $this->language->get('text_pi_question');
+			$data['text_pi_captcha'] = $this->language->get('text_pi_captcha');
+			$data['text_pi_subject'] = $this->language->get('text_pi_subject');
+			$data['bttn_pi_send'] = $this->language->get('bttn_pi_send');
+			$data['bttn_pi_inquiry'] = $this->language->get('bttn_pi_inquiry');
+			]]></add>
+		</operation>
+		
+		<operation>
+			<search><![CDATA[
+			$data['images'] = array();
+			]]></search>
+			<add position="before"><![CDATA[
+			if ($this->config->get('mvd_ask_seller_status')) {
+				$data['mvd_ask_seller_status'] = true;
+			} else {
+				$data['mvd_ask_seller_status'] = false;
+			}
+			
+			$data['product_href'] = $this->url->link('product/product', 'product_id=' . $product_info['product_id']);
+			$data['pi_product_name'] = $product_info['name'];		
+			
+			$language_id = $this->db->query("SELECT language_id, name, image FROM " . DB_PREFIX . "language WHERE code = '" . $this->session->data['language'] . "'");
+			
+			$data['mv_title'] = array();
+			$mv_title = unserialize($this->config->get('mvd_ask_seller_title'));
+			$data['mv_title'] = $mv_title[$language_id->row['language_id']]['title'];
+			
+			$data['mv_description'] = array();
+			$mv_description = unserialize($this->config->get('mvd_ask_seller_description'));
+			$data['mv_description'] = $mv_description[$language_id->row['language_id']]['description'];
+			
+			$subject_text = array();
+			$mv_subjects = array();	
+			$sort_order = array(); 
+			$data['mv_questions'] = array();			
+			$subject_text = unserialize($this->config->get('mvd_ask_seller_subject_text'));						
+			
+			if ($subject_text) {
+				foreach ($subject_text as $subject) {
+					if ($subject['status']) {						
+						$mv_subjects[] = array(
+						'question'    	=> $subject['subject'][$language_id->row['language_id']]['question'],
+						'sort_order'	=> $subject['sort_order']
+						);						
+					}					
+				}
+			}			
+			
+			foreach ($mv_subjects as $key => $value) {
+				$sort_order[$key] = $value['sort_order'];
+			}
+			
+			array_multisort($sort_order, SORT_ASC, $mv_subjects);			
+			$data['mv_questions'] = $mv_subjects;
+			]]></add>
+		</operation>
+
+		<operation>
+			<search><![CDATA[
+			public function write() {
+			]]></search>
+			<add position="before"><![CDATA[
+			public function productInquiry() {
+			$this->language->load('product/ask_seller');
+			$json = array();
+				
+			if ($this->request->post) {
+				if ((utf8_strlen($this->request->post['pi-customer-name']) < 1) || (utf8_strlen($this->request->post['pi-customer-name']) > 64)) {
+					$json['error'] = $this->language->get('error_product_inquiry_name');
+				}
+					
+				if ((utf8_strlen($this->request->post['pi-customer-email']) > 96) || !preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->request->post['pi-customer-email'])) {
+					$json['error'] = $this->language->get('error_product_inquiry_email');
+				}
+					
+				if ((utf8_strlen($this->request->post['pi-customer-question']) < 10)) {
+					$json['error'] = $this->language->get('error_product_inquiry_question');
+				}
+					
+				if (empty($this->session->data['captcha']) || ($this->session->data['captcha'] != $this->request->post['pi-captcha'])) {
+					$json['error'] = $this->language->get('error_product_inquiry_captcha');
+				}
+					
+				if ((utf8_strlen($this->request->post['pi-captcha']) < 1) || (utf8_strlen($this->request->post['pi-captcha']) > 10)) {
+					$json['error'] = $this->language->get('error_product_inquiry_captcha');
+				}
+				
+				unset($this->session->data['captcha']);
+					
+				if (empty($json)) {				
+					$this->load->model('catalog/product');
+					$result = $this->model_catalog_product->getVendorProfile($this->request->post['pi_product_id']);
+						
+					$language_id = $this->db->query("SELECT directory FROM " . DB_PREFIX . "language WHERE code = '" . $this->session->data['language'] . "'");
+						
+					$language = new Language($language_id->row['directory']);
+					$language->load($language_id->row['directory']);
+					$language->load('mail/ask_seller');
+								
+					$data['text_product_image'] = $language->get('text_product_image');
+					$data['text_product_detail'] = "<b>" . $language->get('text_product_detail') . "</b><br/>";
+					$data['date_ordered'] = '<b>' . $language->get('text_date') . ' </b>' . date('F j\, Y') . '<br/>';
+					$data['logo'] = $this->config->get('config_url') . 'image/' . $this->config->get('config_logo');
+					$data['store_name'] = $this->config->get('config_name');
+					$data['store_url'] = $this->config->get('config_url');
+						
+					$data['inquiry_title'] = '<b>' . $language->get('text_pi_email_subject') . $result['name'] . ' : ' . $this->request->post['pi-subject'] . '</b>' . "\n\n";
+									
+					$data['vendor_name'] = '<b>' . $language->get('text_title') . $result['contact'] . '</b>,' . "\n\n";							
+					$data['pi_customer_question'] = $this->request->post['pi-customer-question'] . "\n\n";
+						
+					$this->load->model('tool/image');
+						
+					if ($result['image']) {
+						$data['pi_thumb'] = $this->model_tool_image->resize($result['image'], $this->config->get('config_image_product_width'), $this->config->get('config_image_product_height'));
+					} else {
+						$data['pi_thumb'] = '';
+					}
+						
+					$data['pi_pname'] = $result['name'];
+					$data['pi_name'] = '<b>' . $language->get('text_name') . '</b>' . $result['name'];
+					$data['pi_manufacturer'] = '<b>' . $language->get('text_manufacturer') . '</b>' . $this->request->post['pi_manufacturer'];
+					$data['pi_model'] = '<b>' . $language->get('text_model') . '</b>' . $this->request->post['pi_model'];
+					$data['pi_price'] = '<b>' . $language->get('text_price') . '</b>' . $this->request->post['pi_price'];
+					$data['pi_special'] = '<b>' . $language->get('text_special') . '</b>' . $this->request->post['pi_special'];
+					$data['pi_availability'] = '<b>' . $language->get('text_availability') . '</b>' . $this->request->post['pi_availability'];
+					$data['pi_website'] = '<b>' . $language->get('text_url') . '</b>';
+					$data['pi_click_me'] = '<b>' . $language->get('text_click_me') . '</b>';
+					$data['pi_url'] = $this->request->post['pi_url'];
+						
+					$data['text_auto_msg'] = sprintf($language->get('text_auto_msg'),date('F j\, Y'),$this->request->post['pi-customer-name'],$this->request->post['pi-customer-email'],$this->request->post['pi-customer-email']);
+					$data['text_signature'] = sprintf($language->get('text_signature'),$this->request->post['pi-customer-name']);
+								
+					if (file_exists(DIR_TEMPLATE . $this->config->get('config_template') . '/template/mail/ask_seller.tpl')) {
+						$html = $this->load->view($this->config->get('config_template') . '/template/mail/ask_seller.tpl', $data);
+					} else {
+						$html = $this->load->view('default/template/mail/ask_seller.tpl', $data);
+					}
+				
+					$json['success'] = $this->language->get('text_success');
+					
+					$mail = new Mail($this->config->get('config_mail'));
+					$mail->setTo($result['email']);
+					$mail->setFrom($this->request->post['pi-customer-email']);
+					$mail->setSender($this->request->post['pi-customer-name']);
+					$mail->setSubject(html_entity_decode($language->get('text_pi_email_subject') . $result['name'] . ' : ' . $this->request->post['pi-subject'], ENT_QUOTES, 'UTF-8'));
+					$mail->setHtml($html);
+					$mail->send();
+						
+					If ($this->config->get('mvd_ask_seller_email_store_admin')) {
+						if (preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $this->config->get('config_email'))) {
+							$mail->setTo($this->config->get('config_email'));
+							$mail->send();
+						}
+					}
+						
+					if ($this->config->get('mvd_ask_seller_add_email_address')) {
+						$emails = explode(',', $this->config->get('mvd_ask_seller_add_email_address'));
+						
+						foreach ($emails as $email) {
+							if ($email && preg_match('/^[^\@]+@.*\.[a-z]{2,6}$/i', $email)) {
+								$mail->setTo($email);
+								$mail->send();
+							}
+						}
+					}				
+				}
+			}	
+			
+			$this->response->addHeader('Content-Type: application/json');
+			$this->response->setOutput(json_encode($json));
+		}
+		]]></add>
+		</operation>
+	</file>	
+	
+	<file path="catalog/model/catalog/product.php">
+		<operation>
+			<search><![CDATA[
+			public function getTotalProductSpecials() {
+			]]></search>
+			<add position="before"><![CDATA[
+			public function getVendorProfile($product_id) {		
+				$query = $this->db->query("SELECT vds.email as email, CONCAT(vds.firstname, ' ', vds.lastname) AS contact, vds.vendor_name as vendor, vds.company as company, p.image as image,pd.name as name FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "vendor vd ON (pd.product_id = vd.vproduct_id) LEFT JOIN " . DB_PREFIX . "vendors vds ON (vd.vendor = vds.vendor_id) WHERE p.product_id = '" . (int)$product_id . "'");
+				return $query->row;
+			}
+			]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/*/template/product/product.tpl">
+		<operation>
+			<search><![CDATA[
+			<?php if ($price) { ?>
+			]]></search>
+			<add position="before" offset="1"><![CDATA[
+			<?php if ($mvd_ask_seller_status) { ?>
+			<button class="demo btn btn-primary btn-lg" data-toggle="modal" href="#inquiry_modal"><?php echo $bttn_pi_inquiry; ?></button>
+			<?php } ?>
+			]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[
+			$('select[name=\'recurring_id\'], input[name="quantity"]').change(function(){
+			]]></search>
+			<add position="before" offset="1"><![CDATA[
+			<div id="inquiry_modal" class="modal fade" tabindex="-1" data-width="760" style="display:none;overflow-y:hidden">
+			  <div class="modal-header" id="inquiry-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" style="font-weight:bold"><?php echo $mv_title; ?></h4>
+			  </div>
+			  <form name="pi-form" method="post" enctype="multipart/form-data" id="inquiry_form">
+			  <div class="modal-header" id="pi-header">
+				<h5 class="modal-title"><?php echo $mv_description; ?></h5>
+			  </div>
+			  <div class="modal-body">
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="input-customer-name"><h4><?php echo $text_pi_name; ?></h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <input type="text" name="pi-customer-name" id="pi-customer-name" value="" placeholder="<?php echo $text_pi_name; ?>" class="form-control" />
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="input-customer-email"><h4><?php echo $text_pi_email; ?></h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <input type="text" name="pi-customer-email" id="pi-customer-email" value="" placeholder="<?php echo $text_pi_email; ?>" class="form-control" />
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="input-product-name"><h4><?php echo $text_pi_pname; ?></h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <input type="text" name="pi-product-name" id="pi-product-name" value="<?php echo $pi_product_name; ?>" class="form-control" disabled />
+							   <input type="hidden" name="pi-product-name-1" id="pi-product-name-1" value="<?php echo $pi_product_name; ?>"/>
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+					   <label class="col-sm-4 control-label" for="input-subject"><h4><?php echo $text_pi_subject; ?></h4></label>
+						<div class="col-sm-8">
+						   <div class="row">
+							  <div class="col-sm-12">
+								<select name="pi-subject" id="pi-subject" class="form-control">
+									<?php foreach ($mv_questions as $mv_question) { ?>
+										<option value="<?php echo $mv_question['question']; ?>"><?php echo $mv_question['question']; ?></option> 
+									<?php } ?>
+								</select>
+							  </div>
+						   </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="pi-customer-question"><h4><?php echo $text_pi_question; ?></h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <textarea id="pi-customer-question" name="pi-customer-question" rows="5" cols="40" placeholder="<?php echo $text_pi_question; ?>" class="form-control"></textarea>
+							<div class="help-block"><?php echo $text_note; ?></div>
+							</div>
+							
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group">
+					  <label class="col-sm-4 control-label" for="input-pi-captcha"><h4><?php echo $text_pi_captcha; ?></h4></label>
+						<div class="col-sm-8">
+						  <div class="row">
+							<div class="col-sm-12">
+							   <input type="text" name="pi-captcha" id="input-pi-captcha" value="" placeholder="<?php echo $text_pi_captcha; ?>" class="form-control" />
+							</div>
+						  </div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+				   <div class="form-group">
+					  <div class="col-sm-4"></div><div class="col-sm-8"> <img src="index.php?route=tool/captcha" alt="" id="pi-captcha" /></div>
+				   </div>
+				</div>
+				<input type="hidden" name="pi_product_id" value="<?php echo $product_id; ?>" />
+				<input type="hidden" name="pi_manufacturer" value="<?php echo $manufacturer; ?>" />
+				<input type="hidden" name="pi_model" value="<?php echo $model; ?>" />
+				<input type="hidden" name="pi_price" value="<?php echo $price; ?>" />
+				<input type="hidden" name="pi_special" value="<?php echo $special; ?>" />
+				<input type="hidden" name="pi_availability" value="<?php echo $stock; ?>" />
+				<input type="hidden" name="pi_url" value="<?php echo $product_href; ?>" />
+			  </div>
+			  <div class="modal-footer">
+				<button type="button" id="submit_inquiry" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-primary"><?php echo $bttn_pi_send; ?></button>
+			  </div>
+			  </form>
+			</div>
+			<!--inquiry-->
+
+			<script type="text/javascript">
+			$('#submit_inquiry').click(function() {
+			
+				var dataString = $('#inquiry_form').serialize();
+				
+				$.ajax({
+					url: 'index.php?route=product/product/productInquiry',
+					dataType: 'json',
+					data: dataString,
+					type: 'post',
+					beforeSend: function() {
+						$('.alert').remove();
+						$('#submit_inquiry').before('<i class="fa fa-circle-o-notch fa-spin"></i>&nbsp;&nbsp;');
+					},
+					
+					complete: function() {
+						$('.fa-spin').remove();
+						$('#submit_inquiry').button('reset');
+						$('#pi-captcha').attr('src', 'index.php?route=tool/captcha#'+new Date().getTime());
+						$('input[name=\'pi-captcha\']').val('');
+					},
+					
+					success: function(json) {
+						if (json['error']) {
+							$('#pi-header').after('<div class="alert alert-danger">' + json['error'] + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+						}
+							
+						if (json['success']) {
+							$('#pi-header').after('<div class="alert alert-success">' + json['success'] + '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button></div>');
+							$('input[name=\'pi-customer-name\']').val('');
+							$('input[name=\'pi-customer-email\']').val('');
+							$('textarea[name=\'pi-customer-question\']').val('');				
+						}
+					}
+				});				
+			});
+			</script>
+		   ]]></add>
+		</operation>
+	</file>
+</modification>
