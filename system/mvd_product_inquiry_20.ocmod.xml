@@ -157,6 +157,10 @@
 					}
 				
 					$json['success'] = $this->language->get('text_success');
+				
+					if (is_null($result['email'])) {
+						$result['email'] = $this->config->get('config_email');
+					}
 					
 					$mail = new Mail($this->config->get('config_mail'));
 					$mail->setTo($result['email']);
@@ -212,7 +216,7 @@
 			<search><![CDATA[
 			<?php if ($price) { ?>
 			]]></search>
-			<add position="before" offset="1"><![CDATA[
+			<add position="before"><![CDATA[
 			<?php if ($mvd_ask_seller_status) { ?>
 			<button class="demo btn btn-primary btn-lg" data-toggle="modal" href="#inquiry_modal"><?php echo $bttn_pi_inquiry; ?></button>
 			<?php } ?>

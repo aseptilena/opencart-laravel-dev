@@ -33,3 +33,49 @@ body.modal-open,
 .modal.container {
   max-width: none;
 }
+
+#inquiry_modal .col-sm-4 {
+  padding: 0;
+  float: left;
+  width: 33.33333333333333%;
+}
+#inquiry_modal h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+#inquiry_modal .col-sm-8 {
+  float: left;
+  width: 66.66666666666666%;
+}
+#inquiry_modal .col-sm-12 {
+  float: left;
+  width: 90%;
+}
+#inquiry_modal .row:before {
+  content: " ";
+  display: table;
+}
+#inquiry_modal .row:after {
+  clear: both;
+  content: " ";
+  display: table;
+}
+#inquiry_modal .alert {
+  padding: 8px 14px 8px 14px;
+}
+#inquiry_modal .alert-danger {
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+}
+#inquiry_modal .alert {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+#inquiry_modal .alert-success {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+  color: #3c763d;
+}
