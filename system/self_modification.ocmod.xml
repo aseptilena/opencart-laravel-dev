@@ -287,4 +287,26 @@ else {
 			</add>
 		</operation>
 	</file>
+	<file path="admin/view/template/common/menu.tpl">
+		<operation>
+			<search><![CDATA[
+			<li><a href="<?php echo $option; ?>"><?php echo $text_option; ?></a></li>
+			]]></search>
+			<add position="after"><![CDATA[
+<li><a href="<?php echo $suggestion; ?>">商品建議</a></li>
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/common/menu.php">
+		<operation>
+			<search><![CDATA[
+			$data['option'] = $this->url->link('catalog/option', 'token=' . $this->session->data['token'], 'SSL');
+			]]></search>
+			<add position="after"><![CDATA[
+$data['suggestion'] = $this->url->link('catalog/suggestion', 'token=' . $this->session->data['token'], 'SSL');
+				]]>
+			</add>
+		</operation>
+	</file>
 </modification>
