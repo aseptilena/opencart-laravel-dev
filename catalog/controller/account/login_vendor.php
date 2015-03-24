@@ -34,6 +34,9 @@ class ControllerAccountLoginVendor extends Autocontroller {
 		$data['opencart'] = $this;
 		$data['admin_url'] = HTTP_SERVER.'admin';
 
+		$customer = Customer::find($this->customer->getId());
+		$data['status'] = $customer->user->status;
+
 		$r = ViewManager::loadBlade('not-sure', 'vendor/login/view.blade.php', $data);
 		return $r->render();
 	}

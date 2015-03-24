@@ -86,6 +86,21 @@ $('#tab-bonus').load('index.php?route=catalog/product_bonus&token=<?php echo $to
 			</add>
 		</operation>
 	</file>
+	<file path="admin/view/template/catalog/vdi_product_form.tpl">
+		<operation>
+			<search><![CDATA[<input type="text" name="price" value="<?php echo $price; ?>" placeholder="<?php echo $entry_price; ?>" id="input-price" class="form-control" />]]></search>
+			<add position="after" offset="2">
+				<![CDATA[
+<div class="form-group">
+	<label class="col-sm-2 control-label" for="input-price">回饋金額</label>
+	<div class="col-sm-10">
+		<input type="text" name="bonus" value="<?php echo $bonus; ?>" placeholder="回饋金額" id="input-bonus" class="form-control" />
+	</div>
+</div>
+				]]>
+			</add>
+		</operation>
+	</file>
 	<file path="admin/controller/catalog/product.php">
 		<operation>
 			<search><![CDATA[if (isset($this->request->post['price'])) {]]></search>
@@ -106,6 +121,34 @@ if (isset($this->request->post['bonus'])) {
 		</operation>
 		<operation>
 			<search><![CDATA[$this->model_catalog_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
+			<add position="after">
+				<![CDATA[
+$this->load->model('catalog/hook');
+$this->model_catalog_hook->productSave($this->request->get, $this->request->post);
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/catalog/vdi_product.php">
+		<operation>
+			<search><![CDATA[if (isset($this->request->post['price'])) {]]></search>
+			<add position="before">
+				<![CDATA[
+$this->load->model('catalog/hook');
+$product_object = $this->model_catalog_hook->productInfo($this->request->get['product_id']);
+
+if (isset($this->request->post['bonus'])) {
+	$data['bonus'] = $this->request->post['bonus'];
+} elseif (!empty($product_info)) {
+	$data['bonus'] = $product_object->bonus;
+} else {
+	$data['bonus'] = '';
+}
+				]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$this->model_catalog_vdi_product->editProduct($this->request->get['product_id'], $this->request->post);]]></search>
 			<add position="after">
 				<![CDATA[
 $this->load->model('catalog/hook');
@@ -260,7 +303,7 @@ $data['hook'] = $this->model_tool_hook;
 			$user_id = $this->db->getLastId();
 			]]></search>
 			<add position="after"><![CDATA[
-$this->db->query("UPDATE " . DB_PREFIX . "customer SET user_id = '" . (int)$user_id . "' WHERE user_id = '" . (int)$this->customer->getId() . "'");
+$this->db->query("UPDATE " . DB_PREFIX . "customer SET user_id = '" . (int)$user_id . "' WHERE customer_id = '" . (int)$this->customer->getId() . "'");
 				]]>
 			</add>
 		</operation>
@@ -378,6 +421,43 @@ function removeParameter(url, parameter){
 })();
 </script>
 		   ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/account/account.php">
+		<operation>
+			<search><![CDATA[
+$data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
+			]]></search>
+			<add position="before"><![CDATA[
+$data['business_info'] = $this->url->link('business/info', '', 'SSL');
+$data['business_profit'] = $this->url->link('business/profit', '', 'SSL');
+$data['business_bonus'] = $this->url->link('business/bonus', '', 'SSL');
+$data['business_ntree'] = $this->url->link('business/ntree', '', 'SSL');
+$data['business_btree'] = $this->url->link('business/btree', '', 'SSL');
+$data['business_deposit'] = $this->url->link('business/deposit', '', 'SSL');
+				]]>
+			</add>
+		</operation>
+	</file>
+	<file path="catalog/view/theme/journal2/template/account/account.tpl">
+		<operation>
+			<search><![CDATA[
+<h2 class="secondary-title"><?php echo $text_my_newsletter; ?></h2>
+			]]></search>
+			<add position="before"><![CDATA[
+<h2 class="secondary-title">管理分紅</h2>
+<div class="content my-business">
+<ul class="list-unstyled">
+  <li><a href="<?php echo $business_info; ?>">個人資料</a></li>
+  <li><a href="<?php echo $business_profit; ?>">消費記錄</a></li>
+  <li><a href="<?php echo $business_bonus; ?>">分紅紀錄</a></li>
+  <li><a href="<?php echo $business_ntree; ?>">消費組織</a></li>
+  <li><a href="<?php echo $business_btree; ?>">通路組織</a></li>
+  <li><a href="<?php echo $business_deposit; ?>">取款</a></li>
+</ul>
+</div>
+				]]>
+			</add>
 		</operation>
 	</file>
 </modification>

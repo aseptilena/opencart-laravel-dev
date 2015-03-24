@@ -503,7 +503,7 @@ class ControllerSaleVDIOrder extends Controller {
 			$data['mvd_sales_order_invoice_address'] = $this->config->get('mvd_sales_order_invoice_address');
 			$data['mvd_sales_order_detail'] = $this->config->get('mvd_sales_order_detail');
 			$data['mvd_sales_payment_detail'] = $this->config->get('mvd_sales_payment_detail');
-			$data['mvd_sales_shipping_detail'] = $this->config->get('sales_order_detail');
+			$data['mvd_sales_shipping_detail'] = $this->config->get('mvd_sales_order_detail');
 			$data['mvd_sales_product'] = $this->config->get('mvd_sales_product');
 			$data['mvd_sales_order_history'] = $this->config->get('mvd_sales_order_history');
 			$data['mvd_sales_order_history_update'] = $this->config->get('mvd_sales_order_history_update');
@@ -644,7 +644,8 @@ class ControllerSaleVDIOrder extends Controller {
 					}
 					
 					if ($custom_field['type'] == 'file') {
-						$upload_info = $this->model_tool_upload->getUploadByCode($order_info['custom_field'][$custom_field['custom_field_id']]);
+						// $upload_info = $this->model_tool_upload->getUploadByCode($order_info['custom_field'][$custom_field['custom_field_id']]);
+						$upload_info = null;
 
 						if ($upload_info) {
 							$data['account_custom_fields'][] = array(

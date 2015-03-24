@@ -18,7 +18,7 @@ abstract class Autocontroller extends Controller {
 		
 	}
 	public function content() {
-		
+		return '';
 	}
 	public function start() {
 		$this->data['breadcrumbs'] = array();
