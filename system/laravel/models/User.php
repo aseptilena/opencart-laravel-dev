@@ -13,4 +13,8 @@ class User extends Model
 	{
 		return $this->belongsTo('App\Eloquent\Cooperation');
 	}
+	public function vendor()
+	{
+		return $this->hasOne('App\Eloquent\Vendor');
+	}
 }

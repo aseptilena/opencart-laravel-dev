@@ -429,6 +429,11 @@ function removeParameter(url, parameter){
 $data['newsletter'] = $this->url->link('account/newsletter', '', 'SSL');
 			]]></search>
 			<add position="before"><![CDATA[
+$this->load->model('catalog/hook');
+$vendor_id = $this->model_catalog_hook->getVendorId();
+$data['vendor_id'] = $vendor_id;
+$data['vendor_store'] = $this->url->link('product/vendor/info', 'vendor_id='.$vendor_id, 'SSL');
+
 $data['business_info'] = $this->url->link('business/info', '', 'SSL');
 $data['business_profit'] = $this->url->link('business/profit', '', 'SSL');
 $data['business_bonus'] = $this->url->link('business/bonus', '', 'SSL');
@@ -445,9 +450,12 @@ $data['business_deposit'] = $this->url->link('business/deposit', '', 'SSL');
 <h2 class="secondary-title"><?php echo $text_my_newsletter; ?></h2>
 			]]></search>
 			<add position="before"><![CDATA[
-<h2 class="secondary-title">管理分紅</h2>
+<h2 class="secondary-title">管理</h2>
 <div class="content my-business">
 <ul class="list-unstyled">
+  <?php if ($vendor_id != 0) { ?>
+  <li><a href="<?php echo $vendor_store; ?>">我的商店</a></li>
+  <?php } ?>
   <li><a href="<?php echo $business_info; ?>">個人資料</a></li>
   <li><a href="<?php echo $business_profit; ?>">消費記錄</a></li>
   <li><a href="<?php echo $business_bonus; ?>">分紅紀錄</a></li>

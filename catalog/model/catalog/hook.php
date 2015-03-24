@@ -9,4 +9,12 @@ class ModelCatalogHook extends Model {
 		$customer = Customer::find($this->customer->getId());
 		return is_null($customer->user);
 	}
+	public function getVendorId() {
+		$customer = Customer::find($this->customer->getId());
+		$user = $customer->user;
+		if (!$user) {
+			return 0;
+		}
+		return $user->vendor->vendor_id;
+	}
 }
