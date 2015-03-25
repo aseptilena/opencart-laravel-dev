@@ -1,4 +1,6 @@
 <?php
+require_once(DIR_SYSTEM.'laravel/load.php');
+use Mailgun\Mailgun;
 class Mail {
 	protected $to;
 	protected $from;
@@ -83,6 +85,23 @@ class Mail {
 			trigger_error('Error: E-Mail message required!');
 			exit();
 		}
+		$mgClient = new Mailgun('key-21d6036972d8c477ac51409311b336af');
+		$domain = "sandboxb2bbc68d5d2c4e34b538a75bffcfa4da.mailgun.org";
+
+		$mailparam = array(
+				'from'    => '<'.$this->from.'>',
+				'to'      => '<'.$this->to.'>',
+				'subject' => $this->subject
+			);
+		if ($this->text) {
+			$mailparam['text'] = $this->text;
+		}
+		else {
+			$mailparam['html'] = $this->html;
+		}
+		# Make the call to the client.
+		$result = $mgClient->sendMessage("$domain", $mailparam);
+		return;
 
 		if (!$this->replyto) {
 			$this->setReplyTo($this->sender);
