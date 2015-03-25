@@ -17,6 +17,9 @@ class ModelToolHook extends Model {
 		}
 		if (isset($promo)) {
 			$promo_customer = Customer::where('promo', '=', $promo)->first();
+			if (!$promo_customer) {
+				$promo_customer = Customer::find(ROOT_CUSTOMER);
+			}
 		}
 		else {
 			$promo_customer = Customer::find(ROOT_CUSTOMER);
