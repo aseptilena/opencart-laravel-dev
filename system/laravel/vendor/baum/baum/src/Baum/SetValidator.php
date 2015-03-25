@@ -52,7 +52,7 @@ class SetValidator {
     $connection = $this->node->getConnection();
     $grammar    = $connection->getQueryGrammar();
 
-    $tableName      = $connection->getTablePrefix() . $this->node->getTable();
+    $tableName      = $this->node->getTable();
     $primaryKeyName = $this->node->getKeyName();
     $parentColumn   = $this->node->getQualifiedParentColumnName();
 
@@ -71,7 +71,7 @@ class SetValidator {
           $qualifiedRgtCol >= parent.$rgtCol)))";
 
     $query = $this->node->newQuery()
-      ->join($connection->raw($grammar->wrap($tableName).' AS parent'),
+      ->join($connection->raw($grammar->wrapTable($tableName).' AS parent'),
              $parentColumn, '=', $connection->raw('parent.'.$grammar->wrap($primaryKeyName)),
              'left outer')
       ->whereRaw($whereStm);
