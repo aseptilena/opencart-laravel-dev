@@ -1019,7 +1019,7 @@ class ControllerCatalogVendor extends Controller {
       		$this->error['warning'] = $this->language->get('error_permission');
     	}
 
-    	if ((utf8_strlen($this->request->post['vendor_name']) < 3) || (utf8_strlen($this->request->post['vendor_name']) > 64)) {
+    	if ((utf8_strlen($this->request->post['vendor_name']) < 1) || (utf8_strlen($this->request->post['vendor_name']) > 64)) {
       		$this->error['vendor_name'] = $this->language->get('error_vendor_name');
     	}
 		
